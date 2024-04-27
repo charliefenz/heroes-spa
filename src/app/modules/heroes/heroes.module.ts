@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HeroContainerComponent } from './components/hero-container/hero-container.component';
 import { HeroFormComponent } from './components/hero-form/hero-form.component';
 import { HeroesActionsComponent } from './components/heroes-actions/heroes-actions.component';
 import { HeroesFilterComponent } from './components/heroes-filter/heroes-filter.component';
@@ -12,6 +13,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
+    HeroContainerComponent,
     HeroFormComponent,
     HeroesActionsComponent,
     HeroesFilterComponent,
