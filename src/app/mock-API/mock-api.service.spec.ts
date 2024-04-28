@@ -53,7 +53,6 @@ describe('MockApiService', () => {
         expect(response.result).withContext('Response does not have the expected interface').toEqual(
           jasmine.objectContaining(testData)
         );
-        console.log(response.result);
         done();
       });      
     });
@@ -65,7 +64,6 @@ describe('MockApiService', () => {
       hero$.subscribe((response) => {
         expect(response.code).withContext('Status Code').toEqual(440);
         expect(response.result).withContext('Response does not have the expected interface').toEqual(jasmine.any(String));
-        console.log(response.result);
         done();
       });      
     });
