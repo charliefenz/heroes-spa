@@ -7,7 +7,7 @@ const testData = {
   id: jasmine.any(Number),
   age: jasmine.any(Number),
   isActive: jasmine.any(Boolean),
-  image: jasmine.any(Boolean),
+  image: jasmine.any(String),
   superpowers: jasmine.arrayContaining([jasmine.any(String)]),
 };
 
