@@ -5,6 +5,7 @@ import { Hero } from '../models/hero';
   providedIn: 'root'
 })
 export class MockApiService {
+  private timeoutRange: Array<number> = [3000, 6000]
 
   private mockData: Array<Hero> = [
     {
@@ -34,4 +35,8 @@ export class MockApiService {
   ]
 
   constructor() { }
+
+  private setRandomTimeout() {
+    return Math.floor(Math.random() * (this.timeoutRange[1] - this.timeoutRange[0])) + this.timeoutRange[0]
+  }
 }
