@@ -39,4 +39,35 @@ describe('MockApiService', () => {
       });      
     });
   });
+
+  describe('getHero', () => {
+    const TEST_ID_OK = 1; // There's always at least one hero
+    const TEST_ID_NOT_OK = 0; // Not one hero will have an ID = 0
+
+    it('should return the hero with the Hero Interface when ID exists', (done: DoneFn) => {
+      let hero$;
+
+      hero$ = service.getHero(TEST_ID_OK);
+      hero$.subscribe((response) => {
+        expect(response.code).withContext('Status Code').toEqual(200);
+        expect(response.result).withContext('Response does not have the expected interface').toEqual(
+          jasmine.objectContaining(testData)
+        );
+        console.log(response.result);
+        done();
+      });      
+    });
+
+    it('should return an error message when ID doesn\'t exist', (done: DoneFn) => {
+      let hero$;
+
+      hero$ = service.getHero(TEST_ID_NOT_OK);
+      hero$.subscribe((response) => {
+        expect(response.code).withContext('Status Code').toEqual(440);
+        expect(response.result).withContext('Response does not have the expected interface').toEqual(jasmine.any(String));
+        console.log(response.result);
+        done();
+      });      
+    });
+  });
 });
