@@ -10,6 +10,8 @@ const testData = {
   image: jasmine.any(String),
   superpowers: jasmine.arrayContaining([jasmine.any(String)]),
 };
+const TEST_ID_OK = 1; // There's always at least one hero
+const TEST_ID_NOT_OK = 0; // Not one hero will have an ID = 0
 
 describe('MockApiService', () => {
   let service: MockApiService;
@@ -41,9 +43,6 @@ describe('MockApiService', () => {
   });
 
   describe('getHero', () => {
-    const TEST_ID_OK = 1; // There's always at least one hero
-    const TEST_ID_NOT_OK = 0; // Not one hero will have an ID = 0
-
     it('should return the hero with the Hero Interface when ID exists', (done: DoneFn) => {
       let hero$;
 
