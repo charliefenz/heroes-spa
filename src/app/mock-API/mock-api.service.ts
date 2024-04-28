@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Hero } from '../models/hero';
+import { Response } from '../models/response';
+import { Observable, map, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +40,16 @@ export class MockApiService {
 
   private setRandomTimeout() {
     return Math.floor(Math.random() * (this.timeoutRange[1] - this.timeoutRange[0])) + this.timeoutRange[0]
+  }
+
+  getHeroes(): Observable<Response> {
+    return timer(this.setRandomTimeout()).pipe(
+      map(() => {
+        return {
+          code: 200,
+          result: this.mockData 
+        }
+      })
+    );
   }
 }
