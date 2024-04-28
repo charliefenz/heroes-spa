@@ -42,12 +42,43 @@ export class MockApiService {
     return Math.floor(Math.random() * (this.timeoutRange[1] - this.timeoutRange[0])) + this.timeoutRange[0]
   }
 
+  private getHeroById(id: Number): Hero | undefined {
+    let heroIsFound;
+
+    heroIsFound = this.mockData.find(heroItem => heroItem.id === id);
+    return heroIsFound;
+  }
+
   getHeroes(): Observable<Response> {
     return timer(this.setRandomTimeout()).pipe(
       map(() => {
         return {
           code: 200,
           result: this.mockData 
+        }
+      })
+    );
+  }
+
+  getHero(paramId: Number): Observable<Response> {
+    const ERROR_MESSAGE = `No se ha encontrado el recurso con el id ${paramId}`;
+    let hero: Hero | undefined;
+    let returnItem: Hero | string;
+    let returnCode: number;
+    
+    hero = this.getHeroById(paramId);
+    if (hero) {
+      returnItem = hero;
+      returnCode = 200;
+    } else {
+      returnItem = ERROR_MESSAGE;
+      returnCode = 440;
+    }
+    return timer(this.setRandomTimeout()).pipe(
+      map(() => {
+        return {
+          code: returnCode,
+          result: returnItem 
         }
       })
     );
