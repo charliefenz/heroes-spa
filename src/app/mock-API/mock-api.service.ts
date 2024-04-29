@@ -8,6 +8,7 @@ import { Observable, map, timer } from 'rxjs';
 })
 export class MockApiService {
   private timeoutRange: Array<number> = [3000, 6000]
+  private idRange: Array<number> = [1, 10000]
 
   private mockData: Array<Hero> = [
     {
@@ -126,6 +127,33 @@ export class MockApiService {
     } else {
       returnItem = ERROR_MESSAGE;
       returnCode = 440;
+    }
+    return timer(this.setRandomTimeout()).pipe(
+      map(() => {
+        return {
+          code: returnCode,
+          result: returnItem 
+        }
+      })
+    );
+  }
+
+  createHero(hero: Hero): Observable<Response> {
+    const ERROR_MESSAGES = {
+      noId: `No se ha podido crear el Héroe por un error al intentar asignar una ID única`,
+    }
+    let returnItem: Hero | string;
+    let returnCode: number;
+    
+    hero.id = this.getRandomUniqueId();
+    if (hero.id === -1) {
+      returnCode = 500;
+      returnItem = ERROR_MESSAGES.noId;
+    } else {
+      // TEST Confirm with unit test that checking for wrong data is needed
+      this.mockData.push(hero);
+      returnCode = 200;
+      returnItem = hero.id.toString();
     }
     return timer(this.setRandomTimeout()).pipe(
       map(() => {
