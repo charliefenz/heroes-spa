@@ -44,10 +44,10 @@ export class MockApiService {
   }
 
   private getHeroById(id: Number): Hero | undefined {
-    let heroIsFound;
+    let heroFound;
 
-    heroIsFound = this.mockData.find(heroItem => heroItem.id === id);
-    return heroIsFound;
+    heroFound = this.mockData.find(heroItem => heroItem.id === id);
+    return heroFound;
   }
 
   private deleteHeroById(id: Number): void {
