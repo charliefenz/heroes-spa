@@ -179,7 +179,6 @@ export class MockApiService {
     let returnCode: number;
     
     hero = this.getHeroById(updatedHero.id);
-    console.log('editHeroFunc.heroRecieved', updatedHero)
     if (hero) {
       this.updateHeroById(updatedHero);
       returnCode = 200;
