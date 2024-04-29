@@ -21,14 +21,6 @@ const HERO_OK = {
   isActive: true,
   superpowers: ['some', 'super', 'power']
 };
-const HERO_NOT_OK = {
-  id: -1,
-  name: 'heroTest',
-  age: 30,
-  image: 'someUrl',
-  isActive: 'true', // Should be Boolean
-  superpowers: ['some', 'super', 'power']
-};
 
 describe('MockApiService', () => {
   let service: MockApiService;
