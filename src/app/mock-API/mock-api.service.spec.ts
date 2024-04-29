@@ -13,6 +13,22 @@ const testData = {
 };
 const TEST_ID_OK = 1; // There's always at least one hero
 const TEST_ID_NOT_OK = 0; // Not one hero will have an ID = 0
+const HERO_OK = {
+  id: -1,
+  name: 'heroTest',
+  age: 30,
+  image: 'someUrl',
+  isActive: true,
+  superpowers: ['some', 'super', 'power']
+};
+const HERO_NOT_OK = {
+  id: -1,
+  name: 'heroTest',
+  age: 30,
+  image: 'someUrl',
+  isActive: 'true', // Should be Boolean
+  superpowers: ['some', 'super', 'power']
+};
 
 describe('MockApiService', () => {
   let service: MockApiService;
