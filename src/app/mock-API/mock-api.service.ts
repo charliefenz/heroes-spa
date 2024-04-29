@@ -49,6 +49,10 @@ export class MockApiService {
     return heroIsFound;
   }
 
+  private deleteHeroById(id: Number): void {
+    this.mockData = this.mockData.filter(heroItem => heroItem.id !== id);
+  }
+
   getHeroes(): Observable<Response> {
     return timer(this.setRandomTimeout()).pipe(
       map(() => {
@@ -70,6 +74,32 @@ export class MockApiService {
     if (hero) {
       returnItem = hero;
       returnCode = 200;
+    } else {
+      returnItem = ERROR_MESSAGE;
+      returnCode = 440;
+    }
+    return timer(this.setRandomTimeout()).pipe(
+      map(() => {
+        return {
+          code: returnCode,
+          result: returnItem 
+        }
+      })
+    );
+  }
+
+  deleteHero(paramId: Number): Observable<Response> {
+    const ERROR_MESSAGE = `No se ha encontrado el recurso con el id ${paramId}`;
+    const OK_MESSAGE = `Se ha eliminado el recurso con el id ${paramId}`;
+    let hero: Hero | undefined;
+    let returnItem: Hero | string;
+    let returnCode: number;
+    
+    hero = this.getHeroById(paramId);
+    if (hero) {
+      this.deleteHeroById(paramId);
+      returnCode = 200;
+      returnItem = OK_MESSAGE;
     } else {
       returnItem = ERROR_MESSAGE;
       returnCode = 440;
