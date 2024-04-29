@@ -105,4 +105,24 @@ describe('MockApiService', () => {
       });  
     });
   })
+
+  describe('createHero', () => {
+    it('should push the correct hero to the hero list and return the right message', (done: DoneFn) => {
+      let assignedId : number;
+      
+      service.createHero(HERO_OK).pipe(
+        map(createHeroResponse => {
+          assignedId = Number(createHeroResponse.result);
+          expect(Number(assignedId)).withContext('Create id').toBeGreaterThan(-1)
+          expect(createHeroResponse.code).withContext('Status Code').toEqual(200);
+        }),
+        concatMap(() => service.getHeroes())
+      ).subscribe(getHeroesResponse => {
+        if (Array.isArray(getHeroesResponse.result)) {
+          expect(getHeroesResponse.result.find((item) => item.id === assignedId)).withContext('ID corresponding to the item added is present in item collection').not.toBeUndefined();
+        }
+        done();
+      })
+    });
+  })
 });
