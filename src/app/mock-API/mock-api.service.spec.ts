@@ -128,7 +128,7 @@ describe('MockApiService', () => {
   })
 
   describe('editHero', () => {
-    fit('should update the hero provided in the hero list and return the right message', (done: DoneFn) => {
+    it('should update the hero provided in the hero list and return the right message', (done: DoneFn) => {
       let currentHero : Hero, updatedHero : Hero;
       
       service.getHero(HERO_OK_UPDATED.id).pipe(
