@@ -45,10 +45,7 @@ describe('MockApiService', () => {
 
   describe('getHero', () => {
     it('should return the hero with the Hero Interface when ID exists', (done: DoneFn) => {
-      let hero$;
-
-      hero$ = service.getHero(TEST_ID_OK);
-      hero$.subscribe((response) => {
+      service.getHero(TEST_ID_OK).subscribe((response) => {
         expect(response.code).withContext('Status Code').toEqual(200);
         expect(response.result).withContext('Response does not have the expected interface').toEqual(
           jasmine.objectContaining(testData)
@@ -58,10 +55,7 @@ describe('MockApiService', () => {
     });
 
     it('should return an error message when ID doesn\'t exist', (done: DoneFn) => {
-      let hero$;
-
-      hero$ = service.getHero(TEST_ID_NOT_OK);
-      hero$.subscribe((response) => {
+      service.getHero(TEST_ID_NOT_OK).subscribe((response) => {
         expect(response.code).withContext('Status Code').toEqual(440);
         expect(response.result).withContext('Response does not have the expected interface').toEqual(jasmine.any(String));
         done();
