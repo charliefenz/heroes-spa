@@ -53,6 +53,29 @@ export class MockApiService {
     this.mockData = this.mockData.filter(heroItem => heroItem.id !== id);
   }
 
+  private getRandomUniqueId(): number {
+    let idCandidate: number;
+    let maxAttemps = 0;
+
+    do {
+      maxAttemps++;
+      console.log(`getRandomUnique attempt`, maxAttemps)
+      idCandidate = Math.floor(Math.random() * (this.idRange[1] - this.idRange[0])) + this.idRange[0];
+    } while (!this.checkIdIsUnique(idCandidate) && maxAttemps <= 3);
+    if (this.checkIdIsUnique(idCandidate)) {
+      return idCandidate;
+    } else {
+      return idCandidate = -1;
+    }
+  }
+
+  private checkIdIsUnique(id: number) : boolean {
+    let idIsUnique : boolean;
+    
+    idIsUnique = !this.mockData.some((heroItem) => heroItem.id === id);
+    return idIsUnique;
+  }
+
   getHeroes(): Observable<Response> {
     return timer(this.setRandomTimeout()).pipe(
       map(() => {
