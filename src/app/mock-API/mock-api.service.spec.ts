@@ -17,7 +17,7 @@ const TEST_ID_NOT_OK = 0; // Not one hero will have an ID = 0
 describe('MockApiService', () => {
   let service: MockApiService;
 
-  beforeAll(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(MockApiService);
   });
