@@ -60,7 +60,6 @@ export class MockApiService {
 
     do {
       maxAttemps++;
-      console.log(`getRandomUnique attempt`, maxAttemps)
       idCandidate = Math.floor(Math.random() * (this.idRange[1] - this.idRange[0])) + this.idRange[0];
     } while (!this.checkIdIsUnique(idCandidate) && maxAttemps <= 3);
     if (this.checkIdIsUnique(idCandidate)) {
@@ -139,18 +138,15 @@ export class MockApiService {
   }
 
   createHero(hero: Hero): Observable<Response> {
-    const ERROR_MESSAGES = {
-      noId: `No se ha podido crear el Héroe por un error al intentar asignar una ID única`,
-    }
-    let returnItem: Hero | string;
+    const ERROR_MESSAGE = `No se ha podido crear el Héroe por un error al intentar asignar una ID única`;
+    let returnItem: string;
     let returnCode: number;
     
     hero.id = this.getRandomUniqueId();
     if (hero.id === -1) {
       returnCode = 500;
-      returnItem = ERROR_MESSAGES.noId;
+      returnItem = ERROR_MESSAGE;
     } else {
-      // TEST Confirm with unit test that checking for wrong data is needed
       this.mockData.push(hero);
       returnCode = 200;
       returnItem = hero.id.toString();
