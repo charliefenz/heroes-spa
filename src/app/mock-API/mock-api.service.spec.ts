@@ -30,6 +30,9 @@ const HERO_OK_UPDATED = {
   isActive: true,
   superpowers: ['some', 'super', 'power']
 }
+const QUERY_FOR_THREE_RESULTS = 'man';
+const QUERY_FOR_ONE_RESULT = 'testman';
+const QUERY_FOR_NO_RESULTS = 'nonamelikethis';
 
 describe('MockApiService', () => {
   let service: MockApiService;
@@ -149,5 +152,34 @@ describe('MockApiService', () => {
         done();
       })
     });
+  })
+
+  describe('fetchHeroesByName', () => {
+    it(`should return three results when querying [${QUERY_FOR_THREE_RESULTS}]`, (done: DoneFn) => {
+      service.fetchHeroesByName(QUERY_FOR_THREE_RESULTS).subscribe(response => {
+        let result = response.result as Hero[];
+        expect(response.code).withContext('Status Code').toEqual(200);
+        expect(result.length).withContext('Has to return at least three results').toBe(3)
+        done();
+      })
+    });
+
+    it(`should return one result when querying [${QUERY_FOR_ONE_RESULT}]`, (done: DoneFn) => {
+      service.fetchHeroesByName(QUERY_FOR_ONE_RESULT).subscribe(response => {
+        let result = response.result as Hero[];
+        expect(response.code).withContext('Status Code').toEqual(200);
+        expect(result.length).withContext('Has to return at least one result').toBe(1)
+        done();
+      })
+    })
+
+    it(`should return no results when querying [${QUERY_FOR_NO_RESULTS}]`, (done: DoneFn) => {
+      service.fetchHeroesByName(QUERY_FOR_NO_RESULTS).subscribe(response => {
+        let result = response.result as Hero[];
+        expect(response.code).withContext('Status Code').toEqual(200);
+        expect(result.length).withContext('Has to return an empty array').toBe(0)
+        done();
+      })
+    })
   })
 });
