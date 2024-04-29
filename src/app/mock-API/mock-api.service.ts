@@ -12,7 +12,7 @@ export class MockApiService {
 
   private mockData: Array<Hero> = [
     {
-      name: "Superman",
+      name: "Testman",
       id: 1,
       age: 30,
       isActive: false,
