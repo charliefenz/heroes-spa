@@ -88,7 +88,7 @@ export class MockApiService {
   }
 
   getHero(paramId: Number): Observable<Response> {
-    const ERROR_MESSAGE = `No se ha encontrado el recurso con el id ${paramId}`;
+    const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
     let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
@@ -112,8 +112,8 @@ export class MockApiService {
   }
 
   deleteHero(paramId: Number): Observable<Response> {
-    const ERROR_MESSAGE = `No se ha encontrado el recurso con el id ${paramId}`;
-    const OK_MESSAGE = `Se ha eliminado el recurso con el id ${paramId}`;
+    const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
+    const OK_MESSAGE = `Se ha eliminado el héroe con el id ${paramId}`;
     let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
