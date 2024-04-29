@@ -50,6 +50,13 @@ export class MockApiService {
     return heroFound;
   }
 
+  private filterHeroByName(keyword: string): Hero[] {
+    let listWithMatches = [];
+    
+    listWithMatches = this.mockData.filter((heroItem) => heroItem.name.toLowerCase().includes(keyword));
+    return listWithMatches;
+  }
+
   private deleteHeroById(id: Number): void {
     this.mockData = this.mockData.filter(heroItem => heroItem.id !== id);
   }
@@ -192,6 +199,20 @@ export class MockApiService {
         return {
           code: returnCode,
           result: returnItem 
+        }
+      })
+    );
+  }
+
+  fetchHeroesByName(keyword: string): Observable<Response> {
+    let heroes: Hero[];
+    
+    heroes = this.filterHeroByName(keyword);
+    return timer(this.setRandomTimeout()).pipe(
+      map(() => {
+        return {
+          code: 200,
+          result: heroes 
         }
       })
     );
