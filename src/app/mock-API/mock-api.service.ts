@@ -54,6 +54,16 @@ export class MockApiService {
     this.mockData = this.mockData.filter(heroItem => heroItem.id !== id);
   }
 
+  private updateHeroById(updatedHero: Hero) {
+    this.mockData = this.mockData.map(heroItem => {
+      if (heroItem.id === updatedHero.id) {
+        return updatedHero
+      } else {
+        return heroItem
+      }
+    });
+  }
+
   private getRandomUniqueId(): number {
     let idCandidate: number;
     let maxAttemps = 0;
@@ -150,6 +160,33 @@ export class MockApiService {
       this.mockData.push(hero);
       returnCode = 200;
       returnItem = hero.id.toString();
+    }
+    return timer(this.setRandomTimeout()).pipe(
+      map(() => {
+        return {
+          code: returnCode,
+          result: returnItem 
+        }
+      })
+    );
+  }
+
+  editHero(updatedHero: Hero): Observable<Response> {
+    const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${updatedHero.id}`;
+    const OK_MESSAGE = `Se ha actualizado el héroe con el id ${updatedHero.id}`;
+    let hero: Hero | undefined;
+    let returnItem: Hero | string;
+    let returnCode: number;
+    
+    hero = this.getHeroById(updatedHero.id);
+    console.log('editHeroFunc.heroRecieved', updatedHero)
+    if (hero) {
+      this.updateHeroById(updatedHero);
+      returnCode = 200;
+      returnItem = OK_MESSAGE;
+    } else {
+      returnItem = ERROR_MESSAGE;
+      returnCode = 440;
     }
     return timer(this.setRandomTimeout()).pipe(
       map(() => {
