@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MockApiService } from './mock-api.service';
 import { concatMap, map } from 'rxjs';
+import { Hero } from '../models/hero';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 const testData = {
@@ -21,6 +22,14 @@ const HERO_OK = {
   isActive: true,
   superpowers: ['some', 'super', 'power']
 };
+const HERO_OK_UPDATED = {
+  id: 1, // There's always at least one hero
+  name: 'heroTestUpdated',
+  age: 30,
+  image: 'someUrl',
+  isActive: true,
+  superpowers: ['some', 'super', 'power']
+}
 
 describe('MockApiService', () => {
   let service: MockApiService;
@@ -113,6 +122,30 @@ describe('MockApiService', () => {
         if (Array.isArray(getHeroesResponse.result)) {
           expect(getHeroesResponse.result.find((item) => item.id === assignedId)).withContext('ID corresponding to the item added is present in item collection').not.toBeUndefined();
         }
+        done();
+      })
+    });
+  })
+
+  describe('editHero', () => {
+    fit('should update the hero provided in the hero list and return the right message', (done: DoneFn) => {
+      let currentHero : Hero, updatedHero : Hero;
+      
+      service.getHero(HERO_OK_UPDATED.id).pipe(
+        map(getHeroFirstCallResponse => {
+          currentHero = getHeroFirstCallResponse.result as Hero;
+        }),
+        concatMap(() => service.editHero(HERO_OK_UPDATED)),
+        map(editHeroResponse => {
+          expect(editHeroResponse.code).withContext('Status Code').toEqual(200);
+          expect(editHeroResponse.result).withContext('Edit message').toContain('actualizado');
+          expect(editHeroResponse.result).withContext('ID in edit message').toContain(`${HERO_OK_UPDATED.id}`)
+        }),
+        concatMap(() => service.getHero(HERO_OK_UPDATED.id))
+      ).subscribe(getHeroSecondCallResponse => {
+        updatedHero = getHeroSecondCallResponse.result as Hero;
+        expect(updatedHero.id).withContext('ID after editing has to be the same').toEqual(currentHero.id);
+        expect(updatedHero).withContext('Other properties have to change').not.toEqual(currentHero);
         done();
       })
     });
