@@ -14,7 +14,7 @@ const testData = {
 const TEST_ID_OK = 1; // There's always at least one hero
 const TEST_ID_NOT_OK = 0; // Not one hero will have an ID = 0
 const HERO_OK = {
-  id: -1,
+  id: -1, // Set to -1 because the final ID is assigned internally by the service
   name: 'heroTest',
   age: 30,
   image: 'someUrl',
