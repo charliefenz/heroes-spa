@@ -61,16 +61,21 @@ describe('HeroesService', () => {
     });
 
     it('should propagate the error when the API mock service fails unexpectedly', () => {
-      mockApiService.getHeroes.and.returnValue(throwError(() => new Error(ERROR_MESSAGE)));
+      mockApiService.getHeroes.and.returnValue(
+        throwError(() => new Error(ERROR_MESSAGE))
+      );
       spyOn(console, 'error');
       heroesService.getHeroes().subscribe({
         next: () => {
-          fail('Expected error but got a value')
+          fail('Expected error but got a value');
         },
         error: (error) => {
-          expect(console.error).toHaveBeenCalledWith('Error fetching data for getting heroes list', error)
-        }
-      })
+          expect(console.error).toHaveBeenCalledWith(
+            'Error fetching data for getting heroes list',
+            error
+          );
+        },
+      });
       expect(mockApiService.getHeroes).toHaveBeenCalled();
     });
   });
