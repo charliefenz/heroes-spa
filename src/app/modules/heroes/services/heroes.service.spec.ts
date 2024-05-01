@@ -68,7 +68,7 @@ describe('HeroesService', () => {
           fail('Expected error but got a value')
         },
         error: (error) => {
-          expect(console.error).toHaveBeenCalledWith('Error fetching data for get heroes list', error)
+          expect(console.error).toHaveBeenCalledWith('Error fetching data for getting heroes list', error)
         }
       })
       expect(mockApiService.getHeroes).toHaveBeenCalled();

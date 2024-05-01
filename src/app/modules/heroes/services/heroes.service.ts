@@ -16,7 +16,7 @@ export class HeroesService {
     // just like httpClient would do
     return this.mockAPI.getHeroes().pipe(
       catchError(error => {
-        console.error('Error fetching data for get heroes list', error);
+        console.error('Error fetching data for getting heroes list', error);
         throw error;
       })
     )
