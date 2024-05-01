@@ -9,7 +9,7 @@ describe('HeroesService', () => {
   let mockApiService: jasmine.SpyObj<MockApiService>;
 
   beforeEach(() => {
-    const MOCK_API_SPY = jasmine.createSpyObj('MockApiService', ['getHeroes']);
+    const MOCK_API_SPY = jasmine.createSpyObj('MockApiService', ['getHeroes', 'getHero']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -77,6 +77,64 @@ describe('HeroesService', () => {
         },
       });
       expect(mockApiService.getHeroes).toHaveBeenCalled();
+    });
+  });
+
+  describe('getHero', () => {
+    const PARAM_OK = 1;
+    const PARAM_NOT_OK = -1;
+    const MOCK_RESPONSE_OK = {
+      code: 200,
+      result: {
+        id: PARAM_OK,
+        name: 'heroTest',
+        age: 30,
+        image: 'someUrl',
+        isActive: true,
+        superpowers: ['some', 'super', 'power'],
+      },
+    };
+    const MOCK_RESPONSE_NOT_OK = {
+      code: 440,
+      result: `No se ha encontrado el héroe con el id ${PARAM_NOT_OK}`
+    };
+    const ERROR_MESSAGE = 'Error fetching hero';
+
+    it('should expose the observable containing the hero correspondant to the id sent through as argument', () => {
+      mockApiService.getHero.withArgs(PARAM_OK).and.returnValue(of(MOCK_RESPONSE_OK));
+      heroesService.getHero(PARAM_OK).subscribe((heroesResponse) => {
+        let hero = heroesResponse.result as Hero;
+        expect(heroesResponse.code).toEqual(200);
+        expect(hero).toEqual(MOCK_RESPONSE_OK.result);
+      });
+    });
+    
+    it('should expose the observable containing the code error and message when hero is not found', () => {
+      mockApiService.getHero.withArgs(PARAM_NOT_OK).and.returnValue(of(MOCK_RESPONSE_NOT_OK));
+      heroesService.getHero(PARAM_NOT_OK).subscribe((heroesResponse) => {
+        let errorMessage = heroesResponse.result as string;
+        expect(heroesResponse.code).toEqual(440);
+        expect(errorMessage).toEqual(MOCK_RESPONSE_NOT_OK.result);
+      });
+    });
+
+    it('should propagate the error when the API mock service fails unexpectedly', () => {
+      mockApiService.getHero.withArgs(PARAM_OK).and.returnValue(
+        throwError(() => new Error(ERROR_MESSAGE))
+      );
+      spyOn(console, 'error');
+      heroesService.getHero(PARAM_OK).subscribe({
+        next: () => {
+          fail('Expected error but got a value');
+        },
+        error: (error) => {
+          expect(console.error).toHaveBeenCalledWith(
+            'Error fetching data for getting a hero',
+            error
+          );
+        },
+      });
+      expect(mockApiService.getHero).toHaveBeenCalled();
     });
   });
 });
