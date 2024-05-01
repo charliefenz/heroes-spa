@@ -8,6 +8,7 @@ import { HeroesFilterContainerComponent } from './components/heroes-filter-conta
 import { HeroesItemComponent } from './components/heroes-item/heroes-item.component';
 import { HeroesListComponent } from './components/heroes-list/heroes-list.component';
 import { RouterModule } from '@angular/router';
+import { MockApiService } from '../../mock-API/mock-api.service';
 
 
 
@@ -25,7 +26,10 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule.forChild([
       {path: '', component: HeroesFilterContainerComponent}
-    ])
+    ]),
+  ],
+  providers: [
+    MockApiService
   ]
 })
 export class HeroesModule { }
