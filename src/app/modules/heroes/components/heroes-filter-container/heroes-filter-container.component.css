@@ -1,0 +1,61 @@
+/* 
+  Common breakpoints:
+  320px: smartphones in portrait mode.
+  375px: smaller smartphones in portrait mode.
+  414px: larger smartphones in portrait mode.
+  480px: smaller tablets or devices in landscape mode
+  768px: smallest breakpoint for tablets in portrait mode
+*/
+
+:root {
+  --test: 320px;
+}
+
+.hero-filter-main-title {
+  background-color: grey;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 0px 5px;
+}
+
+.filter-and-actions {
+  width: 100%;
+  background-color: red;
+  display: flex;
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+.button-container {
+  background-color: blue;
+  display: flex;
+  width: 100%;
+  justify-content: end;
+}
+
+.button-container button {
+  width: fit-content;
+}
+
+.filter-list {
+  background-color: blue;
+}
+
+@media (max-width: 320px) {
+  .container {
+      grid-template-columns: 1fr;
+  }
+
+  .filter-and-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .button-container {
+    justify-content: start;
+  }
+}
