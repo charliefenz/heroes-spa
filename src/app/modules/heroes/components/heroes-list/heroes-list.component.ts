@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeroesService } from '../../services/heroes.service';
-import { Observable } from 'rxjs';
-import { Response } from '../../../../models/response';
+import { Hero } from '../../../../models/hero';
 
 @Component({
   selector: 'app-heroes-list',
@@ -9,12 +8,28 @@ import { Response } from '../../../../models/response';
   styleUrl: './heroes-list.component.css'
 })
 export class HeroesListComponent implements OnInit{  
-  heroes$!: Observable<Response>;
+  heroeCallReceived = false;
+  errorCaptured = false;
+  errorMessage = "";
+  heroes: Hero[] = [];
 
   constructor(private heroesService: HeroesService) {}
 
   ngOnInit(): void {
-    this.heroes$ = this.heroesService.getHeroes();
+    this.handleGetHeroes();
   }
+
+  handleGetHeroes() {
+    this.heroesService.getHeroes().subscribe((getHeroesResponse) => {
+      this.heroeCallReceived = false;
+      if (getHeroesResponse.code === 200) {
+        this.heroes = getHeroesResponse.result as Hero[];
+        this.errorCaptured = false;
+      } else {
+        this.errorCaptured = true;
+        this.errorMessage = getHeroesResponse.result as string;
+      }
+      this.heroeCallReceived = true;
+    })
   }
 }
