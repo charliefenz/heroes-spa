@@ -24,7 +24,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {path: '', component: HeroesListComponent}
+      {path: '', component: HeroesFilterContainerComponent}
     ])
   ]
 })
