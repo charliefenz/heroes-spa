@@ -84,7 +84,7 @@ src/
 |   │   ├── icons/
 |   ├── models/
 │   │   ├── hero.ts
-│   │   └── heroes.ts
+│   │   └── response.ts
 |   ├── mock-API/
 |   |   └── mock-API.service.ts
 ```
