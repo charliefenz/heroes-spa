@@ -16,7 +16,18 @@ export class HeroesService {
     // just like httpClient would do
     return this.mockAPI.getHeroes().pipe(
       catchError(error => {
-        console.error('Error fetching data for get heroes list', error);
+        console.error('Error fetching data for getting heroes list', error);
+        throw error;
+      })
+    )
+  }
+
+  getHero(paramId: number): Observable<Response> {
+    // with pipe the observable is resent to any item injecting this service
+    // just like httpClient would do
+    return this.mockAPI.getHero(paramId).pipe(
+      catchError(error => {
+        console.error('Error fetching data for getting a hero', error);
         throw error;
       })
     )
