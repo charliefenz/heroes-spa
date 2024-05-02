@@ -113,7 +113,7 @@ describe('HeroesService', () => {
         expect(hero).toEqual(MOCK_RESPONSE_OK.result);
       });
     });
-    
+
     it('should expose the observable containing the code error and message when hero is not found', () => {
       mockApiService.getHero.withArgs(PARAM_NOT_OK).and.returnValue(of(MOCK_RESPONSE_NOT_OK));
       heroesService.getHero(PARAM_NOT_OK).subscribe((heroesResponse) => {
@@ -123,22 +123,30 @@ describe('HeroesService', () => {
       });
     });
 
-    it('should propagate the error when the API mock service fails unexpectedly', () => {
+    it('should detect and output the errors ocurring in the API mock service', () => {
+      let error = new Error(ERROR_MESSAGE);
       mockApiService.getHero.withArgs(PARAM_OK).and.returnValue(
         throwError(() => new Error(ERROR_MESSAGE))
-      );
+      ); // Arg has to be providing callback to avoid deprecation
       spyOn(console, 'error');
       heroesService.getHero(PARAM_OK).subscribe({
         next: () => {
-          fail('Expected error but got a value');
+          expect(console.error).toHaveBeenCalledWith(error)
         },
-        error: (error) => {
-          expect(console.error).toHaveBeenCalledWith(
-            'Error fetching data for getting a hero',
-            error
-          );
+      })
+      expect(mockApiService.getHero).toHaveBeenCalled();
+    });
+
+    it('should send the appropiate error message when detecting any error ocurring in the mock service', () => {
+      mockApiService.getHero.withArgs(PARAM_OK).and.returnValue(
+        throwError(() => new Error(ERROR_MESSAGE))
+      ); // Arg has to be providing callback to avoid deprecation
+      heroesService.getHero(PARAM_OK).subscribe({
+        next: (errorResponse) => {
+          expect(errorResponse.code).toEqual(500);
+          expect(errorResponse.result).toEqual(COMMON_API_ERROR_MESSAGE('getHero'));
         },
-      });
+      })
       expect(mockApiService.getHero).toHaveBeenCalled();
     });
   });
