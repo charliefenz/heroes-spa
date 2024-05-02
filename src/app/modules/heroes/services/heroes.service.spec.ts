@@ -63,10 +63,10 @@ describe('HeroesService', () => {
 
     it('should detect and output the errors ocurring in the API mock service', () => {
       let error = new Error(ERROR_MESSAGE);
-      mockApiService.getHeroes.and.returnValue(throwError(() => new Error(ERROR_MESSAGE))); // Has to be providing callback to avoid deprecation
+      mockApiService.getHeroes.and.returnValue(throwError(() => new Error(ERROR_MESSAGE))); // Arg has to be providing callback to avoid deprecation
       spyOn(console, 'error');
       heroesService.getHeroes().subscribe({
-        next: (errorResponse) => {
+        next: () => {
           expect(console.error).toHaveBeenCalledWith(error)
         },
       })
@@ -74,7 +74,7 @@ describe('HeroesService', () => {
     });
 
     it('should send the appropiate error message when detecting any error ocurring in the mock service', () => {
-      mockApiService.getHeroes.and.returnValue(throwError(() => new Error(ERROR_MESSAGE))); // Has to be providing callback to avoid deprecation
+      mockApiService.getHeroes.and.returnValue(throwError(() => new Error(ERROR_MESSAGE))); // Arg has to be providing callback to avoid deprecation
       heroesService.getHeroes().subscribe({
         next: (errorResponse) => {
           expect(errorResponse.code).toEqual(500);
