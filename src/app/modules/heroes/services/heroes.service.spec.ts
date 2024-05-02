@@ -7,6 +7,7 @@ import { Hero } from '../../../models/hero';
 describe('HeroesService', () => {
   let heroesService: HeroesService;
   let mockApiService: jasmine.SpyObj<MockApiService>;
+  const COMMON_API_ERROR_MESSAGE = (method: string) : string => `Ha ocurrido un error en el método ${method} de la API`;
 
   beforeEach(() => {
     const MOCK_API_SPY = jasmine.createSpyObj('MockApiService', ['getHeroes', 'getHero']);
@@ -60,22 +61,26 @@ describe('HeroesService', () => {
       });
     });
 
-    it('should propagate the error when the API mock service fails unexpectedly', () => {
-      mockApiService.getHeroes.and.returnValue(
-        throwError(() => new Error(ERROR_MESSAGE))
-      );
+    it('should detect and output the errors ocurring in the API mock service', () => {
+      let error = new Error(ERROR_MESSAGE);
+      mockApiService.getHeroes.and.returnValue(throwError(() => new Error(ERROR_MESSAGE))); // Has to be providing callback to avoid deprecation
       spyOn(console, 'error');
       heroesService.getHeroes().subscribe({
-        next: () => {
-          fail('Expected error but got a value');
+        next: (errorResponse) => {
+          expect(console.error).toHaveBeenCalledWith(error)
         },
-        error: (error) => {
-          expect(console.error).toHaveBeenCalledWith(
-            'Error fetching data for getting heroes list',
-            error
-          );
+      })
+      expect(mockApiService.getHeroes).toHaveBeenCalled();
+    });
+
+    it('should send the appropiate error message when detecting any error ocurring in the mock service', () => {
+      mockApiService.getHeroes.and.returnValue(throwError(() => new Error(ERROR_MESSAGE))); // Has to be providing callback to avoid deprecation
+      heroesService.getHeroes().subscribe({
+        next: (errorResponse) => {
+          expect(errorResponse.code).toEqual(500);
+          expect(errorResponse.result).toEqual(COMMON_API_ERROR_MESSAGE('getHeroes'));
         },
-      });
+      })
       expect(mockApiService.getHeroes).toHaveBeenCalled();
     });
   });
