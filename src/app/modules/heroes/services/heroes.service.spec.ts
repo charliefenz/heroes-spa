@@ -131,6 +131,9 @@ describe('HeroesService', () => {
         .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
       mockApiService.createHero.withArgs(HERO)
       .and.returnValue(of(MOCK_FAIL_RESPONSE_CREATE_HERO));
+      mockApiService.editHero
+        .withArgs(HERO)
+        .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
     })
 
     it('should return an observable with the correct error message for each method when the mock API return handled errors', () => {
@@ -141,6 +144,10 @@ describe('HeroesService', () => {
       heroesService.createHero(HERO).subscribe((failResponse) => {
         expect(failResponse.code).withContext('getHero Code').toEqual(MOCK_FAIL_RESPONSE_CREATE_HERO.code);
         expect(failResponse.result).withContext('getHero Result').toEqual(MOCK_FAIL_RESPONSE_CREATE_HERO.result);
+      });
+      heroesService.editHero(HERO).subscribe((failResponse) => {
+        expect(failResponse.code).withContext('editHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
+        expect(failResponse.result).withContext('editHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
       });
     })
   })
@@ -273,17 +280,6 @@ describe('HeroesService', () => {
         expect(createHeroResponse.code).toEqual(200);
         expect(createHeroResponse.result).toEqual(MOCK_RESPONSE_OK.result);
         expect(HERO).toEqual(MOCK_RESPONSE_OK.result);
-      });
-    });
-
-    it('should expose the observable containing the code error and appropiate message when hero.id is not found', () => {
-      mockApiService.editHero
-        .withArgs(HERO)
-        .and.returnValue(of(MOCK_RESPONSE_NOT_OK));
-      heroesService.editHero(HERO).subscribe((heroesResponse) => {
-        let errorMessage = heroesResponse.result as string;
-        expect(heroesResponse.code).toEqual(440);
-        expect(errorMessage).toEqual(MOCK_RESPONSE_NOT_OK.result);
       });
     });
   });
