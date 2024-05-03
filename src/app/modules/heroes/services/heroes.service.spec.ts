@@ -10,7 +10,7 @@ describe('HeroesService', () => {
   const COMMON_API_ERROR_MESSAGE = (method: string) : string => `Ha ocurrido un error en el método ${method} de la API`;
 
   beforeEach(() => {
-    const MOCK_API_SPY = jasmine.createSpyObj('MockApiService', ['getHeroes', 'getHero', 'createHero']);
+    const MOCK_API_SPY = jasmine.createSpyObj('MockApiService', ['getHeroes', 'getHero', 'createHero', 'editHero']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -199,6 +199,78 @@ describe('HeroesService', () => {
         },
       })
       expect(mockApiService.createHero).toHaveBeenCalled();
+    });
+  })
+
+  describe('editHero', () => {
+    const HERO = {
+      id: 1,
+      name: 'heroJustCreated',
+      age: 30,
+      image: 'someUrl',
+      isActive: true,
+      superpowers: ['some', 'super', 'power'],
+    };
+    const MOCK_RESPONSE_OK = {
+      code: 200,
+      result: {
+        id: 1,
+        name: 'heroJustCreated',
+        age: 30,
+        image: 'someUrl',
+        isActive: true,
+        superpowers: ['some', 'super', 'power'],
+      }
+    };
+    const MOCK_RESPONSE_NOT_OK = {
+      code: 440,
+      result: `No se ha encontrado el héroe con el id ${HERO.id}`
+    };
+    const ERROR_MESSAGE = 'Error editing hero';
+
+    it('should expose the observable containing the same hero sent if the hero exists in the database', () => {
+      mockApiService.editHero.withArgs(HERO).and.returnValue(of(MOCK_RESPONSE_OK));
+      heroesService.editHero(HERO).subscribe((createHeroResponse) => {
+        expect(createHeroResponse.code).toEqual(200);
+        expect(createHeroResponse.result).toEqual(MOCK_RESPONSE_OK.result);
+        expect(HERO).toEqual(MOCK_RESPONSE_OK.result);
+      })
+    });
+
+    it('should detect and output the errors ocurring in the API mock service', () => {
+      let error = new Error(ERROR_MESSAGE);
+      mockApiService.editHero.withArgs(HERO).and.returnValue(
+        throwError(() => new Error(ERROR_MESSAGE))
+      ); // Arg has to be providing callback to avoid deprecation
+      spyOn(console, 'error');
+      heroesService.editHero(HERO).subscribe({
+        next: () => {
+          expect(console.error).toHaveBeenCalledWith(error)
+        },
+      })
+      expect(mockApiService.editHero).toHaveBeenCalled();
+    });
+
+    it('should send the appropiate error message when detecting any error ocurring in the mock service', () => {
+      mockApiService.editHero.withArgs(HERO).and.returnValue(
+        throwError(() => new Error(ERROR_MESSAGE))
+      ); // Arg has to be providing callback to avoid deprecation
+      heroesService.editHero(HERO).subscribe({
+        next: (errorResponse) => {
+          expect(errorResponse.code).toEqual(500);
+          expect(errorResponse.result).toEqual(COMMON_API_ERROR_MESSAGE('editHero'));
+        },
+      })
+      expect(mockApiService.editHero).toHaveBeenCalled();
+    });
+
+    it('should expose the observable containing the code error and appropiate message when hero.id is not found', () => {
+      mockApiService.editHero.withArgs(HERO).and.returnValue(of(MOCK_RESPONSE_NOT_OK));
+      heroesService.editHero(HERO).subscribe((heroesResponse) => {
+        let errorMessage = heroesResponse.result as string;
+        expect(heroesResponse.code).toEqual(440);
+        expect(errorMessage).toEqual(MOCK_RESPONSE_NOT_OK.result);
+      });
     });
   })
 });
