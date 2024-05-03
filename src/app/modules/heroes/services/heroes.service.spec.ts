@@ -19,7 +19,7 @@ describe('HeroesService', () => {
     'createHero',
     'editHero',
   ];
-  const ID_ARG = 1;
+  const SOME_RANDOM_ID_ARG = 1;
   const HERO = {
     id: 1,
     name: 'aHero',
@@ -27,6 +27,10 @@ describe('HeroesService', () => {
     image: 'someUrl',
     isActive: true,
     superpowers: ['some', 'super', 'power'],
+  };
+  const MOCK_FAIL_RESPONSE_GET_HERO = {
+    code: 440,
+    result: `No se ha encontrado el héroe con el id ${SOME_RANDOM_ID_ARG}`,
   };
 
   beforeEach(() => {
@@ -56,7 +60,7 @@ describe('HeroesService', () => {
       mockApiService.getHeroes.and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
-      mockApiService.getHero.withArgs(ID_ARG).and.returnValue(
+      mockApiService.getHero.withArgs(SOME_RANDOM_ID_ARG).and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
       mockApiService.createHero.withArgs(HERO).and.returnValue(
@@ -78,7 +82,7 @@ describe('HeroesService', () => {
       heroesService.getHeroes().subscribe(() => {
         expect(console.error).withContext('getHeroes').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
       });
-      heroesService.getHero(ID_ARG).subscribe(() => {
+      heroesService.getHero(SOME_RANDOM_ID_ARG).subscribe(() => {
         expect(console.error).withContext('getHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
       });
       heroesService.createHero(HERO).subscribe(() => {
@@ -96,7 +100,7 @@ describe('HeroesService', () => {
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('getHeroes')
           );
       });
-      heroesService.getHero(ID_ARG).subscribe((errorResponse) => {
+      heroesService.getHero(SOME_RANDOM_ID_ARG).subscribe((errorResponse) => {
         expect(errorResponse.code).withContext('getHero').toEqual(500);
         expect(errorResponse.result).toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('getHero')
@@ -116,6 +120,20 @@ describe('HeroesService', () => {
       });
     });
   });
+
+  fdescribe('Type Fail Responses', () => {
+    beforeEach(() => {
+      mockApiService.getHero.withArgs(SOME_RANDOM_ID_ARG)
+        .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
+    })
+
+    it('should return an observable with the correct error message for each method when the mock API return handled errors', () => {
+      heroesService.getHero(SOME_RANDOM_ID_ARG).subscribe((failResponse) => {
+        expect(failResponse.code).toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
+        expect(failResponse.result).toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
+      });
+    })
+  })
 
   describe('getHeroes', () => {
     const MOCK_RESPONSE_OK = {
@@ -179,17 +197,6 @@ describe('HeroesService', () => {
         let hero = heroesResponse.result as Hero;
         expect(heroesResponse.code).toEqual(200);
         expect(hero).toEqual(MOCK_RESPONSE_OK.result);
-      });
-    });
-
-    it('should expose the observable containing the code error and message when hero is not found', () => {
-      mockApiService.getHero
-        .withArgs(PARAM_NOT_OK)
-        .and.returnValue(of(MOCK_RESPONSE_NOT_OK));
-      heroesService.getHero(PARAM_NOT_OK).subscribe((heroesResponse) => {
-        let errorMessage = heroesResponse.result as string;
-        expect(heroesResponse.code).toEqual(440);
-        expect(errorMessage).toEqual(MOCK_RESPONSE_NOT_OK.result);
       });
     });
   });
