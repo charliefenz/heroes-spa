@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HeroesService } from './heroes.service';
 import { MockApiService } from '../../../mock-API/mock-api.service';
 import { of, throwError } from 'rxjs';
-import { Hero } from '../../../models/hero';
 
 describe('HeroesService', () => {
   let heroesService: HeroesService;
@@ -36,6 +35,18 @@ describe('HeroesService', () => {
     code: 500,
     result: `No se ha podido crear el Héroe por un error al intentar asignar una ID única`,
   };
+  const MOCK_RESPONSE_OK_GET_HEROES = {
+    code: 200,
+    result: [HERO]
+  }
+  const MOCK_RESPONSE_OK_GET_HERO = {
+    code: 200,
+    result: HERO
+  }
+  const MOCK_RESPONSE_OK_CREATE_HERO = {
+    code: 200,
+    result: 'someCode'
+  }
 
   beforeEach(() => {
     const MOCK_API_SPY = jasmine.createSpyObj(
@@ -59,7 +70,7 @@ describe('HeroesService', () => {
     expect(heroesService).toBeTruthy();
   });
 
-  fdescribe('Error handling', () => {
+  describe('Error handling', () => {
     beforeEach(() => {
       mockApiService.getHeroes.and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
@@ -125,7 +136,43 @@ describe('HeroesService', () => {
     });
   });
 
-  fdescribe('Type Fail Responses', () => {
+  describe('Type Ok Responses', () => {
+    beforeEach(() => {
+      mockApiService.getHeroes.and.returnValue(of(MOCK_RESPONSE_OK_GET_HEROES));
+      mockApiService.getHero
+        .withArgs(SOME_RANDOM_ID_ARG)
+        .and.returnValue(of(MOCK_RESPONSE_OK_GET_HERO));
+      mockApiService.createHero
+      .withArgs(HERO)
+      .and.returnValue(of(MOCK_RESPONSE_OK_CREATE_HERO));
+      mockApiService.editHero
+        .withArgs(HERO)
+        .and.returnValue(of(MOCK_RESPONSE_OK_GET_HERO));
+    })
+
+    it('should return an observable with the expected output for each method', () => {
+      heroesService.getHeroes().subscribe((okResponse) => {
+        expect(okResponse.code).withContext('getHeroes Code').toEqual(MOCK_RESPONSE_OK_GET_HEROES.code);
+        expect(okResponse.result).withContext('getHeroes Result').toEqual(MOCK_RESPONSE_OK_GET_HEROES.result);
+      });
+      heroesService.getHero(SOME_RANDOM_ID_ARG).subscribe((okResponse) => {
+        expect(okResponse.code).withContext('getHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
+        expect(okResponse.result).withContext('getHero Result').toEqual(MOCK_RESPONSE_OK_GET_HERO.result);
+      });
+      heroesService
+        .createHero(HERO)
+        .subscribe((okResponse) => {
+          expect(okResponse.code).withContext('createHero Code').toEqual(MOCK_RESPONSE_OK_CREATE_HERO.code);
+          expect(okResponse.result).withContext('createHero Result').toEqual(MOCK_RESPONSE_OK_CREATE_HERO.result);
+        });
+      heroesService.editHero(HERO).subscribe((okResponse) => {
+        expect(okResponse.code).withContext('editHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
+        expect(okResponse.result).withContext('editHero Result').toEqual(MOCK_RESPONSE_OK_GET_HERO.result);
+      });
+    })
+  })
+
+  describe('Type Fail Responses', () => {
     beforeEach(() => {
       mockApiService.getHero.withArgs(SOME_RANDOM_ID_ARG)
         .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
@@ -151,136 +198,4 @@ describe('HeroesService', () => {
       });
     })
   })
-
-  describe('getHeroes', () => {
-    const MOCK_RESPONSE_OK = {
-      code: 200,
-      result: [
-        {
-          id: 1,
-          name: 'heroTest',
-          age: 30,
-          image: 'someUrl',
-          isActive: true,
-          superpowers: ['some', 'super', 'power'],
-        },
-        {
-          id: 2,
-          name: 'heroTest2',
-          age: 30,
-          image: 'someUrl',
-          isActive: true,
-          superpowers: ['some', 'super', 'power'],
-        },
-      ],
-    };
-    const ERROR_MESSAGE = 'Error fetching heroes';
-
-    it('should expose the observable containing heroes from the mock API', () => {
-      mockApiService.getHeroes.and.returnValue(of(MOCK_RESPONSE_OK));
-      heroesService.getHeroes().subscribe((heroesResponse) => {
-        let heroes = heroesResponse.result as Hero[];
-        expect(heroesResponse.code).toEqual(200);
-        expect(heroes).toEqual(MOCK_RESPONSE_OK.result);
-      });
-    });
-  });
-
-  describe('getHero', () => {
-    const PARAM_OK = 1;
-    const PARAM_NOT_OK = -1;
-    const MOCK_RESPONSE_OK = {
-      code: 200,
-      result: {
-        id: PARAM_OK,
-        name: 'heroTest',
-        age: 30,
-        image: 'someUrl',
-        isActive: true,
-        superpowers: ['some', 'super', 'power'],
-      },
-    };
-    const MOCK_RESPONSE_NOT_OK = {
-      code: 440,
-      result: `No se ha encontrado el héroe con el id ${PARAM_NOT_OK}`,
-    };
-    const ERROR_MESSAGE = 'Error fetching hero';
-
-    it('should expose the observable containing the hero correspondant to the id sent through as argument', () => {
-      mockApiService.getHero
-        .withArgs(PARAM_OK)
-        .and.returnValue(of(MOCK_RESPONSE_OK));
-      heroesService.getHero(PARAM_OK).subscribe((heroesResponse) => {
-        let hero = heroesResponse.result as Hero;
-        expect(heroesResponse.code).toEqual(200);
-        expect(hero).toEqual(MOCK_RESPONSE_OK.result);
-      });
-    });
-  });
-
-  describe('createHero', () => {
-    const HERO_TO_BE_CREATED = {
-      id: -1, // The API assigns the id but expects a Hero model as payload
-      name: 'heroJustCreated',
-      age: 30,
-      image: 'someUrl',
-      isActive: true,
-      superpowers: ['some', 'super', 'power'],
-    };
-    const MOCK_RESPONSE_OK = {
-      code: 200,
-      result: '12345',
-    };
-    const ERROR_MESSAGE = 'Error creating hero';
-
-    it('should expose the observable containing the id correspondant to the hero created', () => {
-      mockApiService.createHero
-        .withArgs(HERO_TO_BE_CREATED)
-        .and.returnValue(of(MOCK_RESPONSE_OK));
-      heroesService
-        .createHero(HERO_TO_BE_CREATED)
-        .subscribe((createHeroResponse) => {
-          expect(createHeroResponse.code).toEqual(200);
-          expect(createHeroResponse.result).toEqual(MOCK_RESPONSE_OK.result);
-        });
-    });
-  });
-
-  describe('editHero', () => {
-    const HERO = {
-      id: 1,
-      name: 'heroJustCreated',
-      age: 30,
-      image: 'someUrl',
-      isActive: true,
-      superpowers: ['some', 'super', 'power'],
-    };
-    const MOCK_RESPONSE_OK = {
-      code: 200,
-      result: {
-        id: 1,
-        name: 'heroJustCreated',
-        age: 30,
-        image: 'someUrl',
-        isActive: true,
-        superpowers: ['some', 'super', 'power'],
-      },
-    };
-    const MOCK_RESPONSE_NOT_OK = {
-      code: 440,
-      result: `No se ha encontrado el héroe con el id ${HERO.id}`,
-    };
-    const ERROR_MESSAGE = 'Error editing hero';
-
-    it('should expose the observable containing the same hero sent if the hero exists in the database', () => {
-      mockApiService.editHero
-        .withArgs(HERO)
-        .and.returnValue(of(MOCK_RESPONSE_OK));
-      heroesService.editHero(HERO).subscribe((createHeroResponse) => {
-        expect(createHeroResponse.code).toEqual(200);
-        expect(createHeroResponse.result).toEqual(MOCK_RESPONSE_OK.result);
-        expect(HERO).toEqual(MOCK_RESPONSE_OK.result);
-      });
-    });
-  });
 });
