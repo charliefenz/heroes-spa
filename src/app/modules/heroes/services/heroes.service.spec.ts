@@ -52,7 +52,7 @@ describe('HeroesService', () => {
   });
 
   fdescribe('Error handling', () => {
-    it('should detect and output the errors ocurring in the API mock service', () => {
+    beforeEach(() => {
       mockApiService.getHeroes.and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
@@ -65,6 +65,15 @@ describe('HeroesService', () => {
       mockApiService.editHero.withArgs(HERO).and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
+    })
+    afterEach(() => {
+      expect(mockApiService.getHeroes).withContext('getHeroes').toHaveBeenCalled();
+      expect(mockApiService.getHero).withContext('getHero').toHaveBeenCalled();
+      expect(mockApiService.createHero).withContext('createHero').toHaveBeenCalled();
+      expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
+    })
+
+    it('should detect and output the errors ocurring in the API mock service', () => {
       spyOn(console, 'error');
       heroesService.getHeroes().subscribe(() => {
         expect(console.error).withContext('getHeroes').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
@@ -78,25 +87,9 @@ describe('HeroesService', () => {
       heroesService.editHero(HERO).subscribe(() => {
         expect(console.error).withContext('editHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
       });
-      expect(mockApiService.getHeroes).withContext('getHeroes').toHaveBeenCalled();
-      expect(mockApiService.getHero).withContext('getHero').toHaveBeenCalled();
-      expect(mockApiService.createHero).withContext('createHero').toHaveBeenCalled();
-      expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
     });
 
     it('should send the appropiate error message when detecting any error ocurring in the mock service', () => {
-      mockApiService.getHeroes.and.returnValue(
-        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
-      );
-      mockApiService.getHero.withArgs(ID_ARG).and.returnValue(
-        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
-      );
-      mockApiService.createHero.withArgs(HERO).and.returnValue(
-        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
-      );
-      mockApiService.editHero.withArgs(HERO).and.returnValue(
-        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
-      );
       heroesService.getHeroes().subscribe((errorResponse) => {
         expect(errorResponse.code).withContext('getHeroes').toEqual(500);
         expect(errorResponse.result).toEqual(
@@ -121,10 +114,6 @@ describe('HeroesService', () => {
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('editHero')
           );
       });
-      expect(mockApiService.getHeroes).withContext('getHeroes').toHaveBeenCalled();
-      expect(mockApiService.getHero).withContext('getHero').toHaveBeenCalled();
-      expect(mockApiService.createHero).withContext('createHero').toHaveBeenCalled();
-      expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
     });
   });
 
