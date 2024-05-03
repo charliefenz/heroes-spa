@@ -95,26 +95,26 @@ describe('HeroesService', () => {
 
     it('should return an observable with the error message assigned to the detection of unexpected errors in the API mock service', () => {
       heroesService.getHeroes().subscribe((errorResponse) => {
-        expect(errorResponse.code).withContext('getHeroes').toEqual(500);
-        expect(errorResponse.result).toEqual(
+        expect(errorResponse.code).withContext('getHeroes Code').toEqual(500);
+        expect(errorResponse.result).withContext('getHeroes Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('getHeroes')
           );
       });
       heroesService.getHero(SOME_RANDOM_ID_ARG).subscribe((errorResponse) => {
-        expect(errorResponse.code).withContext('getHero').toEqual(500);
-        expect(errorResponse.result).toEqual(
+        expect(errorResponse.code).withContext('getHero Code').toEqual(500);
+        expect(errorResponse.result).withContext('getHero Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('getHero')
           );
       });
       heroesService.createHero(HERO).subscribe((errorResponse) => {
-        expect(errorResponse.code).withContext('createHero').toEqual(500);
-        expect(errorResponse.result).toEqual(
+        expect(errorResponse.code).withContext('createHero Code').toEqual(500);
+        expect(errorResponse.result).withContext('createHero Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('createHero')
           );
       });
       heroesService.editHero(HERO).subscribe((errorResponse) => {
-        expect(errorResponse.code).withContext('editHero').toEqual(500);
-        expect(errorResponse.result).toEqual(
+        expect(errorResponse.code).withContext('editHero Code').toEqual(500);
+        expect(errorResponse.result).withContext('editHeroe Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('editHero')
           );
       });
@@ -129,8 +129,8 @@ describe('HeroesService', () => {
 
     it('should return an observable with the correct error message for each method when the mock API return handled errors', () => {
       heroesService.getHero(SOME_RANDOM_ID_ARG).subscribe((failResponse) => {
-        expect(failResponse.code).toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
-        expect(failResponse.result).toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
+        expect(failResponse.code).withContext('getHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
+        expect(failResponse.result).withContext('getHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
       });
     })
   })
