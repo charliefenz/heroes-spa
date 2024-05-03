@@ -73,7 +73,7 @@ describe('HeroesService', () => {
       expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
     })
 
-    it('should detect and output the errors ocurring in the API mock service', () => {
+    it('should catch and output unexpected errors ocurring in the API mock service', () => {
       spyOn(console, 'error');
       heroesService.getHeroes().subscribe(() => {
         expect(console.error).withContext('getHeroes').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
@@ -89,7 +89,7 @@ describe('HeroesService', () => {
       });
     });
 
-    it('should send the appropiate error message when detecting any error ocurring in the mock service', () => {
+    it('should return an observable with the error message assigned to the detection of unexpected errors in the API mock service', () => {
       heroesService.getHeroes().subscribe((errorResponse) => {
         expect(errorResponse.code).withContext('getHeroes').toEqual(500);
         expect(errorResponse.result).toEqual(
