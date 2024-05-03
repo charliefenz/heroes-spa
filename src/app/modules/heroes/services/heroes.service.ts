@@ -47,4 +47,14 @@ export class HeroesService {
       })
     )
   }
+
+  editHero(hero: Hero): Observable<Response> {
+    return this.mockAPI.editHero(hero).pipe(
+      catchError(error => {
+        console.error(error);
+        this.mockApiErrorResponse.result = this.mockApiErrorResult('editHero');
+        return of(this.mockApiErrorResponse);
+      })
+    )
+  }
 }
