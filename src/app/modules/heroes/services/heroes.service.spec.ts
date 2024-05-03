@@ -10,7 +10,7 @@ describe('HeroesService', () => {
   const COMMON_API_ERROR_MESSAGE = (method: string) : string => `Ha ocurrido un error en el método ${method} de la API`;
 
   beforeEach(() => {
-    const MOCK_API_SPY = jasmine.createSpyObj('MockApiService', ['getHeroes', 'getHero']);
+    const MOCK_API_SPY = jasmine.createSpyObj('MockApiService', ['getHeroes', 'getHero', 'createHero']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -150,4 +150,55 @@ describe('HeroesService', () => {
       expect(mockApiService.getHero).toHaveBeenCalled();
     });
   });
+
+  describe('createHero', () => {
+    const HERO_TO_BE_CREATED = {
+      id: -1, // The API assigns the id but expects a Hero model as payload
+      name: 'heroJustCreated',
+      age: 30,
+      image: 'someUrl',
+      isActive: true,
+      superpowers: ['some', 'super', 'power'],
+    };
+    const MOCK_RESPONSE_OK = {
+      code: 200,
+      result: '12345'
+    };
+    const ERROR_MESSAGE = 'Error creating hero';
+
+    it('should expose the observable containing the id correspondant to the hero created', () => {
+      mockApiService.createHero.withArgs(HERO_TO_BE_CREATED).and.returnValue(of(MOCK_RESPONSE_OK));
+      heroesService.createHero(HERO_TO_BE_CREATED).subscribe((createHeroResponse) => {
+        expect(createHeroResponse.code).toEqual(200);
+        expect(createHeroResponse.result).toEqual(MOCK_RESPONSE_OK.result);
+      })
+    });
+
+    it('should detect and output the errors ocurring in the API mock service', () => {
+      let error = new Error(ERROR_MESSAGE);
+      mockApiService.createHero.withArgs(HERO_TO_BE_CREATED).and.returnValue(
+        throwError(() => new Error(ERROR_MESSAGE))
+      ); // Arg has to be providing callback to avoid deprecation
+      spyOn(console, 'error');
+      heroesService.createHero(HERO_TO_BE_CREATED).subscribe({
+        next: () => {
+          expect(console.error).toHaveBeenCalledWith(error)
+        },
+      })
+      expect(mockApiService.createHero).toHaveBeenCalled();
+    });
+
+    it('should send the appropiate error message when detecting any error ocurring in the mock service', () => {
+      mockApiService.createHero.withArgs(HERO_TO_BE_CREATED).and.returnValue(
+        throwError(() => new Error(ERROR_MESSAGE))
+      ); // Arg has to be providing callback to avoid deprecation
+      heroesService.createHero(HERO_TO_BE_CREATED).subscribe({
+        next: (errorResponse) => {
+          expect(errorResponse.code).toEqual(500);
+          expect(errorResponse.result).toEqual(COMMON_API_ERROR_MESSAGE('createHero'));
+        },
+      })
+      expect(mockApiService.createHero).toHaveBeenCalled();
+    });
+  })
 });

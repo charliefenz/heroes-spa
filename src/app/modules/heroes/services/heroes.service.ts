@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MockApiService } from '../../../mock-API/mock-api.service';
 import { Response } from '../../../models/response';
 import { Observable, catchError, of } from 'rxjs';
+import { Hero } from '../../../models/hero';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,16 @@ export class HeroesService {
       catchError(error => {
         console.error(error);
         this.mockApiErrorResponse.result = this.mockApiErrorResult('getHero');
+        return of(this.mockApiErrorResponse);
+      })
+    )
+  }
+
+  createHero(hero: Hero): Observable<Response> {
+    return this.mockAPI.createHero(hero).pipe(
+      catchError(error => {
+        console.error(error);
+        this.mockApiErrorResponse.result = this.mockApiErrorResult('createHero');
         return of(this.mockApiErrorResponse);
       })
     )
