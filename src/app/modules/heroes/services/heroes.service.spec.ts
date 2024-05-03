@@ -32,6 +32,10 @@ describe('HeroesService', () => {
     code: 440,
     result: `No se ha encontrado el héroe con el id ${SOME_RANDOM_ID_ARG}`,
   };
+  const MOCK_FAIL_RESPONSE_CREATE_HERO = {
+    code: 500,
+    result: `No se ha podido crear el Héroe por un error al intentar asignar una ID única`,
+  };
 
   beforeEach(() => {
     const MOCK_API_SPY = jasmine.createSpyObj(
@@ -125,12 +129,18 @@ describe('HeroesService', () => {
     beforeEach(() => {
       mockApiService.getHero.withArgs(SOME_RANDOM_ID_ARG)
         .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
+      mockApiService.createHero.withArgs(HERO)
+      .and.returnValue(of(MOCK_FAIL_RESPONSE_CREATE_HERO));
     })
 
     it('should return an observable with the correct error message for each method when the mock API return handled errors', () => {
       heroesService.getHero(SOME_RANDOM_ID_ARG).subscribe((failResponse) => {
         expect(failResponse.code).withContext('getHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
         expect(failResponse.result).withContext('getHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
+      });
+      heroesService.createHero(HERO).subscribe((failResponse) => {
+        expect(failResponse.code).withContext('getHero Code').toEqual(MOCK_FAIL_RESPONSE_CREATE_HERO.code);
+        expect(failResponse.result).withContext('getHero Result').toEqual(MOCK_FAIL_RESPONSE_CREATE_HERO.result);
       });
     })
   })
