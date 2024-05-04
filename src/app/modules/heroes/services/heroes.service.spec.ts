@@ -184,7 +184,10 @@ describe('HeroesService', () => {
       mockApiService.deleteHero
         .withArgs(SOME_RANDOM_ID_ARG)
         .and.returnValue(of(MOCK_RESPONSE_OK_DELETE_HERO));
-    })
+      mockApiService.fetchHeroesByName
+        .withArgs(SOME_RANDOM_KEYWORD)
+        .and.returnValue(of(MOCK_RESPONSE_OK_GET_HEROES));
+      })
 
     it('should return an observable with the expected output for each method', () => {
       heroesService.getHeroes().subscribe((okResponse) => {
@@ -208,6 +211,10 @@ describe('HeroesService', () => {
       heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((okResponse) => {
         expect(okResponse.code).withContext('deleteHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
         expect(okResponse.result).withContext('deleteHero Result').toEqual(MOCK_RESPONSE_OK_DELETE_HERO.result);
+      });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe((okResponse) => {
+        expect(okResponse.code).withContext('searchHeroes Code').toEqual(MOCK_RESPONSE_OK_GET_HEROES.code);
+        expect(okResponse.result).withContext('searchHeroes Result').toEqual(MOCK_RESPONSE_OK_GET_HEROES.result);
       });
     })
   })
