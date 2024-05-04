@@ -25,7 +25,8 @@ import { MockApiService } from '../../mock-API/mock-api.service';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {path: '', component: HeroesFilterContainerComponent}
+      {path: '', component: HeroesFilterContainerComponent},
+      {path: 'new-hero', component: HeroFormComponent}
     ]),
   ],
   providers: [
