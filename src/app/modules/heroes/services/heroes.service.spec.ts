@@ -137,7 +137,7 @@ describe('HeroesService', () => {
       });
       heroesService.editHero(HERO).subscribe((errorResponse) => {
         expect(errorResponse.code).withContext('editHero Code').toEqual(500);
-        expect(errorResponse.result).withContext('editHeroe Result').toEqual(
+        expect(errorResponse.result).withContext('editHero Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('editHero')
           );
       });
