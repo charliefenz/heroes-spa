@@ -67,4 +67,14 @@ export class HeroesService {
       })
     )
   }
+
+  searchHeroes(keyword: string): Observable<Response> {
+    return this.mockAPI.fetchHeroesByName(keyword).pipe(
+      catchError(error => {
+        console.error(error);
+        this.mockApiErrorResponse.result = this.mockApiErrorResult('searchHeroes');
+        return of(this.mockApiErrorResponse);
+      })
+    )
+  }
 }

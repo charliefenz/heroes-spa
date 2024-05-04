@@ -17,9 +17,11 @@ describe('HeroesService', () => {
     'getHero',
     'createHero',
     'editHero',
-    'deleteHero'
+    'deleteHero',
+    'fetchHeroesByName'
   ];
   const SOME_RANDOM_ID_ARG = 1;
+  const SOME_RANDOM_KEYWORD = 'abc';
   const HERO = {
     id: 1,
     name: 'aHero',
@@ -35,6 +37,10 @@ describe('HeroesService', () => {
   const MOCK_FAIL_RESPONSE_CREATE_HERO = {
     code: 500,
     result: `No se ha podido crear el Héroe por un error al intentar asignar una ID única`,
+  };
+  const MOCK_FAIL_RESPONSE_SEARCH_HEROES = {
+    code: 200,
+    result: []
   };
   const MOCK_RESPONSE_OK_GET_HEROES = {
     code: 200,
@@ -92,6 +98,9 @@ describe('HeroesService', () => {
       mockApiService.deleteHero.withArgs(SOME_RANDOM_ID_ARG).and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
+      mockApiService.fetchHeroesByName.withArgs(SOME_RANDOM_KEYWORD).and.returnValue(
+        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
+      );
     })
     afterEach(() => {
       expect(mockApiService.getHeroes).withContext('getHeroes').toHaveBeenCalled();
@@ -99,6 +108,7 @@ describe('HeroesService', () => {
       expect(mockApiService.createHero).withContext('createHero').toHaveBeenCalled();
       expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
       expect(mockApiService.deleteHero).withContext('editHero').toHaveBeenCalled();
+      expect(mockApiService.fetchHeroesByName).withContext('searchHeroes').toHaveBeenCalled();
     })
 
     it('should catch and output unexpected errors ocurring in the API mock service', () => {
@@ -117,6 +127,9 @@ describe('HeroesService', () => {
       });
       heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe(() => {
         expect(console.error).withContext('deleteHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
+      });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe(() => {
+        expect(console.error).withContext('searchHeroes').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
       });
     });
 
@@ -151,6 +164,12 @@ describe('HeroesService', () => {
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('deleteHero')
           );
       });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe((errorResponse) => {
+        expect(errorResponse.code).withContext('searchHeroes Code').toEqual(500);
+        expect(errorResponse.result).withContext('searchHeroes Result').toEqual(
+            REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('searchHeroes')
+          );
+      });
     });
   });
 
@@ -169,6 +188,9 @@ describe('HeroesService', () => {
       mockApiService.deleteHero
         .withArgs(SOME_RANDOM_ID_ARG)
         .and.returnValue(of(MOCK_RESPONSE_OK_DELETE_HERO));
+      mockApiService.fetchHeroesByName
+        .withArgs(SOME_RANDOM_KEYWORD)
+        .and.returnValue(of(MOCK_RESPONSE_OK_GET_HEROES));
     })
 
     it('should return an observable with the expected output for each method', () => {
@@ -191,8 +213,12 @@ describe('HeroesService', () => {
         expect(okResponse.result).withContext('editHero Result').toEqual(MOCK_RESPONSE_OK_GET_HERO.result);
       });
       heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((okResponse) => {
-        expect(okResponse.code).withContext('deleteHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
+        expect(okResponse.code).withContext('deleteHero Code').toEqual(MOCK_RESPONSE_OK_DELETE_HERO.code);
         expect(okResponse.result).withContext('deleteHero Result').toEqual(MOCK_RESPONSE_OK_DELETE_HERO.result);
+      });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe((okResponse) => {
+        expect(okResponse.code).withContext('searchHeroes Code').toEqual(MOCK_RESPONSE_OK_GET_HEROES.code);
+        expect(okResponse.result).withContext('searchHeroes Result').toEqual(MOCK_RESPONSE_OK_GET_HEROES.result);
       });
     })
   })
@@ -209,6 +235,9 @@ describe('HeroesService', () => {
       mockApiService.deleteHero
         .withArgs(SOME_RANDOM_ID_ARG)
         .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
+      mockApiService.fetchHeroesByName
+        .withArgs(SOME_RANDOM_KEYWORD)
+        .and.returnValue(of(MOCK_FAIL_RESPONSE_SEARCH_HEROES));
     })
 
     it('should return an observable with the correct error message for each method when the mock API return handled errors', () => {
@@ -227,6 +256,10 @@ describe('HeroesService', () => {
       heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((failResponse) => {
         expect(failResponse.code).withContext('deleteHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
         expect(failResponse.result).withContext('deleteHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
+      });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe((failResponse) => {
+        expect(failResponse.code).withContext('searchHeroes Code').toEqual(MOCK_FAIL_RESPONSE_SEARCH_HEROES.code);
+        expect(failResponse.result).withContext('searchHeroes Result').toEqual(MOCK_FAIL_RESPONSE_SEARCH_HEROES.result);
       });
     })
   })
