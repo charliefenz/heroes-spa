@@ -209,7 +209,7 @@ describe('HeroesService', () => {
         expect(okResponse.result).withContext('editHero Result').toEqual(MOCK_RESPONSE_OK_GET_HERO.result);
       });
       heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((okResponse) => {
-        expect(okResponse.code).withContext('deleteHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
+        expect(okResponse.code).withContext('deleteHero Code').toEqual(MOCK_RESPONSE_OK_DELETE_HERO.code);
         expect(okResponse.result).withContext('deleteHero Result').toEqual(MOCK_RESPONSE_OK_DELETE_HERO.result);
       });
       heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe((okResponse) => {
