@@ -1,3 +1,15 @@
 <div class="container">
-  <app-heroes-item></app-heroes-item>
+  <div *ngIf="heroeCallReceived">
+    <div *ngFor="let hero of heroes">
+      <!-- TODO implement child binding -->
+      <app-heroes-item></app-heroes-item>
+    </div>
+    <div *ngIf="errorCaptured">
+      <!-- TODO implement Error NBA -->
+    </div>
+  </div>
+  <div *ngIf="!heroeCallReceived">
+    this is a spinner loding
+    <!-- TODO implement loader -->
+  </div>
 </div>
