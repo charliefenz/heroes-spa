@@ -206,6 +206,9 @@ describe('HeroesService', () => {
       mockApiService.editHero
         .withArgs(HERO)
         .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
+      mockApiService.deleteHero
+        .withArgs(SOME_RANDOM_ID_ARG)
+        .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
     })
 
     it('should return an observable with the correct error message for each method when the mock API return handled errors', () => {
@@ -220,6 +223,10 @@ describe('HeroesService', () => {
       heroesService.editHero(HERO).subscribe((failResponse) => {
         expect(failResponse.code).withContext('editHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
         expect(failResponse.result).withContext('editHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
+      });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((failResponse) => {
+        expect(failResponse.code).withContext('deleteHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
+        expect(failResponse.result).withContext('deleteHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
       });
     })
   })
