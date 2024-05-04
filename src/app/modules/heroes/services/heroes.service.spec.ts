@@ -17,6 +17,7 @@ describe('HeroesService', () => {
     'getHero',
     'createHero',
     'editHero',
+    'deleteHero'
   ];
   const SOME_RANDOM_ID_ARG = 1;
   const HERO = {
@@ -46,6 +47,10 @@ describe('HeroesService', () => {
   const MOCK_RESPONSE_OK_CREATE_HERO = {
     code: 200,
     result: 'someCode'
+  }
+  const MOCK_RESPONSE_OK_DELETE_HERO = {
+    code: 200,
+    result: `Se ha eliminado el héroe con el id ${SOME_RANDOM_ID_ARG}`
   }
 
   beforeEach(() => {
@@ -84,12 +89,16 @@ describe('HeroesService', () => {
       mockApiService.editHero.withArgs(HERO).and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
+      mockApiService.deleteHero.withArgs(SOME_RANDOM_ID_ARG).and.returnValue(
+        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
+      );
     })
     afterEach(() => {
       expect(mockApiService.getHeroes).withContext('getHeroes').toHaveBeenCalled();
       expect(mockApiService.getHero).withContext('getHero').toHaveBeenCalled();
       expect(mockApiService.createHero).withContext('createHero').toHaveBeenCalled();
       expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
+      expect(mockApiService.deleteHero).withContext('editHero').toHaveBeenCalled();
     })
 
     it('should catch and output unexpected errors ocurring in the API mock service', () => {
@@ -105,6 +114,9 @@ describe('HeroesService', () => {
       });
       heroesService.editHero(HERO).subscribe(() => {
         expect(console.error).withContext('editHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
+      });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe(() => {
+        expect(console.error).withContext('deleteHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
       });
     });
 
@@ -129,8 +141,14 @@ describe('HeroesService', () => {
       });
       heroesService.editHero(HERO).subscribe((errorResponse) => {
         expect(errorResponse.code).withContext('editHero Code').toEqual(500);
-        expect(errorResponse.result).withContext('editHeroe Result').toEqual(
+        expect(errorResponse.result).withContext('editHero Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('editHero')
+          );
+      });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((errorResponse) => {
+        expect(errorResponse.code).withContext('deleteHero Code').toEqual(500);
+        expect(errorResponse.result).withContext('deleteHero Result').toEqual(
+            REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('deleteHero')
           );
       });
     });
@@ -148,6 +166,9 @@ describe('HeroesService', () => {
       mockApiService.editHero
         .withArgs(HERO)
         .and.returnValue(of(MOCK_RESPONSE_OK_GET_HERO));
+      mockApiService.deleteHero
+        .withArgs(SOME_RANDOM_ID_ARG)
+        .and.returnValue(of(MOCK_RESPONSE_OK_DELETE_HERO));
     })
 
     it('should return an observable with the expected output for each method', () => {
@@ -169,6 +190,10 @@ describe('HeroesService', () => {
         expect(okResponse.code).withContext('editHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
         expect(okResponse.result).withContext('editHero Result').toEqual(MOCK_RESPONSE_OK_GET_HERO.result);
       });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((okResponse) => {
+        expect(okResponse.code).withContext('deleteHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
+        expect(okResponse.result).withContext('deleteHero Result').toEqual(MOCK_RESPONSE_OK_DELETE_HERO.result);
+      });
     })
   })
 
@@ -180,6 +205,9 @@ describe('HeroesService', () => {
       .and.returnValue(of(MOCK_FAIL_RESPONSE_CREATE_HERO));
       mockApiService.editHero
         .withArgs(HERO)
+        .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
+      mockApiService.deleteHero
+        .withArgs(SOME_RANDOM_ID_ARG)
         .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
     })
 
@@ -195,6 +223,10 @@ describe('HeroesService', () => {
       heroesService.editHero(HERO).subscribe((failResponse) => {
         expect(failResponse.code).withContext('editHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
         expect(failResponse.result).withContext('editHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
+      });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((failResponse) => {
+        expect(failResponse.code).withContext('deleteHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
+        expect(failResponse.result).withContext('deleteHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
       });
     })
   })

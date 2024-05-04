@@ -57,4 +57,14 @@ export class HeroesService {
       })
     )
   }
+
+  deletehero(paramId: number): Observable<Response> {
+    return this.mockAPI.deleteHero(paramId).pipe(
+      catchError(error => {
+        console.error(error);
+        this.mockApiErrorResponse.result = this.mockApiErrorResult('deleteHero');
+        return of(this.mockApiErrorResponse);
+      })
+    )
+  }
 }
