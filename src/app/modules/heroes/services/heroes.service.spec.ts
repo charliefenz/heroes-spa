@@ -17,9 +17,11 @@ describe('HeroesService', () => {
     'getHero',
     'createHero',
     'editHero',
-    'deleteHero'
+    'deleteHero',
+    'fetchHeroesByName'
   ];
   const SOME_RANDOM_ID_ARG = 1;
+  const SOME_RANDOM_KEYWORD = 'abc';
   const HERO = {
     id: 1,
     name: 'aHero',
@@ -92,6 +94,9 @@ describe('HeroesService', () => {
       mockApiService.deleteHero.withArgs(SOME_RANDOM_ID_ARG).and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
+      mockApiService.fetchHeroesByName.withArgs(SOME_RANDOM_KEYWORD).and.returnValue(
+        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
+      );
     })
     afterEach(() => {
       expect(mockApiService.getHeroes).withContext('getHeroes').toHaveBeenCalled();
@@ -99,6 +104,7 @@ describe('HeroesService', () => {
       expect(mockApiService.createHero).withContext('createHero').toHaveBeenCalled();
       expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
       expect(mockApiService.deleteHero).withContext('editHero').toHaveBeenCalled();
+      expect(mockApiService.fetchHeroesByName).withContext('searchHeroes').toHaveBeenCalled();
     })
 
     it('should catch and output unexpected errors ocurring in the API mock service', () => {
@@ -117,6 +123,9 @@ describe('HeroesService', () => {
       });
       heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe(() => {
         expect(console.error).withContext('deleteHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
+      });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe(() => {
+        expect(console.error).withContext('searchHeroes').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
       });
     });
 
@@ -149,6 +158,12 @@ describe('HeroesService', () => {
         expect(errorResponse.code).withContext('deleteHero Code').toEqual(500);
         expect(errorResponse.result).withContext('deleteHero Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('deleteHero')
+          );
+      });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe((errorResponse) => {
+        expect(errorResponse.code).withContext('searchHeroes Code').toEqual(500);
+        expect(errorResponse.result).withContext('searchHeroes Result').toEqual(
+            REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('searchHeroes')
           );
       });
     });
