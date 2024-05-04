@@ -17,6 +17,7 @@ describe('HeroesService', () => {
     'getHero',
     'createHero',
     'editHero',
+    'deleteHero'
   ];
   const SOME_RANDOM_ID_ARG = 1;
   const HERO = {
@@ -84,12 +85,16 @@ describe('HeroesService', () => {
       mockApiService.editHero.withArgs(HERO).and.returnValue(
         throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
       );
+      mockApiService.deleteHero.withArgs(SOME_RANDOM_ID_ARG).and.returnValue(
+        throwError(() => new Error(RANDOM_ERROR_MESSAGE_FOR_MOCKING))
+      );
     })
     afterEach(() => {
       expect(mockApiService.getHeroes).withContext('getHeroes').toHaveBeenCalled();
       expect(mockApiService.getHero).withContext('getHero').toHaveBeenCalled();
       expect(mockApiService.createHero).withContext('createHero').toHaveBeenCalled();
       expect(mockApiService.editHero).withContext('editHero').toHaveBeenCalled();
+      expect(mockApiService.deleteHero).withContext('editHero').toHaveBeenCalled();
     })
 
     it('should catch and output unexpected errors ocurring in the API mock service', () => {
@@ -105,6 +110,9 @@ describe('HeroesService', () => {
       });
       heroesService.editHero(HERO).subscribe(() => {
         expect(console.error).withContext('editHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
+      });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe(() => {
+        expect(console.error).withContext('deleteHero').toHaveBeenCalledWith(RANDOM_ERROR_FOR_MOCKING);
       });
     });
 
@@ -131,6 +139,12 @@ describe('HeroesService', () => {
         expect(errorResponse.code).withContext('editHero Code').toEqual(500);
         expect(errorResponse.result).withContext('editHeroe Result').toEqual(
             REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('editHero')
+          );
+      });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((errorResponse) => {
+        expect(errorResponse.code).withContext('deleteHero Code').toEqual(500);
+        expect(errorResponse.result).withContext('deleteHero Result').toEqual(
+            REAL_COMMON_SERVICE_ERROR_MESSAGE_FOR_API_FAIL('deleteHero')
           );
       });
     });
