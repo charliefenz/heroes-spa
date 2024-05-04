@@ -38,6 +38,10 @@ describe('HeroesService', () => {
     code: 500,
     result: `No se ha podido crear el Héroe por un error al intentar asignar una ID única`,
   };
+  const MOCK_FAIL_RESPONSE_SEARCH_HEROES = {
+    code: 200,
+    result: []
+  };
   const MOCK_RESPONSE_OK_GET_HEROES = {
     code: 200,
     result: [HERO]
@@ -187,7 +191,7 @@ describe('HeroesService', () => {
       mockApiService.fetchHeroesByName
         .withArgs(SOME_RANDOM_KEYWORD)
         .and.returnValue(of(MOCK_RESPONSE_OK_GET_HEROES));
-      })
+    })
 
     it('should return an observable with the expected output for each method', () => {
       heroesService.getHeroes().subscribe((okResponse) => {
@@ -231,6 +235,9 @@ describe('HeroesService', () => {
       mockApiService.deleteHero
         .withArgs(SOME_RANDOM_ID_ARG)
         .and.returnValue(of(MOCK_FAIL_RESPONSE_GET_HERO));
+      mockApiService.fetchHeroesByName
+        .withArgs(SOME_RANDOM_KEYWORD)
+        .and.returnValue(of(MOCK_FAIL_RESPONSE_SEARCH_HEROES));
     })
 
     it('should return an observable with the correct error message for each method when the mock API return handled errors', () => {
@@ -249,6 +256,10 @@ describe('HeroesService', () => {
       heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((failResponse) => {
         expect(failResponse.code).withContext('deleteHero Code').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.code);
         expect(failResponse.result).withContext('deleteHero Result').toEqual(MOCK_FAIL_RESPONSE_GET_HERO.result);
+      });
+      heroesService.searchHeroes(SOME_RANDOM_KEYWORD).subscribe((failResponse) => {
+        expect(failResponse.code).withContext('searchHeroes Code').toEqual(MOCK_FAIL_RESPONSE_SEARCH_HEROES.code);
+        expect(failResponse.result).withContext('searchHeroes Result').toEqual(MOCK_FAIL_RESPONSE_SEARCH_HEROES.result);
       });
     })
   })
