@@ -48,6 +48,10 @@ describe('HeroesService', () => {
     code: 200,
     result: 'someCode'
   }
+  const MOCK_RESPONSE_OK_DELETE_HERO = {
+    code: 200,
+    result: `Se ha eliminado el héroe con el id ${SOME_RANDOM_ID_ARG}`
+  }
 
   beforeEach(() => {
     const MOCK_API_SPY = jasmine.createSpyObj(
@@ -162,6 +166,9 @@ describe('HeroesService', () => {
       mockApiService.editHero
         .withArgs(HERO)
         .and.returnValue(of(MOCK_RESPONSE_OK_GET_HERO));
+      mockApiService.deleteHero
+        .withArgs(SOME_RANDOM_ID_ARG)
+        .and.returnValue(of(MOCK_RESPONSE_OK_DELETE_HERO));
     })
 
     it('should return an observable with the expected output for each method', () => {
@@ -182,6 +189,10 @@ describe('HeroesService', () => {
       heroesService.editHero(HERO).subscribe((okResponse) => {
         expect(okResponse.code).withContext('editHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
         expect(okResponse.result).withContext('editHero Result').toEqual(MOCK_RESPONSE_OK_GET_HERO.result);
+      });
+      heroesService.deletehero(SOME_RANDOM_ID_ARG).subscribe((okResponse) => {
+        expect(okResponse.code).withContext('deleteHero Code').toEqual(MOCK_RESPONSE_OK_GET_HERO.code);
+        expect(okResponse.result).withContext('deleteHero Result').toEqual(MOCK_RESPONSE_OK_DELETE_HERO.result);
       });
     })
   })
