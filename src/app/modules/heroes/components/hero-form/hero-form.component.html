@@ -48,7 +48,7 @@
   <div class="actions">
     <div class="buttons">
       <button (click)="navigateTo('../')">Volver a listado</button>
-      <button>Editar</button>
+      <button *ngIf="hero">Editar</button>
       <button type="submit" [disabled]="heroForm.invalid">Guardar</button>
       <button>Cancelar</button>
     </div>
