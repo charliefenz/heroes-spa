@@ -23,6 +23,12 @@ export class HeroFormComponent {
     });
   }
 
+  onSubmit() {
+    if (this.heroForm.valid) {
+      console.log(this.heroForm.value);
+    }
+  }
+
   navigateTo(route: string) {
     this.router.navigate([route], {relativeTo: this.route})
   }
