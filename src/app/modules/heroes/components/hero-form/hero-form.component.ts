@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Hero } from '../../../../models/hero';
 
 @Component({
   selector: 'app-hero-form',
@@ -8,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './hero-form.component.css'
 })
 export class HeroFormComponent {
+  @Input() hero: Hero | undefined; 
   heroForm: FormGroup;
   addingNewSuperpower = false;
   superpowerAlreadyExists = false;
