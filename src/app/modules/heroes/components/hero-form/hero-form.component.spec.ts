@@ -1,3 +1,5 @@
+//TODO unit tests not working. Fix
+
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HeroesFilterContainerComponent } from '../heroes-filter-container/heroes-filter-container.component';
 import { CommonModule } from '@angular/common';
