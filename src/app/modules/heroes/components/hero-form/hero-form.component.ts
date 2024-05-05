@@ -61,5 +61,9 @@ export class HeroFormComponent {
       this.superpowerAlreadyExists = true;
     }
   }
+
+  cleanInputs() {
+    this.heroForm.reset();
+  }
   
 }
