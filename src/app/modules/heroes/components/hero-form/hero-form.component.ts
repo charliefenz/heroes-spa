@@ -16,7 +16,7 @@ export class HeroFormComponent {
       heroName: ['', Validators.required],
       heroStatus: ['Active', Validators.required],
       heroAge: [null, [Validators.required, Validators.min(1)]],
-      heroSuperpowerList: ['', Validators.required]
+      heroSuperpowerList: ['']
     });
   }
 
