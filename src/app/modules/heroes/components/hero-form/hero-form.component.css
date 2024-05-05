@@ -47,6 +47,9 @@
   justify-content: center;
   align-items: center;
 }
+.error-message {
+  color: red;
+}
 
 @media (min-width: 375px) {
   .hero-form {
