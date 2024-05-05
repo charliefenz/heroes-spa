@@ -18,7 +18,7 @@ export class HeroFormComponent {
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
-      heroStatus: ['Active', Validators.required],
+      heroStatus: [true, Validators.required],
       heroAge: [null, [Validators.required, Validators.min(1)]],
       heroSuperpowerList: [[]],
       newSuperpower: ['']

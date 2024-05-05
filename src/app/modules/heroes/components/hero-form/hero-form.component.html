@@ -14,8 +14,8 @@
       <div class="hero-status">
         <label>Hero Status:</label>
         <select formControlName="heroStatus">
-          <option value="Active">Active</option>
-          <option value="Not Active">Not Active</option>
+          <option value="true">Active</option>
+          <option value="false">Not Active</option>
         </select>
         <div *ngIf="this.heroForm.get('heroStatus')?.dirty && heroForm.controls['heroStatus'].errors?.['required']">Hero Status is required.</div>
       </div>
