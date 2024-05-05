@@ -9,6 +9,7 @@ import { HeroesItemComponent } from './components/heroes-item/heroes-item.compon
 import { HeroesListComponent } from './components/heroes-list/heroes-list.component';
 import { RouterModule } from '@angular/router';
 import { MockApiService } from '../../mock-API/mock-api.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -28,6 +29,7 @@ import { MockApiService } from '../../mock-API/mock-api.service';
       {path: '', component: HeroesFilterContainerComponent},
       {path: 'new-hero', component: HeroFormComponent}
     ]),
+    ReactiveFormsModule
   ],
   providers: [
     MockApiService
