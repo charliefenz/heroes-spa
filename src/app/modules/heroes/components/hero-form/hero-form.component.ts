@@ -14,6 +14,7 @@ export class HeroFormComponent {
   heroForm: FormGroup;
   addingNewSuperpower = false;
   superpowerAlreadyExists = false;
+  activateSpinner = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {
     this.heroForm = this.formBuilder.group({
@@ -30,9 +31,11 @@ export class HeroFormComponent {
     let hero: Hero;
 
     if (this.heroForm.valid) {
+      this.activateSpinner = true;
       hero = this.setHeroObject();
       this.heroesService.createHero(hero).subscribe((response) => {
-        console.log(response)
+        console.log(response);
+        this.activateSpinner = false;
       });
     }
   }

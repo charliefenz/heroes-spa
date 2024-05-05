@@ -52,5 +52,9 @@
       <button type="submit" [disabled]="heroForm.invalid">Guardar</button>
       <button [disabled]="heroForm.pristine" (click)="cleanInputs()">Cancelar</button>
     </div>
+    <div *ngIf="activateSpinner">
+      this is a spinner loading
+      <!-- TODO implement loader -->
+    </div>
   </div>
 </form>
