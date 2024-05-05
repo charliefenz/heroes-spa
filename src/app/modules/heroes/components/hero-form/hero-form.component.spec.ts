@@ -114,16 +114,16 @@ describe('HeroFormComponent', () => {
     it('should send the input values when save button is clicked', fakeAsync(() => {
     }));
 
-    it('it should provide with a confirmation notification if saving was a succces', fakeAsync(() => {
+    it('should provide with a confirmation notification if saving was a succces', fakeAsync(() => {
     }));
 
-    it('it should provide with a error notification if saving was not a succces', fakeAsync(() => {
+    it('should provide with a error notification if saving was not a succces', fakeAsync(() => {
     }));
 
-    it('it should remain in the view when saving was a success and the operation performed was an edit', fakeAsync(() => {
+    it('should remain in the view when saving was a success and the operation performed was an edit', fakeAsync(() => {
     }));
 
-    it('it should redirect to "heroes" route when saving was a success and the operation performed was the creation of a new hero', fakeAsync(() => {
+    it('should redirect to "heroes" route when saving was a success and the operation performed was the creation of a new hero', fakeAsync(() => {
     }));
 
     it('should display an error message next to each input if the format is empty or incorrect', fakeAsync(() => {
