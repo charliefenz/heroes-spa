@@ -34,10 +34,14 @@ export class HeroFormComponent {
       this.activateSpinner = true;
       hero = this.setHeroObject();
       this.heroesService.createHero(hero).subscribe((response) => {
-        console.log(response);
-        this.activateSpinner = false;
-        // TODO Insert success notification when developed
-        this.navigateTo('../')
+        if (response.code === 200) {
+          this.activateSpinner = false;
+          // TODO Insert success notification when developed
+          this.navigateTo('../')
+        } else {
+          console.log(response);
+          // TODO Insert error notification when developed
+        }
       });
     }
   }
