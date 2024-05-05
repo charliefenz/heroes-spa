@@ -36,6 +36,8 @@ export class HeroFormComponent {
       this.heroesService.createHero(hero).subscribe((response) => {
         console.log(response);
         this.activateSpinner = false;
+        // TODO Insert success notification when developed
+        this.navigateTo('../')
       });
     }
   }
