@@ -26,6 +26,8 @@ export class HeroFormComponent {
   navigateTo(route: string) {
     this.router.navigate([route], {relativeTo: this.route})
   }
+
+  // FEAT Extract to a component and add edit and cancel features
   toggleAddNewSuperpower() {
     this.addingNewSuperpower = !this.addingNewSuperpower;
     if (!this.addingNewSuperpower) {
