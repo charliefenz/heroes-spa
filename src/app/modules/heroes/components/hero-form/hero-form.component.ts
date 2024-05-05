@@ -2,6 +2,7 @@ import { Component, Input, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
+import { HeroesService } from '../../services/heroes.service';
 
 @Component({
   selector: 'app-hero-form',
@@ -14,7 +15,7 @@ export class HeroFormComponent {
   addingNewSuperpower = false;
   superpowerAlreadyExists = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
@@ -26,9 +27,26 @@ export class HeroFormComponent {
   }
 
   onSubmit() {
+    let hero: Hero;
+
     if (this.heroForm.valid) {
-      console.log(this.heroForm.value);
+      hero = this.setHeroObject();
+      this.heroesService.createHero(hero).subscribe((response) => {
+        console.log(response)
+      });
     }
+  }
+
+  setHeroObject(): Hero {
+    const HERO: Hero = {
+      id: -1, // The service requires the full model despite is the one to assign the id,
+      name: this.heroForm.get('heroName')?.value,
+      age: this.heroForm.get('heroAge')?.value,
+      isActive: this.heroForm.get('heroStatus')?.value,
+      image: this.heroForm.get('heroImage')?.value,
+      superpowers: this.heroForm.get('heroSuperpowerList')?.value,
+    }
+    return HERO
   }
 
   navigateTo(route: string) {
