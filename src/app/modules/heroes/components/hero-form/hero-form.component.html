@@ -1,27 +1,45 @@
-<form action="" class="hero-form">
+<form [formGroup]="heroForm" (ngSubmit)="onSubmit()" class="hero-form">
   <div class="box1">
-    <div class="image">hero.img<img src="" alt=""></div>
+    <label>Hero Image:</label>
+    <input type="text" formControlName="heroImage">
+    <div *ngIf="heroForm.controls['heroImage'].errors?.['required']">Hero Image is required.</div>
   </div>
   <div class="box2">
-    <div class="hero-name">hero.name</div>
+    <div class="hero-name">
+      <label>Hero Name:</label>
+      <input type="text" formControlName="heroName">
+      <div *ngIf="heroForm.controls['heroName'].errors?.['required']">Hero Name is required.</div>
+    </div>
     <div class="hero-side-info">
-      <div class="hero-status">status: hero.status
+      <div class="hero-status">
+        <label>Hero Status:</label>
+        <select formControlName="heroStatus">
+          <option value="Active">Active</option>
+          <option value="Not Active">Not Active</option>
+        </select>
+        <div *ngIf="heroForm.controls['heroStatus'].errors?.['required']">Hero Status is required.</div>
       </div>
       <div class="hero-age">
-        age: hero.age
+        <label>Hero Age:</label>
+        <input type="number" formControlName="heroAge">
+        <div *ngIf="heroForm.controls['heroAge'].errors?.['required']">Hero Age is required.</div>
+        <div *ngIf="heroForm.controls['heroAge'].errors?.['min']">Hero Age must be a positive number.</div>
       </div>
     </div>
+
   </div>
   <div class="box3">
     <div class="superpowers">
-      hero.superpowers
+      <label>Hero Superpower List:</label>
+      <textarea formControlName="heroSuperpowerList"></textarea>
+      <div *ngIf="heroForm.controls['heroSuperpowerList'].errors?.['required']">Hero Superpower List is required.</div>
     </div>
   </div>
   <div class="actions">
     <div class="buttons">
       <button (click)="navigateTo('../')">Volver a listado</button>
       <button>Editar</button>
-      <button>Guardar</button>
+      <button type="submit" [disabled]="heroForm.invalid">Guardar</button>
       <button>Cancelar</button>
     </div>
   </div>
