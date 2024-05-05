@@ -50,7 +50,7 @@
       <button (click)="navigateTo('../')">Volver a listado</button>
       <button *ngIf="hero">Editar</button>
       <button type="submit" [disabled]="heroForm.invalid">Guardar</button>
-      <button>Cancelar</button>
+      <button [disabled]="heroForm.pristine">Cancelar</button>
     </div>
   </div>
 </form>
