@@ -68,7 +68,10 @@ describe('HeroFormComponent', () => {
     it('should disable save button and cancel button upon loading', fakeAsync(() => {
     }));
 
-    it('should enable save button and cancel button when the form detects interaction', fakeAsync(() => {
+    it('should enable save button only when the form is valid', fakeAsync(() => {
+    }));
+
+    it('should enable cancel button when the form detects interaction', fakeAsync(() => {
     }));
 
     it('should clear all inputs when cancel button is clicked', fakeAsync(() => {
