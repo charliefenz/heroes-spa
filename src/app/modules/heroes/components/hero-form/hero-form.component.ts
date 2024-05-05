@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class HeroFormComponent {
   heroForm: FormGroup;
+  addingNewSuperpower = false;
+  superpowerAlreadyExists = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.heroForm = this.formBuilder.group({
@@ -17,10 +19,37 @@ export class HeroFormComponent {
       heroStatus: ['Active', Validators.required],
       heroAge: [null, [Validators.required, Validators.min(1)]],
       heroSuperpowerList: [[]],
+      newSuperpower: ['']
     });
   }
 
   navigateTo(route: string) {
     this.router.navigate([route], {relativeTo: this.route})
   }
+  toggleAddNewSuperpower() {
+    this.addingNewSuperpower = !this.addingNewSuperpower;
+    if (!this.addingNewSuperpower) {
+      this.heroForm.get('newSuperpower')?.setValue('');
+    }
+  }
+
+  cancelAddNewSuperpower() {
+    this.toggleAddNewSuperpower();
+  }
+
+  addNewSuperpower() {
+    let newSuperpower: string;
+    
+    newSuperpower = this.heroForm.get('newSuperpower')?.value;
+    newSuperpower.trim();
+    if (!this.heroForm.value.heroSuperpowerList.includes(newSuperpower)) {
+      this.superpowerAlreadyExists = false;
+      this.heroForm.value.heroSuperpowerList.push(newSuperpower);
+      this.heroForm.get('newSuperpower')?.setValue('');
+      this.toggleAddNewSuperpower();
+    } else {
+      this.superpowerAlreadyExists = true;
+    }
+  }
+  
 }

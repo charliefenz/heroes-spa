@@ -31,7 +31,18 @@
   <div class="box3">
     <div class="superpowers">
       <label>Hero Superpower List:</label>
-      <textarea formControlName="heroSuperpowerList"></textarea>
+      <div *ngFor="let superpower of heroForm.get('heroSuperpowerList')?.value">
+        <div>{{superpower}}</div>
+      </div>
+      <div *ngIf="!addingNewSuperpower">
+        <button type="button" (click)="toggleAddNewSuperpower()">Add</button>
+      </div>
+      <div *ngIf="addingNewSuperpower">
+        <input type="text" formControlName="newSuperpower">
+        <button type="button" (click)="addNewSuperpower()">Save</button>
+        <button type="button" (click)="cancelAddNewSuperpower()">Cancel</button>
+        <div *ngIf="superpowerAlreadyExists" class="error-message">Superpower already exists</div>
+      </div>
     </div>
   </div>
   <div class="actions">
