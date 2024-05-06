@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './heroes-actions.component.css'
 })
 export class HeroesActionsComponent {
-  @Input() hero: Hero | undefined;
+  @Input() heroId: number | undefined;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
