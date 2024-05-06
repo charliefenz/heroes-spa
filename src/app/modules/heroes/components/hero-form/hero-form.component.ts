@@ -110,5 +110,10 @@ export class HeroFormComponent implements OnChanges{
   cleanInputs() {
     this.heroForm.reset();
   }
+
+  edit() {
+    this.heroForm.enable();
+    this.editBehavior = true;
+  }
   
 }
