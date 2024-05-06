@@ -49,8 +49,8 @@
     <div class="buttons">
       <button (click)="navigateTo('../')">Volver a listado</button>
       <button *ngIf="hero && !editBehavior" (click)="edit()">Editar</button>
-      <button *ngIf="editBehavior" type="submit" [disabled]="heroForm.invalid">Guardar</button>
-      <button *ngIf="editBehavior" [disabled]="heroForm.pristine && !editBehavior" (click)="cleanInputs()">Cancelar</button>
+      <button *ngIf="editBehavior || !hero" type="submit" [disabled]="heroForm.invalid">Guardar</button>
+      <button *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior" (click)="cleanInputs()">Cancelar</button>
     </div>
     <div *ngIf="activateSpinner">
       this is a spinner loading
