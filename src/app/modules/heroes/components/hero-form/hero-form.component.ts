@@ -13,6 +13,7 @@ export class HeroFormComponent implements OnChanges{
   @Input() hero: Hero | undefined; 
   heroForm: FormGroup;
   addingNewSuperpower = false;
+  editBehavior = true;
   superpowerAlreadyExists = false;
   activateSpinner = false;
 
@@ -28,6 +29,7 @@ export class HeroFormComponent implements OnChanges{
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['hero'] && changes['hero'].currentValue && this.hero) {
+      this.editBehavior = false;
       this.supplyFormValuesWithHeroDetails();
       this.heroForm.disable();
     }
