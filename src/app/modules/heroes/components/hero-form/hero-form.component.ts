@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
@@ -9,7 +9,7 @@ import { HeroesService } from '../../services/heroes.service';
   templateUrl: './hero-form.component.html',
   styleUrl: './hero-form.component.css'
 })
-export class HeroFormComponent {
+export class HeroFormComponent implements OnChanges{
   @Input() hero: Hero | undefined; 
   heroForm: FormGroup;
   addingNewSuperpower = false;
@@ -25,6 +25,22 @@ export class HeroFormComponent {
       heroSuperpowerList: [[]],
       newSuperpower: ['']
     });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['hero'] && changes['hero'].currentValue && this.hero) {
+      this.supplyFormValuesWithHeroDetails();
+      this.heroForm.disable();
+    }
+  }
+
+  supplyFormValuesWithHeroDetails(): void {
+    this.heroForm.patchValue({
+      heroImage: this.hero?.image,
+      heroName: this.hero?.name,
+      heroStatus: this.hero?.isActive,
+      heroAge: this.hero?.age,
+      heroSuperpowerList: this.hero?.superpowers,
+    })
   }
 
   onSubmit() {
