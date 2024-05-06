@@ -56,6 +56,7 @@ export class HeroFormComponent implements OnChanges{
       hero = this.setHeroObject(this.editBehavior);
       if (this.editBehavior) {
         this.heroesService.editHero(hero).subscribe((response) => {
+          this.activateSpinner = false;
           if (response.code === 200) {
             this.heroForm.disable();
             this.editBehavior = false;
@@ -68,8 +69,8 @@ export class HeroFormComponent implements OnChanges{
         })
       } else {
         this.heroesService.createHero(hero).subscribe((response) => {
+          this.activateSpinner = false;
           if (response.code === 200) {
-            this.activateSpinner = false;
             // TODO Insert success notification when developed
             this.navigateTo('../')
           } else {
