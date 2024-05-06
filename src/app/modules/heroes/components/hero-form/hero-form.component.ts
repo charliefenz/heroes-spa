@@ -57,11 +57,13 @@ export class HeroFormComponent implements OnChanges{
       if (this.editBehavior) {
         this.heroesService.editHero(hero).subscribe((response) => {
           if (response.code === 200) {
-            this.activateSpinner = false;
+            this.heroForm.disable();
+            this.editBehavior = false;
             // TODO Insert success notification when developed
           } else {
             console.log(response);
             // TODO Insert error notification when developed
+            this.cancel();
           }
         })
       } else {
