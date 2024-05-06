@@ -111,13 +111,15 @@ export class HeroFormComponent implements OnChanges{
   }
 
   addNewSuperpower() {
+    const SUPER_POWER_ACTIONABLE_LIST = [...this.heroForm.value.heroSuperpowerList];
     let newSuperpower: string;
     
     newSuperpower = this.heroForm.get('newSuperpower')?.value;
     newSuperpower.trim();
-    if (!this.heroForm.value.heroSuperpowerList.includes(newSuperpower)) {
+    if (!SUPER_POWER_ACTIONABLE_LIST.includes(newSuperpower)) {
       this.superpowerAlreadyExists = false;
-      this.heroForm.value.heroSuperpowerList.push(newSuperpower);
+      SUPER_POWER_ACTIONABLE_LIST.push(newSuperpower);
+      this.heroForm.get('heroSuperpowerList')?.setValue(SUPER_POWER_ACTIONABLE_LIST);
       this.heroForm.get('newSuperpower')?.setValue('');
       this.toggleAddNewSuperpower();
     } else {
