@@ -53,23 +53,38 @@ export class HeroFormComponent implements OnChanges{
 
     if (this.heroForm.valid) {
       this.activateSpinner = true;
-      hero = this.setHeroObject();
-      this.heroesService.createHero(hero).subscribe((response) => {
-        if (response.code === 200) {
-          this.activateSpinner = false;
-          // TODO Insert success notification when developed
-          this.navigateTo('../')
-        } else {
-          console.log(response);
-          // TODO Insert error notification when developed
-        }
-      });
+      hero = this.setHeroObject(this.editBehavior);
+      if (this.editBehavior) {
+        this.heroesService.editHero(hero).subscribe((response) => {
+          if (response.code === 200) {
+            this.activateSpinner = false;
+            // TODO Insert success notification when developed
+          } else {
+            console.log(response);
+            // TODO Insert error notification when developed
+          }
+        })
+      } else {
+        this.heroesService.createHero(hero).subscribe((response) => {
+          if (response.code === 200) {
+            this.activateSpinner = false;
+            // TODO Insert success notification when developed
+            this.navigateTo('../')
+          } else {
+            console.log(response);
+            // TODO Insert error notification when developed
+          }
+        })
+      }
     }
   }
 
-  setHeroObject(): Hero {
+  setHeroObject(editBehavior: boolean): Hero {
+    let setId: number;
+    
+    setId = editBehavior && this.hero?.id ? this.hero.id : -1
     const HERO: Hero = {
-      id: -1, // The service requires the full model despite is the one to assign the id,
+      id: setId, // The service requires the full model despite is the one to assign the id,
       name: this.heroForm.get('heroName')?.value,
       age: this.heroForm.get('heroAge')?.value,
       isActive: this.heroForm.get('heroStatus')?.value,
