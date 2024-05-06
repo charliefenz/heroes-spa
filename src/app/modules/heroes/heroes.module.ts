@@ -27,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RouterModule.forChild([
       {path: '', component: HeroesFilterContainerComponent},
-      {path: 'new-hero', component: HeroFormComponent}
+      {path: 'new-hero', component: HeroFormComponent},
+      {path: 'hero/:id', component: HeroContainerComponent}
     ]),
     ReactiveFormsModule
   ],
