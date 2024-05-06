@@ -72,7 +72,7 @@ export class HeroFormComponent implements OnChanges{
           this.activateSpinner = false;
           if (response.code === 200) {
             // TODO Insert success notification when developed
-            this.navigateTo('../')
+            this.navigateBack()
           } else {
             console.log(response);
             // TODO Insert error notification when developed
@@ -97,8 +97,8 @@ export class HeroFormComponent implements OnChanges{
     return HERO
   }
 
-  navigateTo(route: string) {
-    this.router.navigate([route], {relativeTo: this.route})
+  navigateBack() {
+    this.router.navigate(['/heroes'])
   }
 
   // FEAT Extract to a component and add edit and cancel features

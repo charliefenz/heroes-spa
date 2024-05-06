@@ -47,7 +47,7 @@
   </div>
   <div class="actions">
     <div class="buttons">
-      <button (click)="navigateTo('../')">Volver a listado</button>
+      <button (click)="navigateBack()">Volver a listado</button>
       <button *ngIf="hero && !editBehavior" (click)="edit()">Editar</button>
       <button *ngIf="editBehavior || !hero" type="submit" [disabled]="heroForm.invalid">Guardar</button>
       <button *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior" (click)="cancel()">Cancelar</button>
