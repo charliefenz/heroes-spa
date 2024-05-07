@@ -34,7 +34,7 @@
       <div *ngFor="let superpower of heroForm.get('heroSuperpowerList')?.value">
         <div>{{superpower}}</div>
       </div>
-      <div *ngIf="!addingNewSuperpower && editBehavior">
+      <div *ngIf="!addingNewSuperpower && (editBehavior || !hero)">
         <button type="button" (click)="toggleAddNewSuperpower()">Add</button>
       </div>
       <div *ngIf="addingNewSuperpower">
