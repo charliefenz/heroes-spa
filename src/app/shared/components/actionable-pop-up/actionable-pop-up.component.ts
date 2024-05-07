@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-actionable-pop-up',
@@ -8,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './actionable-pop-up.component.css'
 })
 export class ActionablePopUpComponent {
+  @Input() message: string | undefined;
+  @Output() selectionEmitter: EventEmitter<boolean> = new EventEmitter();
 
+  communicateChoice(choice: boolean) {
+    this.selectionEmitter.emit(choice)
+  }
 }
