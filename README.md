@@ -38,7 +38,7 @@ Handles features related to heroes, including filtering, listing, creating, edit
   - **heroes-filter**: Component responsible for filtering heroes based on heroes names.
   - **heroes-list**: Component for listing heroes.
     - **heroes-item**: Component for displaying a single hero within a list of heroes.
-      - **heroes-actions**: Component containing actions such as edit, delete, or view more details for a hero displayed in a list of heroes.
+      - **heroes-actions**: Component containing actions such as delete or view more details for a hero displayed in a list of heroes.
 - **hero-container**: Component container of heroes-form.
   - **hero-form**: Component for creating or editing a hero using a form interface.
 
