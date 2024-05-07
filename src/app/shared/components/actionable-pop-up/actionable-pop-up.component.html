@@ -1,9 +1,11 @@
-<div class="modal-content">
-  <div class="message">
-    {{message}}
-  </div>
-  <div class="actions">
-    <button id="affirm" (click)="communicateChoice(true)">Yes</button>
-    <button id="deny" (click)="communicateChoice(false)">No</button>
+<div class="overlay">
+  <div class="modal-content">
+    <div class="message">
+      {{message}}
+    </div>
+    <div class="actions">
+      <button id="affirm" (click)="communicateChoice(true)">Yes</button>
+      <button id="deny" (click)="communicateChoice(false)">No</button>
+    </div>
   </div>
 </div>
