@@ -123,6 +123,9 @@ describe('HeroFormComponent', () => {
     it('should remain in the view when saving was a success and the operation performed was an edit', fakeAsync(() => {
     }));
 
+    it('should emit the name of the hero to the parent component route when saving was a success and the operation performed was an edit', fakeAsync(() => {
+    }));
+
     it('should redirect to "heroes" route when saving was a success and the operation performed was the creation of a new hero', fakeAsync(() => {
     }));
 
