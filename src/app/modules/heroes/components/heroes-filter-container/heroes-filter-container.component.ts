@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-heroes-filter-container',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './heroes-filter-container.component.css'
 })
 export class HeroesFilterContainerComponent {
+
+  constructor(private router: Router, private route: ActivatedRoute) { }
+  
+  navigateTo(route: string) {
+    this.router.navigate([route], {relativeTo: this.route});
+  }
 
 }

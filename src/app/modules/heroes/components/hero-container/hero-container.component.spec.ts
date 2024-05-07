@@ -20,4 +20,8 @@ describe('HeroContainerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display hero title upon loading', () => {})
+
+  it('should display updated hero title when changed loading', () => {})
 });
