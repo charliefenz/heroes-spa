@@ -18,17 +18,15 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 - **/heroes/new-hero**: Hero landing for creating a new hero
 - **/heroes/hero/${id}**: Hero landing
 
-## Modules
+## Shared Components
 
-### Common Module
-
-Contains shared components that can be used throughout the app, such as loaders, pop ups and notifications.
-
-#### Components
+Taking advantage of V17 feature of standaole componentes this repository will contain shared components that can be used throughout the app, such as loaders, pop ups and notifications.
 
 - **confirmation-pop-up**: Component for displaying an accept/decline pop up.
 - **loader**: Component for displaying a loading spinner or indicator.
 - **nba**: Component for notifications to users.
+
+## Modules
 
 ### Heroes Module
 
@@ -59,6 +57,11 @@ This service provides functionality to mimic CRUD operations on hero data, allow
 ```
 src/
 ├── app/
+|   ├── shared/
+|   │   ├── components/
+|   │   │   ├── confirmation-pop-up/
+|   │   │   ├── loader/
+|   │   │   └── nba/
 |   ├── modules/
 |   │   ├── heroes/
 |   │   │   ├── components/
@@ -73,12 +76,6 @@ src/
 |   │   │   ├── services/
 |   │   │   │   └── heroes.service.ts
 |   │   │   ├── heroes.module.ts
-|   │   ├── common/
-|   │   │   ├── components/
-|   │   │   │   ├── confirmation-pop-up/
-|   │   │   │   ├── loader/
-|   │   │   │   └── nba/
-|   │   │   └── common.module.ts
 |   ├── assets/
 |   │   ├── images/
 |   │   ├── icons/
