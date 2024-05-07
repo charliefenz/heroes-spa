@@ -34,7 +34,7 @@
       <div *ngFor="let superpower of heroForm.get('heroSuperpowerList')?.value">
         <div>{{superpower}}</div>
       </div>
-      <div *ngIf="!addingNewSuperpower">
+      <div *ngIf="!addingNewSuperpower && (editBehavior || !hero)">
         <button type="button" (click)="toggleAddNewSuperpower()">Add</button>
       </div>
       <div *ngIf="addingNewSuperpower">
@@ -47,10 +47,10 @@
   </div>
   <div class="actions">
     <div class="buttons">
-      <button (click)="navigateTo('../')">Volver a listado</button>
-      <button *ngIf="hero">Editar</button>
-      <button type="submit" [disabled]="heroForm.invalid">Guardar</button>
-      <button [disabled]="heroForm.pristine" (click)="cleanInputs()">Cancelar</button>
+      <button (click)="navigateBack()">Volver a listado</button>
+      <button *ngIf="hero && !editBehavior" (click)="edit()">Editar</button>
+      <button *ngIf="editBehavior || !hero" type="submit" [disabled]="heroForm.invalid">Guardar</button>
+      <button *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior" (click)="cancel()">Cancelar</button>
     </div>
     <div *ngIf="activateSpinner">
       this is a spinner loading

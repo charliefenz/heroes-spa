@@ -2,7 +2,7 @@
   <div *ngIf="heroeCallReceived">
     <div *ngFor="let hero of heroes">
       <!-- TODO implement child binding -->
-      <app-heroes-item></app-heroes-item>
+      <app-heroes-item [hero]="hero"></app-heroes-item>
     </div>
     <div *ngIf="errorCaptured">
       <!-- TODO implement Error NBA -->

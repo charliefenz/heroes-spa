@@ -18,6 +18,9 @@
   grid-area: 1 / 1 / 3 / 2;
   background-color: red;
 }
+.hero-img img {
+  width: 100%;
+}
 .hero-name {
   grid-area: 1 / 2 / 2 / 3;
   background-color: green;
