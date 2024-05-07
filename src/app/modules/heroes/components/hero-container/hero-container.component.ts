@@ -12,6 +12,7 @@ import { Hero } from '../../../../models/hero';
 export class HeroContainerComponent implements OnInit{
   loadingSpinner = true;
   hero: Hero | undefined;
+  nameToShow = "";
 
   constructor(private route: ActivatedRoute, private heroesService: HeroesService) {
     
@@ -28,9 +29,14 @@ export class HeroContainerComponent implements OnInit{
       this.loadingSpinner = false;
       if (response.code === 200) {
         this.hero = response.result as Hero
+        this.nameToShow = this.hero.name;
       } else {
         // TODO Implement error message
       }
     })
+  }
+
+  handleNameFromForm(nameChanged: string) {
+    this.nameToShow = nameChanged;
   }
 }

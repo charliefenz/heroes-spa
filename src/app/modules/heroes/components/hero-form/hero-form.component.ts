@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
@@ -10,7 +10,8 @@ import { HeroesService } from '../../services/heroes.service';
   styleUrl: './hero-form.component.css'
 })
 export class HeroFormComponent implements OnChanges{
-  @Input() hero: Hero | undefined; 
+  @Input() hero: Hero | undefined;
+  @Output() nameEmitter: EventEmitter<string> = new EventEmitter();
   heroForm: FormGroup;
   addingNewSuperpower = false;
   editBehavior = false;
@@ -58,6 +59,7 @@ export class HeroFormComponent implements OnChanges{
         this.heroesService.editHero(hero).subscribe((response) => {
           this.activateSpinner = false;
           if (response.code === 200) {
+            this.emitName(hero.name);
             this.heroForm.disable();
             this.editBehavior = false;
             // TODO Insert success notification when developed
@@ -143,6 +145,10 @@ export class HeroFormComponent implements OnChanges{
   edit() {
     this.heroForm.enable();
     this.editBehavior = true;
+  }
+
+  emitName(heroName : string) {
+    this.nameEmitter.emit(heroName);
   }
   
 }
