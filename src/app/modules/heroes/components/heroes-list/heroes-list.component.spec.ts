@@ -20,4 +20,8 @@ describe('HeroesListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display a list of heroes', () => {});
+
+  it('should display an error message if no heroes can be obtained', () => {});
 });
