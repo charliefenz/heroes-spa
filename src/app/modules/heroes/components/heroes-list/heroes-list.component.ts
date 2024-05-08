@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
 
@@ -7,7 +7,8 @@ import { Hero } from '../../../../models/hero';
   templateUrl: './heroes-list.component.html',
   styleUrl: './heroes-list.component.css'
 })
-export class HeroesListComponent implements OnInit{  
+export class HeroesListComponent implements OnInit{
+  @Input() filterKeyword: string | undefined;
   heroeCallReceived = false;
   errorCaptured = false;
   errorMessage = "";
