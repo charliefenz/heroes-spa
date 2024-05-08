@@ -20,4 +20,7 @@ describe('HeroesItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display hero-img and hero-name provided by heroes-list', () => {})
+  it('should propagate hero-id value to heroes-list when received from heroes-actions', () => {})
 });
