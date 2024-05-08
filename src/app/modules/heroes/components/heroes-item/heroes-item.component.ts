@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Hero } from '../../../../models/hero';
 
 @Component({
@@ -8,5 +8,5 @@ import { Hero } from '../../../../models/hero';
 })
 export class HeroesItemComponent {
   @Input() hero: Hero | undefined;
-
+  @Output() propagateDeletion: EventEmitter<number> = new EventEmitter();
 }
