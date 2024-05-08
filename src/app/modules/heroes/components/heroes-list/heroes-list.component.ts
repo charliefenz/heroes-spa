@@ -32,4 +32,22 @@ export class HeroesListComponent implements OnInit{
       this.heroeCallReceived = true;
     })
   }
+
+  deleteHero(heroId: number | undefined) {
+    this.heroeCallReceived = false;
+    if (heroId) {
+      this.heroesService.deletehero((heroId)).subscribe((response) => {
+        if (response.code === 200) {
+          console.log(response.result)
+        } else {
+          //TODO develop error notification
+        }
+      }) 
+    }
+  }
+
+  handleDeletionIntent(heroToDelete: number) {
+    this.deleteHero(heroToDelete);
+    this.handleGetHeroes();
+  }
 }
