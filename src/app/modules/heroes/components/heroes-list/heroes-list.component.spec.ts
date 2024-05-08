@@ -21,7 +21,12 @@ describe('HeroesListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display a list of heroes', () => {});
+  it('should display a list of heroes on loading', () => {});
+
+  it('should show an spinner when waiting for heroes service responses', () => {});
 
   it('should display an error message if no heroes can be obtained', () => {});
+
+  it('should delete a hero when receiving an emitted value from hero-item', () => {});
+
 });
