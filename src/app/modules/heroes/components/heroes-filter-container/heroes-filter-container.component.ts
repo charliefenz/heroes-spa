@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './heroes-filter-container.component.css'
 })
 export class HeroesFilterContainerComponent {
+  filterKeyword: string | undefined;
 
   constructor(private router: Router, private route: ActivatedRoute) { }
   
