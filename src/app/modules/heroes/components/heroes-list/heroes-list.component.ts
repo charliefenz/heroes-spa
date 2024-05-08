@@ -33,4 +33,19 @@ export class HeroesListComponent implements OnInit{
       this.heroeCallReceived = true;
     })
   }
+
+  filterHeroes(heroesKeyword: string) {
+    this.heroeCallReceived = false;
+    if (heroesKeyword) {
+      this.heroesService.searchHeroes(heroesKeyword).subscribe((response) => {
+        if (response.code === 200) {
+          console.log(response.result as Hero[])
+          this.heroes = response.result as Hero[]
+        } else {
+          //TODO develop error notification
+        }
+        this.heroeCallReceived = true;
+      })
+    }
+  }
 }
