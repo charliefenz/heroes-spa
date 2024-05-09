@@ -20,4 +20,7 @@ describe('LoaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display a spinner with overlay appereance if input setFullViewSpinner is truthy', () => {});
+  it('should display a spinner with no overlay appereance if input setFullViewSpinner is falsy', () => {});
 });
