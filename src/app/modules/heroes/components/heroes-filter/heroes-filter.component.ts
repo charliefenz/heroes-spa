@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -7,9 +7,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './heroes-filter.component.html',
   styleUrl: './heroes-filter.component.css'
 })
-export class HeroesFilterComponent {
+export class HeroesFilterComponent implements OnChanges{
   filterControl = new FormControl('');
   @Output() filterHeroes: EventEmitter<string> = new EventEmitter();
+  @Input() cleanInputValue = false;
 
   constructor() {
     this.filterControl.valueChanges.pipe(
@@ -22,5 +23,11 @@ export class HeroesFilterComponent {
         this.filterHeroes.emit(value.trim());
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['cleanInputValue'] && changes['cleanInputValue'].currentValue === true) {
+      this.filterControl.patchValue('');
+    }
   }
 }
