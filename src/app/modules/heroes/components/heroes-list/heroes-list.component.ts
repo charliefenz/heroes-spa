@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
+import { concatMap, map } from 'rxjs';
+import { Response } from '../../../../models/response';
 
 @Component({
   selector: 'app-heroes-list',
@@ -10,7 +12,7 @@ import { Hero } from '../../../../models/hero';
 export class HeroesListComponent implements OnInit, OnChanges{
   @Input() filterKeyword: string | undefined;
   @Output() resetFilterDueToHeroDeletion: EventEmitter<boolean> = new EventEmitter();
-  heroeCallReceived = false;
+  showLoadingSpinner = false;
   errorCaptured = false;
   errorMessage = "";
   heroes: Hero[] = [];
@@ -18,66 +20,51 @@ export class HeroesListComponent implements OnInit, OnChanges{
   constructor(private heroesService: HeroesService) {}
 
   ngOnInit(): void {
-    this.handleGetHeroes();
+    this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filterKeyword'] && (changes['filterKeyword'].currentValue || changes['filterKeyword'].currentValue === '')) {
+    if (changes['filterKeyword'].currentValue !== undefined && changes['filterKeyword'].currentValue !== changes['filterKeyword'].previousValue) {
       if (this.filterKeyword && this.filterKeyword !== "") {
         this.filterHeroes(this.filterKeyword);
       } else {
-        this.heroeCallReceived = false;
-        this.handleGetHeroes();
+        this.showLoadingSpinner = false;
+        this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
       }
     }
   }
 
-  handleGetHeroes() {
-    this.heroesService.getHeroes().subscribe((getHeroesResponse) => {
-      this.heroeCallReceived = false;
-      if (getHeroesResponse.code === 200) {
-        this.heroes = getHeroesResponse.result as Hero[];
-        this.errorCaptured = false;
-      } else {
-        this.errorCaptured = true;
-        this.errorMessage = getHeroesResponse.result as string;
-      }
-      this.heroeCallReceived = true;
-    })
+  handleHeroesResponse(response: Response) {
+    if (response.code === 200) {
+      this.heroes = response.result as Hero[];
+      this.errorCaptured = false;
+    } else {
+      this.errorCaptured = true;
+      this.errorMessage = response.result as string;
+    }
+    this.showLoadingSpinner = true;
   }
 
   filterHeroes(heroesKeyword: string) {
-    this.heroeCallReceived = false;
+    this.showLoadingSpinner = false;
     if (heroesKeyword) {
-      this.heroesService.searchHeroes(heroesKeyword).subscribe((response) => {
-        if (response.code === 200) {
-          console.log(response.result as Hero[])
-          this.heroes = response.result as Hero[]
-        } else {
-          //TODO develop error notification
-        }
-        this.heroeCallReceived = true;
-      })
+      this.heroesService.searchHeroes(heroesKeyword).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
   }
 
   deleteHero(heroId: number | undefined) {
-    this.heroeCallReceived = false;
+    this.showLoadingSpinner = false;
     this.resetFilterDueToHeroDeletion.emit(true);
     if (heroId) {
-      this.heroesService.deletehero((heroId)).subscribe((response) => {
-        if (response.code === 200) {
-          console.log(response.result)
-        } else {
-          //TODO develop error notification
-        }
-        this.resetFilterDueToHeroDeletion.emit(false);
-      }) 
+      this.heroesService.deletehero((heroId)).pipe(
+        map(deleteResponse => {
+          if (deleteResponse.code !== 200) {
+            //TODO develop error notification
+          }
+          this.resetFilterDueToHeroDeletion.emit(false);
+        }),
+        concatMap(() => this.heroesService.getHeroes())
+      ).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
-  }
-
-  handleDeletionIntent(heroToDelete: number) {
-    this.deleteHero(heroToDelete);
-    this.handleGetHeroes();
   }
 }
