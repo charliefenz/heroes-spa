@@ -10,6 +10,7 @@ import { HeroesListComponent } from './components/heroes-list/heroes-list.compon
 import { RouterModule } from '@angular/router';
 import { MockApiService } from '../../mock-API/mock-api.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActionablePopUpComponent } from '../../shared/components/actionable-pop-up/actionable-pop-up.component';
 
 
 
@@ -30,7 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
       {path: 'new-hero', component: HeroFormComponent},
       {path: 'hero/:id', component: HeroContainerComponent}
     ]),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ActionablePopUpComponent
   ],
   providers: [
     MockApiService
