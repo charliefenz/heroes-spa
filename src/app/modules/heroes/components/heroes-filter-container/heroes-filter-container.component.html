@@ -1,12 +1,12 @@
 <div class="hero-filter-main-title">Lorem Ipsum</div>
 <div class="container">
   <div class="filter-and-actions">
-    <app-heroes-filter></app-heroes-filter>
+    <app-heroes-filter (filterHeroes)="filterKeyword = $event" [cleanInputValue]="resetFilterValue"></app-heroes-filter>
     <div class="button-container">
       <button id="create-hero-button" (click)="navigateTo('new-hero')">Crear Héroe</button>
     </div>
   </div>
   <div class="filter-list">
-    <app-heroes-list></app-heroes-list>
+    <app-heroes-list [filterKeyword]="filterKeyword" (resetFilterDueToHeroDeletion)="informFilterToResetValue($event)"></app-heroes-list>
   </div>
 </div>

@@ -47,5 +47,8 @@ describe('HeroesFilterContainerComponent', () => {
     expect(navigateSpy).toHaveBeenCalledWith(['new-hero'], {relativeTo: route});
   }));
 
+  it('should resend the filter keyword to heroes-list when received by heroes-filter', () => {})
+  it('should resend the order to heroes-filter for cleaning the input when received by heroes-list', () => {})
+
   // Add more tests as needed
 });
