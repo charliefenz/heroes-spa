@@ -10,6 +10,7 @@ import { Component, Input, input } from '@angular/core';
 })
 export class NbaComponent {
   @Input() nbaType: 'error' | 'success' | 'info' = 'info';
+  @Input() message = "LOREM IPSUM DOLOR";
 
   iconType: { [key: string]: string } = {
     error: 'errorRef', // TODO Look for icons
