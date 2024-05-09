@@ -11,8 +11,4 @@ import { Component, Input } from '@angular/core';
 export class LoaderComponent {
   @Input() setFullViewSpinner = false;
   @Input() setSmallSizeSpinner = false;
-  sizeControl = {
-    'size-small': this.setSmallSizeSpinner,
-    'size-medium': !this.setSmallSizeSpinner
-  }
 }
