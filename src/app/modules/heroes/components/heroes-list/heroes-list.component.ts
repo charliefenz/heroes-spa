@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
 import { concatMap, map } from 'rxjs';
+import { Response } from '../../../../models/response';
 
 @Component({
   selector: 'app-heroes-list',
@@ -19,7 +20,7 @@ export class HeroesListComponent implements OnInit, OnChanges{
   constructor(private heroesService: HeroesService) {}
 
   ngOnInit(): void {
-    this.handleGetHeroes();
+    this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -28,37 +29,26 @@ export class HeroesListComponent implements OnInit, OnChanges{
         this.filterHeroes(this.filterKeyword);
       } else {
         this.heroeCallReceived = false;
-        this.handleGetHeroes();
+        this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
       }
     }
   }
 
-  handleGetHeroes() {
-    this.heroesService.getHeroes().subscribe((getHeroesResponse) => {
-      this.heroeCallReceived = false;
-      if (getHeroesResponse.code === 200) {
-        this.heroes = getHeroesResponse.result as Hero[];
-        this.errorCaptured = false;
-      } else {
-        this.errorCaptured = true;
-        this.errorMessage = getHeroesResponse.result as string;
-      }
-      this.heroeCallReceived = true;
-    })
+  handleHeroesResponse(response: Response) {
+    if (response.code === 200) {
+      this.heroes = response.result as Hero[];
+      this.errorCaptured = false;
+    } else {
+      this.errorCaptured = true;
+      this.errorMessage = response.result as string;
+    }
+    this.heroeCallReceived = true;
   }
 
   filterHeroes(heroesKeyword: string) {
     this.heroeCallReceived = false;
     if (heroesKeyword) {
-      this.heroesService.searchHeroes(heroesKeyword).subscribe((response) => {
-        if (response.code === 200) {
-          console.log(response.result as Hero[])
-          this.heroes = response.result as Hero[]
-        } else {
-          //TODO develop error notification
-        }
-        this.heroeCallReceived = true;
-      })
+      this.heroesService.searchHeroes(heroesKeyword).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
   }
 
@@ -68,35 +58,13 @@ export class HeroesListComponent implements OnInit, OnChanges{
     if (heroId) {
       this.heroesService.deletehero((heroId)).pipe(
         map(deleteResponse => {
-          if (deleteResponse.code === 200) {
-            console.log(deleteResponse.result)
-          } else {
+          if (deleteResponse.code !== 200) {
             //TODO develop error notification
           }
           this.resetFilterDueToHeroDeletion.emit(false);
         }),
         concatMap(() => this.heroesService.getHeroes())
-      ).subscribe((getHeroesResponse) => {
-        if (getHeroesResponse.code === 200) {
-          console.log(getHeroesResponse.result)
-          this.heroes = getHeroesResponse.result as Hero[];
-          this.errorCaptured = false;
-        } else {
-          this.errorCaptured = true;
-          this.errorMessage = getHeroesResponse.result as string;
-        }
-        this.heroeCallReceived = true;
-      }) 
-      
-      
-      this.heroesService.deletehero((heroId)).subscribe((response) => {
-        if (response.code === 200) {
-          console.log(response.result)
-        } else {
-          //TODO develop error notification
-        }
-        this.resetFilterDueToHeroDeletion.emit(false);
-      }) 
+      ).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
   }
 }
