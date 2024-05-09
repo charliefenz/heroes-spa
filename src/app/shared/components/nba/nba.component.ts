@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 
 @Component({
   selector: 'app-nba',
@@ -8,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './nba.component.css'
 })
 export class NbaComponent {
+  @Input() nbaType: 'error' | 'success' | 'info' = 'info';
 
+  iconType: { [key: string]: string } = {
+    error: 'errorRef', // TODO Look for icons
+    success: 'successRef',
+    info: 'infoRef'
+  };
 }
+
