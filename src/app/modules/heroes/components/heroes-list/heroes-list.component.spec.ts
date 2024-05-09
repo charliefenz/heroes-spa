@@ -21,12 +21,17 @@ describe('HeroesListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display a list of heroes on loading', () => {});
-
-  it('should show an spinner when waiting for heroes service responses', () => {});
+  it('should display a list of heroes upon loading', () => {});
 
   it('should display an error message if no heroes can be obtained', () => {});
 
+  it('should pass down a hero to heroes-tem', () => {});
+
   it('should delete a hero when receiving an emitted value from hero-item', () => {});
 
+  it('should display a loader while waiting for the responses done to the heroes service', () => {})
+
+  it('should filter heroes list when the input variable has a not-null new value', () => {})
+
+  it('should display full heroes list when the input variable has a null new value', () => {})
 });
