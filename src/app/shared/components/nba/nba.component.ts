@@ -1,9 +1,10 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, input } from '@angular/core';
 
 @Component({
   selector: 'app-nba',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   templateUrl: './nba.component.html',
   styleUrl: './nba.component.css'
 })

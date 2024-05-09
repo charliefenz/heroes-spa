@@ -18,7 +18,7 @@
   bottom: 10px;
   width: 80%;
   min-height: 2em;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(252, 240, 240);
   z-index: 999;
   margin: 0 10px;
   padding: 10px;
@@ -26,6 +26,18 @@
   align-items: center;
   justify-content: start;
   border-radius: 5px;
+}
+
+.success {
+  border: 1px solid green;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+.info {
+  border: 1px solid blue;
 }
 
 .icon {
