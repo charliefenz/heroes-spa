@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
 
@@ -9,6 +9,7 @@ import { Hero } from '../../../../models/hero';
 })
 export class HeroesListComponent implements OnInit, OnChanges{
   @Input() filterKeyword: string | undefined;
+  @Output() resetFilterDueToHeroDeletion: EventEmitter<boolean> = new EventEmitter();
   heroeCallReceived = false;
   errorCaptured = false;
   errorMessage = "";
@@ -62,6 +63,7 @@ export class HeroesListComponent implements OnInit, OnChanges{
 
   deleteHero(heroId: number | undefined) {
     this.heroeCallReceived = false;
+    this.resetFilterDueToHeroDeletion.emit(true);
     if (heroId) {
       this.heroesService.deletehero((heroId)).subscribe((response) => {
         if (response.code === 200) {
@@ -69,6 +71,7 @@ export class HeroesListComponent implements OnInit, OnChanges{
         } else {
           //TODO develop error notification
         }
+        this.resetFilterDueToHeroDeletion.emit(false);
       }) 
     }
   }
