@@ -12,7 +12,7 @@ import { Response } from '../../../../models/response';
 export class HeroesListComponent implements OnInit, OnChanges{
   @Input() filterKeyword: string | undefined;
   @Output() resetFilterDueToHeroDeletion: EventEmitter<boolean> = new EventEmitter();
-  heroeCallReceived = false;
+  showLoadingSpinner = false;
   errorCaptured = false;
   errorMessage = "";
   heroes: Hero[] = [];
@@ -28,7 +28,7 @@ export class HeroesListComponent implements OnInit, OnChanges{
       if (this.filterKeyword && this.filterKeyword !== "") {
         this.filterHeroes(this.filterKeyword);
       } else {
-        this.heroeCallReceived = false;
+        this.showLoadingSpinner = false;
         this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
       }
     }
@@ -42,18 +42,18 @@ export class HeroesListComponent implements OnInit, OnChanges{
       this.errorCaptured = true;
       this.errorMessage = response.result as string;
     }
-    this.heroeCallReceived = true;
+    this.showLoadingSpinner = true;
   }
 
   filterHeroes(heroesKeyword: string) {
-    this.heroeCallReceived = false;
+    this.showLoadingSpinner = false;
     if (heroesKeyword) {
       this.heroesService.searchHeroes(heroesKeyword).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
   }
 
   deleteHero(heroId: number | undefined) {
-    this.heroeCallReceived = false;
+    this.showLoadingSpinner = false;
     this.resetFilterDueToHeroDeletion.emit(true);
     if (heroId) {
       this.heroesService.deletehero((heroId)).pipe(
