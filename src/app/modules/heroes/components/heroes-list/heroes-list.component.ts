@@ -23,7 +23,7 @@ export class HeroesListComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filterKeyword'] && (changes['filterKeyword'].currentValue || changes['filterKeyword'].currentValue === '')) {
+    if (changes['filterKeyword'].currentValue !== undefined && changes['filterKeyword'].currentValue !== changes['filterKeyword'].previousValue) {
       if (this.filterKeyword && this.filterKeyword !== "") {
         this.filterHeroes(this.filterKeyword);
       } else {
