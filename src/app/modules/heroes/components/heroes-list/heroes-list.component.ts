@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
+import { concatMap, map } from 'rxjs';
 
 @Component({
   selector: 'app-heroes-list',
@@ -65,6 +66,29 @@ export class HeroesListComponent implements OnInit, OnChanges{
     this.heroeCallReceived = false;
     this.resetFilterDueToHeroDeletion.emit(true);
     if (heroId) {
+      this.heroesService.deletehero((heroId)).pipe(
+        map(deleteResponse => {
+          if (deleteResponse.code === 200) {
+            console.log(deleteResponse.result)
+          } else {
+            //TODO develop error notification
+          }
+          this.resetFilterDueToHeroDeletion.emit(false);
+        }),
+        concatMap(() => this.heroesService.getHeroes())
+      ).subscribe((getHeroesResponse) => {
+        if (getHeroesResponse.code === 200) {
+          console.log(getHeroesResponse.result)
+          this.heroes = getHeroesResponse.result as Hero[];
+          this.errorCaptured = false;
+        } else {
+          this.errorCaptured = true;
+          this.errorMessage = getHeroesResponse.result as string;
+        }
+        this.heroeCallReceived = true;
+      }) 
+      
+      
       this.heroesService.deletehero((heroId)).subscribe((response) => {
         if (response.code === 200) {
           console.log(response.result)
@@ -74,10 +98,5 @@ export class HeroesListComponent implements OnInit, OnChanges{
         this.resetFilterDueToHeroDeletion.emit(false);
       }) 
     }
-  }
-
-  handleDeletionIntent(heroToDelete: number) {
-    this.deleteHero(heroToDelete);
-    this.handleGetHeroes();
   }
 }
