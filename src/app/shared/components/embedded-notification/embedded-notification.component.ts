@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-embedded-notification',
@@ -8,10 +8,9 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from 
   templateUrl: './embedded-notification.component.html',
   styleUrl: './embedded-notification.component.css'
 })
-export class EmbeddedNotificationComponent implements OnChanges{
+export class EmbeddedNotificationComponent {
   @Input() nbaType: 'error' | 'success' | 'info' = 'info';
   @Input() message: string | undefined;
-  @Output() informDestroyed : EventEmitter<boolean> = new EventEmitter();
   showTimeout = 5000;
 
   iconType: { [key: string]: string } = {
@@ -19,14 +18,5 @@ export class EmbeddedNotificationComponent implements OnChanges{
     success: 'successRef',
     info: 'infoRef'
   };
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['message'].currentValue !== changes['message'].previousValue && changes['message'].previousValue === undefined) {
-      console.log('nba-comp/messageInput', this.message)
-      setTimeout(() => {
-        this.informDestroyed.emit(true);
-      }, this.showTimeout)
-    }
-  }
 }
 
