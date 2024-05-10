@@ -8,7 +8,6 @@
     </div>
   </div>
   <div *ngIf="!showLoadingSpinner">
-    this is a spinner loding
-    <!-- TODO implement loader -->
+    <app-loader [setFullViewSpinner]="false" [setSmallSizeSpinner]="true"></app-loader>
   </div>
 </div>
