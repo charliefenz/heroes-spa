@@ -13,9 +13,10 @@ export class HeroesListComponent implements OnInit, OnChanges{
   @Input() filterKeyword: string | undefined;
   @Output() resetFilterDueToHeroDeletion: EventEmitter<boolean> = new EventEmitter();
   showLoadingSpinner = false;
-  errorCaptured = false;
-  errorMessage = "";
   heroes: Hero[] = [];
+  showNoHeroesNotification = false;
+  NoHeroesNotificationType: 'error' | 'success' | 'info' = 'info';
+  noHeroesMessage = "No se han encontrado Héroes";
 
   constructor(private heroesService: HeroesService) {}
 
@@ -37,10 +38,16 @@ export class HeroesListComponent implements OnInit, OnChanges{
   handleHeroesResponse(response: Response) {
     if (response.code === 200) {
       this.heroes = response.result as Hero[];
-      this.errorCaptured = false;
+      if (this.heroes.length === 0) {
+        this.showNoHeroesNotification = true;
+        this.NoHeroesNotificationType = 'info'  
+      } else {
+        this.showNoHeroesNotification = false ;  
+      }
     } else {
-      this.errorCaptured = true;
-      this.errorMessage = response.result as string;
+      this.showNoHeroesNotification = true;
+      this.noHeroesMessage = response.result as string;
+      this.NoHeroesNotificationType = 'error'
     }
     this.showLoadingSpinner = true;
   }
