@@ -17,10 +17,12 @@ export class HeroesFilterComponent implements OnChanges{
       debounceTime(300), // Debounce to wait for user to finish typing
       distinctUntilChanged(), // Ignore repeated values
     ).subscribe(value => {
-      if (value === null || value.trim() === '') {
-        this.filterHeroes.emit('');
-      } else {
-        this.filterHeroes.emit(value.trim());
+      if (this.filterControl.touched) {
+        if (value === null || value.trim() === '') {
+          this.filterHeroes.emit('');
+        } else {
+          this.filterHeroes.emit(value.trim());
+        }
       }
     });
   }
