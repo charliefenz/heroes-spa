@@ -17,6 +17,9 @@ export class HeroFormComponent implements OnChanges{
   editBehavior = false;
   superpowerAlreadyExists = false;
   activateSpinner = false;
+  showEditingNba = false;
+  editingNbaType: 'error' | 'success' | 'info' = 'success';
+  editingMessage = "";
 
   constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {
     this.heroForm = this.formBuilder.group({
@@ -58,14 +61,14 @@ export class HeroFormComponent implements OnChanges{
       if (this.editBehavior) {
         this.heroesService.editHero(hero).subscribe((response) => {
           this.activateSpinner = false;
+          this.showEditingNba = true;
+          this.editingMessage = response.result as string;
           if (response.code === 200) {
             this.emitName(hero.name);
             this.heroForm.disable();
             this.editBehavior = false;
-            // TODO Insert success notification when developed
           } else {
-            console.log(response);
-            // TODO Insert error notification when developed
+            this.editingNbaType = 'error';
             this.cancel();
           }
         })
