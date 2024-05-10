@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MockApiService } from '../../mock-API/mock-api.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActionablePopUpComponent } from '../../shared/components/actionable-pop-up/actionable-pop-up.component';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
 
 
 
@@ -32,7 +33,8 @@ import { ActionablePopUpComponent } from '../../shared/components/actionable-pop
       {path: 'hero/:id', component: HeroContainerComponent}
     ]),
     ReactiveFormsModule,
-    ActionablePopUpComponent
+    ActionablePopUpComponent,
+    LoaderComponent,
   ],
   providers: [
     MockApiService
