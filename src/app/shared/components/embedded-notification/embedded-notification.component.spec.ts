@@ -20,4 +20,6 @@ describe('EmbeddedNotificationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should display wrapper class and icon img depending on the Input passed in', () => {});
+  it('should display the message passed in by Input', () => {});
 });
