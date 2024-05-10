@@ -17,6 +17,9 @@ export class HeroesListComponent implements OnInit, OnChanges{
   showNoHeroesNotification = false;
   NoHeroesNotificationType: 'error' | 'success' | 'info' = 'info';
   noHeroesMessage = "No se han encontrado Héroes";
+  showDeletionNba = false;
+  deletionNbaType: 'error' | 'success' | 'info' = 'success';
+  deletionMessage = "";
 
   constructor(private heroesService: HeroesService) {}
 
@@ -65,13 +68,19 @@ export class HeroesListComponent implements OnInit, OnChanges{
     if (heroId) {
       this.heroesService.deletehero((heroId)).pipe(
         map(deleteResponse => {
+          this.showDeletionNba = true;
+          this.deletionMessage = deleteResponse.result as string;
           if (deleteResponse.code !== 200) {
-            //TODO develop error notification
+            this.deletionNbaType = 'error';
+            this.resetFilterDueToHeroDeletion.emit(false);
           }
-          this.resetFilterDueToHeroDeletion.emit(false);
         }),
         concatMap(() => this.heroesService.getHeroes())
       ).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
+  }
+
+  destroyDeletionNba(destroyNba: boolean) {
+    this.showDeletionNba = !destroyNba;
   }
 }
