@@ -9,18 +9,15 @@
 
 .container {
   display: flex;
-  width: 100vw;
+  width: 100%;
   justify-content: center;
 }
 
 .wrapper {
-  position: fixed;
-  bottom: 10px;
-  width: 80%;
   min-height: 2em;
+  min-width: 80%;
   background-color: rgb(252, 240, 240);
-  z-index: 999;
-  margin: 0 10px;
+  margin: 10px;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -44,21 +41,5 @@
   max-width: 20%;
   min-width: 20%; /*TODO Remove when icon found*/
   background-color: red;
-}
-
-@media (min-width: 480px) {
-  .container {
-    justify-content: end;
-  }
-  
-  .wrapper {
-    width: 60%;
-  }
-}
-
-@media (min-width: 768px) {  
-  .wrapper {
-    width: 40%;
-  }
 }
 
