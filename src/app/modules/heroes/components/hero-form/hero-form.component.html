@@ -52,8 +52,8 @@
       <button *ngIf="editBehavior || !hero" type="submit" [disabled]="heroForm.invalid">Guardar</button>
       <button *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior" (click)="cancel()">Cancelar</button>
     </div>
-    <div *ngIf="activateSpinner">
-      <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
-    </div>
   </div>
 </form>
+<div *ngIf="activateSpinner">
+  <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
+</div>
