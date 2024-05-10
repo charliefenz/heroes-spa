@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'app-nba',
@@ -8,14 +8,25 @@ import { Component, Input} from '@angular/core';
   templateUrl: './nba.component.html',
   styleUrl: './nba.component.css'
 })
-export class NbaComponent {
+export class NbaComponent implements OnChanges{
   @Input() nbaType: 'error' | 'success' | 'info' = 'info';
-  @Input() message = "LOREM IPSUM DOLOR";
+  @Input() message: string | undefined;
+  @Output() informDestroyed : EventEmitter<boolean> = new EventEmitter();
+  showTimeout = 5000;
 
   iconType: { [key: string]: string } = {
     error: 'errorRef', // TODO Look for icons
     success: 'successRef',
     info: 'infoRef'
   };
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['message'].currentValue !== changes['message'].previousValue && changes['message'].previousValue === undefined) {
+      console.log('nba-comp/messageInput', this.message)
+      setTimeout(() => {
+        this.informDestroyed.emit(true);
+      }, this.showTimeout)
+    }
+  }
 }
 
