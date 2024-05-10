@@ -53,8 +53,7 @@
       <button *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior" (click)="cancel()">Cancelar</button>
     </div>
     <div *ngIf="activateSpinner">
-      this is a spinner loading
-      <!-- TODO implement loader -->
+      <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
     </div>
   </div>
 </form>
