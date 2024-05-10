@@ -17,7 +17,7 @@ export class HeroesFilterComponent implements OnChanges{
       debounceTime(300), // Debounce to wait for user to finish typing
       distinctUntilChanged(), // Ignore repeated values
     ).subscribe(value => {
-      if (this.filterControl.touched) {
+      if (this.filterControl.dirty) {
         if (value === null || value.trim() === '') {
           this.filterHeroes.emit('');
         } else {
