@@ -1,4 +1,6 @@
-<div *ngIf="loadingSpinner">this is a spinner loading</div>
+<div *ngIf="loadingSpinner">
+  <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
+</div>
 <div class="hero-main-title" *ngIf="!loadingSpinner">
   <h1>{{nameToShow}}</h1>
 </div>

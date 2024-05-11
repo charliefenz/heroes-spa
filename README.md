@@ -131,3 +131,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Pagination support
 - Integration tests
+- Notifications module with notifications service to handle notifications queue

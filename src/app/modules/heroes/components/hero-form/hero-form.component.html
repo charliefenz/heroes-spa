@@ -52,9 +52,9 @@
       <button *ngIf="editBehavior || !hero" type="submit" [disabled]="heroForm.invalid">Guardar</button>
       <button *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior" (click)="cancel()">Cancelar</button>
     </div>
-    <div *ngIf="activateSpinner">
-      this is a spinner loading
-      <!-- TODO implement loader -->
-    </div>
   </div>
 </form>
+<div *ngIf="activateSpinner">
+  <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
+</div>
+<app-nba *ngIf="showEditingNba" [nbaType]="editingNbaType" [message]="editingMessage" (informDestroyed)="destroyEditingNba($event)"></app-nba>
