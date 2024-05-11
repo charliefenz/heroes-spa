@@ -1,11 +1,4 @@
-/* 
-  Common breakpoints:
-  320px: smartphones in portrait mode.
-  375px: smaller smartphones in portrait mode.
-  414px: larger smartphones in portrait mode.
-  480px: smaller tablets or devices in landscape mode
-  768px: smallest breakpoint for tablets in portrait mode
-*/
+@import 'variables';
 
 .hero-form {
   background-color: red;
@@ -51,7 +44,7 @@
   color: red;
 }
 
-@media (min-width: 375px) {
+@media (min-width: $s-mobile-portrait) {
   .hero-form {
     grid-template-columns: 30% 70%;
   }
@@ -62,7 +55,7 @@
     align-items: center;
   }
 }
-@media (min-width: 480px) {
+@media (min-width: $l-tablet-portrait) {
   .hero-form {
     grid-template-columns: 25% 75%;
   }
