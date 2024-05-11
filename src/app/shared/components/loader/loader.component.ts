@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [NgClass],
   templateUrl: './loader.component.html',
-  styleUrl: './loader.component.css'
+  styleUrl: './loader.component.scss'
 })
 export class LoaderComponent {
   @Input() setFullViewSpinner = false;

@@ -1,11 +1,4 @@
-/* 
-  Common breakpoints:
-  320px: smartphones in portrait mode.
-  375px: smaller smartphones in portrait mode.
-  414px: larger smartphones in portrait mode.
-  480px: smaller tablets or devices in landscape mode
-  768px: smallest breakpoint for tablets in portrait mode
-*/
+@import 'variables';
 
 .overlay {
   position: fixed;
@@ -36,7 +29,7 @@ img {
   width: 100%;
 }
 
-@media (min-width: 414px) {
+@media (min-width: $m-mobile-portrait) {
   .size-medium {
     width: 15%;
   }
