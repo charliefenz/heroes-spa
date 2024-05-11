@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from 
   standalone: true,
   imports: [NgClass],
   templateUrl: './nba.component.html',
-  styleUrl: './nba.component.css'
+  styleUrl: './nba.component.scss'
 })
 export class NbaComponent implements OnChanges{
   @Input() nbaType: 'error' | 'success' | 'info' = 'info';

@@ -7,15 +7,19 @@ import { Response } from '../../../../models/response';
 @Component({
   selector: 'app-heroes-list',
   templateUrl: './heroes-list.component.html',
-  styleUrl: './heroes-list.component.css'
+  styleUrl: './heroes-list.component.scss'
 })
 export class HeroesListComponent implements OnInit, OnChanges{
   @Input() filterKeyword: string | undefined;
   @Output() resetFilterDueToHeroDeletion: EventEmitter<boolean> = new EventEmitter();
   showLoadingSpinner = false;
-  errorCaptured = false;
-  errorMessage = "";
   heroes: Hero[] = [];
+  showNoHeroesNotification = false;
+  NoHeroesNotificationType: 'error' | 'success' | 'info' = 'info';
+  noHeroesMessage = "No se han encontrado Héroes";
+  showDeletionNba = false;
+  deletionNbaType: 'error' | 'success' | 'info' = 'success';
+  deletionMessage = "";
 
   constructor(private heroesService: HeroesService) {}
 
@@ -37,10 +41,16 @@ export class HeroesListComponent implements OnInit, OnChanges{
   handleHeroesResponse(response: Response) {
     if (response.code === 200) {
       this.heroes = response.result as Hero[];
-      this.errorCaptured = false;
+      if (this.heroes.length === 0) {
+        this.showNoHeroesNotification = true;
+        this.NoHeroesNotificationType = 'info'  
+      } else {
+        this.showNoHeroesNotification = false ;  
+      }
     } else {
-      this.errorCaptured = true;
-      this.errorMessage = response.result as string;
+      this.showNoHeroesNotification = true;
+      this.noHeroesMessage = response.result as string;
+      this.NoHeroesNotificationType = 'error'
     }
     this.showLoadingSpinner = true;
   }
@@ -58,13 +68,19 @@ export class HeroesListComponent implements OnInit, OnChanges{
     if (heroId) {
       this.heroesService.deletehero((heroId)).pipe(
         map(deleteResponse => {
+          this.showDeletionNba = true;
+          this.deletionMessage = deleteResponse.result as string;
           if (deleteResponse.code !== 200) {
-            //TODO develop error notification
+            this.deletionNbaType = 'error';
+            this.resetFilterDueToHeroDeletion.emit(false);
           }
-          this.resetFilterDueToHeroDeletion.emit(false);
         }),
         concatMap(() => this.heroesService.getHeroes())
       ).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
+  }
+
+  destroyDeletionNba(destroyNba: boolean) {
+    this.showDeletionNba = !destroyNba;
   }
 }

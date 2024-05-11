@@ -2,6 +2,34 @@
 
 The Heroes Management App is a single-page application (SPA) built with Angular version 17.3.6 for managing heroes. It allows users to view, create, edit, and delete heroes. The app features lazy loading for improved performance and utilizes a mock API to mimic CRUD operations on hero data.
 
+## Versions
+
+### V0.5 (current version)
+- Features angular material setup for other modules and components to use
+- [Heroes-Module](#heroes-module) V1.1
+  - Integration with shared components to use NBAs, Loaders and embedded-notifications
+
+### V0.4
+- [shared-comps](#shared-components) V0.2
+  - Features basic layout and behavior for NBA, Loader, and embedded-notification components
+
+### V0.3
+- [Heroes-Module](#heroes-module) V1.0
+  - Features delete hero integration and filter heroes integration
+
+### V0.2
+- [Heroes-Module](#heroes-module) V0.3
+  - Features a mobile-first boilerplate UI with basic [route](#routing) configuration
+  - Features the development of all components projected to be used by the module
+  - Features the development of the service used to communicate with the API
+  - Features the integration for creating, editing, and displaying a single hero, as well as displaying the list of heroes  
+- [shared-comps](#shared-components) V0.1
+  - Features initial behavior for an actionable-pop-up
+
+### V0.1
+- [mock-API](#mock-api-service) V1.0
+  - Features CRUD operations that should be performed by a hypothetical Heroes API service
+
 ## Features
 
 - **Lazy Loading**: Modules are loaded dynamically on demand, reducing initial load time and improving performance.
@@ -11,6 +39,8 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 - **Viewing Hero Details**: Detailed information about each hero, including their image and superpowers, can be viewed.
 - **Notification System**: Provides real-time feedback to users through notifications for various actions.
 - **Mock API**: Mimics CRUD operations on hero data, allowing for seamless interaction without the need for a backend server.
+- **Angular Material**: Import of Angular Material Module for UI.
+- **SASS**: Use of SASS to ease style sheets organization.
 
 ## Routing
 
@@ -108,3 +138,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Pagination support
 - Integration tests
+- Notifications module with notifications service to handle notifications queue
