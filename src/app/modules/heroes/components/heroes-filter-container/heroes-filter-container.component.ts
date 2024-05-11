@@ -28,9 +28,15 @@ export class HeroesFilterContainerComponent {
 
   informCreationOfHero(params$: Observable<Params>) {
     params$.subscribe((params) => {
-      if (params['id']) {
+      let creationId = params['id'];
+      if (creationId) {
         this.showCreationNba = true;
-        this.creationMessage = `Se ha creado el héroe con id ${params['id']}`
+        if (creationId === 'error') {
+          this.creationNbaType = 'error';
+          this.creationMessage = `No se ha podido crear el héroe`
+        } else {
+          this.creationMessage = `Se ha creado el héroe con id ${params['id']}`
+        }
       }
     })
   }
