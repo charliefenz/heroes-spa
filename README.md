@@ -4,7 +4,12 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 
 ## Versions
 
-### V0.4 (current version)
+### V0.5 (current version)
+- Features angular material setup for other modules and components to use
+- [Heroes-Module](#heroes-module) V1.1
+  - Integration with shared components to use NBAs, Loaders and embedded-notifications
+
+### V0.4
 - [shared-comps](#shared-components) V0.2
   - Features basic layout and behavior for NBA, Loader, and embedded-notification components
 
@@ -34,6 +39,8 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 - **Viewing Hero Details**: Detailed information about each hero, including their image and superpowers, can be viewed.
 - **Notification System**: Provides real-time feedback to users through notifications for various actions.
 - **Mock API**: Mimics CRUD operations on hero data, allowing for seamless interaction without the need for a backend server.
+- **Angular Material**: Import of Angular Material Module for UI.
+- **SASS**: Use of SASS to ease style sheets organization.
 
 ## Routing
 
