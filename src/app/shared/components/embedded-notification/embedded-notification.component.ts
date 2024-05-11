@@ -15,11 +15,9 @@ export class EmbeddedNotificationComponent {
   @Input() nbaType: NBAInput['nbaType'] = 'info';
   @Input() message: string | undefined;
   showTimeout = 5000;
-
-  iconType: { [key: string]: string } = {
-    error: 'errorRef', // TODO Look for icons
-    success: 'successRef',
-    info: 'infoRef'
+  iconsName = {
+    info: 'info',
+    success: 'check_circle',
+    error: 'warning'
   };
 }
-
