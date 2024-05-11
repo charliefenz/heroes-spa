@@ -3,6 +3,7 @@ import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
 import { concatMap, map } from 'rxjs';
 import { Response } from '../../../../models/response';
+import { NBAInput } from '../../../../models/nbaInput';
 
 @Component({
   selector: 'app-heroes-list',
@@ -15,10 +16,10 @@ export class HeroesListComponent implements OnInit, OnChanges{
   showLoadingSpinner = false;
   heroes: Hero[] = [];
   showNoHeroesNotification = false;
-  NoHeroesNotificationType: 'error' | 'success' | 'info' = 'info';
+  NoHeroesNotificationType: NBAInput['nbaType'] = 'info';
   noHeroesMessage = "No se han encontrado Héroes";
   showDeletionNba = false;
-  deletionNbaType: 'error' | 'success' | 'info' = 'success';
+  deletionNbaType: NBAInput['nbaType'] = 'success';
   deletionMessage = "";
 
   constructor(private heroesService: HeroesService) {}
