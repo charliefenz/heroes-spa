@@ -2,19 +2,18 @@
 
 .container {
   display: flex;
-  width: 100%;
   justify-content: center;
+  font-size: 0.8em;
 }
 
 .wrapper {
-  width: 90%;
+  min-width: 150px;
+  max-width: 350px;
   margin: 10px;
   padding: 10px;
-  display: flex;
-  flex-direction:row;
-  align-items: center;
-  justify-content: start;
-  font-size: 0.8em;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr;
+  background-color: white;
 }
 
 mat-card-content {
@@ -22,18 +21,14 @@ mat-card-content {
 }
 
 .icon {
-  width: 15%;
-  aspect-ratio: 1 / 1;
-  max-height: 100%;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .message {
-  width: 85%;
-  margin-left: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
 
 //TODO It could be better to use a font instead of just a border
@@ -49,32 +44,20 @@ mat-card-content {
   border: 1px solid blue;
 }
 
+.colorInfo {
+  color: rgb(0, 0, 255);
+}
+
 @media (min-width: $xs-mobile-portrait) {
   .wrapper {
     font-size: inherit;
   }
 }
 
-@media (min-width: $m-mobile-portrait) {
-  .wrapper {
-    width: 75%;
-  }
-}
-
 @media (min-width: $l-tablet-portrait) {
   .wrapper {
-    width: 60%;
-    max-height: 100px;
-  }
-}
-
-@media (min-width: $xl-tablet-landscape) {
-  .wrapper {
-    width: 50%;
-  }
-
-  .icon {
-    width: auto;
+    width: 40%;
+    max-width: 350px;
   }
 }
 
