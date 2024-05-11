@@ -13,7 +13,6 @@
   padding: 10px;
   display: grid;
   grid-template-columns: 0.2fr 1fr;
-  background-color: white;
 }
 
 mat-card-content {
@@ -29,23 +28,22 @@ mat-card-content {
   display: flex;
   align-items: center;
   justify-content: start;
+  color: black;
 }
 
-//TODO It could be better to use a font instead of just a border
 .success {
-  border: 1px solid green; //TODO Set according to theme logic when able
+  border: 1px solid $success-color;
+  color: $success-color;
 }
 
 .error {
-  border: 1px solid red;
+  border: 1px solid $error-color;
+  color: $error-color;
 }
 
 .info {
-  border: 1px solid blue;
-}
-
-.colorInfo {
-  color: rgb(0, 0, 255);
+  border: 1px solid $info-color;
+  color: $info-color;
 }
 
 @media (min-width: $xs-mobile-portrait) {
