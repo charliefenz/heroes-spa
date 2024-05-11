@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -37,8 +37,18 @@ export class HeroesFilterContainerComponent {
         } else {
           this.creationMessage = `Se ha creado el héroe con id ${params['id']}`
         }
+        this.removeQueryParams();
       }
     })
+  }
+
+  removeQueryParams() {
+    let navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'preserve', // or 'preserve',
+      replaceUrl: true
+    };
+    console.log('called')
+    this.router.navigate(['heroes'], navigationExtras);
   }
 
   destroyCreationNba(destroyNba: boolean) {
