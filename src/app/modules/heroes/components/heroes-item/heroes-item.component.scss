@@ -1,13 +1,4 @@
-/* 
-  Common breakpoints:
-  320px: smartphones in portrait mode.
-  375px: smaller smartphones in portrait mode.
-  414px: larger smartphones in portrait mode.
-  480px: smaller tablets or devices in landscape mode
-  768px: smallest breakpoint for tablets in portrait mode
-*/
-
-$sass-test: 320px;
+@import 'variables';
 
 .material-card {
   background-color: black;
@@ -35,7 +26,7 @@ $sass-test: 320px;
   align-items: center;
 }
 
-@media (min-width: $sass-test) {
+@media (min-width: $mobile-portrait-xs) {
   .material-card {
     grid-template-columns: 1fr 3fr 1fr;
     grid-template-rows: 1fr;

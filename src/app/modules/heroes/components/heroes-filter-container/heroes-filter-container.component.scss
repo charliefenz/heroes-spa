@@ -1,15 +1,4 @@
-/* 
-  Common breakpoints:
-  320px: smartphones in portrait mode.
-  375px: smaller smartphones in portrait mode.
-  414px: larger smartphones in portrait mode.
-  480px: smaller tablets or devices in landscape mode
-  768px: smallest breakpoint for tablets in portrait mode
-*/
-
-:root {
-  --test: 320px;
-}
+@import 'variables';
 
 .hero-filter-main-title {
   background-color: grey;
@@ -46,7 +35,8 @@
   background-color: blue;
 }
 
-@media (max-width: 320px) {
+// TODO: Change to mobile-first aproach
+@media (max-width: $mobile-portrait-xs) {
   .container {
       grid-template-columns: 1fr;
   }

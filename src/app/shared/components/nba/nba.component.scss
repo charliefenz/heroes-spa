@@ -1,11 +1,4 @@
-/* 
-  Common breakpoints:
-  320px: smartphones in portrait mode.
-  375px: smaller smartphones in portrait mode.
-  414px: larger smartphones in portrait mode.
-  480px: smaller tablets or devices in landscape mode
-  768px: smallest breakpoint for tablets in portrait mode
-*/
+@import 'variables';
 
 .container {
   display: flex;
@@ -46,7 +39,7 @@
   background-color: red;
 }
 
-@media (min-width: 480px) {
+@media (min-width: $tablet-landscape-s) {
   .container {
     justify-content: end;
   }
@@ -56,7 +49,7 @@
   }
 }
 
-@media (min-width: 768px) {  
+@media (min-width: $tablet-portrait-s) {  
   .wrapper {
     width: 40%;
   }
