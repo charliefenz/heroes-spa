@@ -12,4 +12,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 export class LoaderComponent {
   @Input() setFullViewSpinner = false;
   @Input() setSmallSizeSpinner = false;
+  smallSizeValueInPx = 50;
+  mediumSizeValueInPx = 150;
+
+  chooseSize(): number {
+    return this.setSmallSizeSpinner ? this.smallSizeValueInPx : this.mediumSizeValueInPx
+  }
 }
