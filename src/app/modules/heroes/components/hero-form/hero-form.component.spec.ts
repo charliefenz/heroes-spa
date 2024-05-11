@@ -53,6 +53,8 @@ describe('HeroFormComponent', () => {
       // // tick(); 
       // // expect(navigateSpy).toHaveBeenCalledWith(['../heroes'], {relativeTo: route});
     }));
+
+    it('should destroy any nba when signal from nba comp is received', () => {})
   })
 
   describe('Behavior when creating a hero', () =>{  
@@ -108,28 +110,32 @@ describe('HeroFormComponent', () => {
     
     it('should not display save button and cancel button after cancel button is clicked', fakeAsync(() => {
     }));
+
+    it('should display an error message next to each input if the format is empty or incorrect', fakeAsync(() => {
+    }));
   })
 
   describe('Behavior when saving', () => {
     it('should send the input values when save button is clicked', fakeAsync(() => {
     }));
 
-    it('should provide with a confirmation notification if saving was a succces', fakeAsync(() => {
-    }));
+    describe('Success', () => {
+      it('should remain in the view and emit the name of the hero to the parent component when saving was a success and the operation performed was an edit', fakeAsync(() => {
+      }));
+    
+      it('should redirect to "heroes" route and provide the hero id as a param when saving was a success and the operation performed was the creation of a new hero', fakeAsync(() => {
+      }));
+    })
 
-    it('should provide with a error notification if saving was not a succces', fakeAsync(() => {
-    }));
+    describe('Failure', () => {
+      it('should remain in the view and display a notifications when saving was failure and the operation performed was an edit', fakeAsync(() => {
+      }));
 
-    it('should remain in the view when saving was a success and the operation performed was an edit', fakeAsync(() => {
-    }));
-
-    it('should emit the name of the hero to the parent component route when saving was a success and the operation performed was an edit', fakeAsync(() => {
-    }));
-
-    it('should redirect to "heroes" route when saving was a success and the operation performed was the creation of a new hero', fakeAsync(() => {
-    }));
-
-    it('should display an error message next to each input if the format is empty or incorrect', fakeAsync(() => {
-    }));
+      it('should disable all form inputs when saving was failure and the operation performed was an edit', fakeAsync(() => {
+      }));
+    
+      it('should redirect to "heroes" route and provide the "error" literal as a param when saving was failure and the operation performed was the creation of a new hero', fakeAsync(() => {
+      }));
+    })
   })
 });
