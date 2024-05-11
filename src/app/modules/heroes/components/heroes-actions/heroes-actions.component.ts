@@ -20,9 +20,9 @@ export class HeroesActionsComponent {
   }
 
   openDeletePopUp() {
-    const dialogRef = this.dialog.open(ActionablePopUpComponent, {data: {message: this.deleteMessage}});
+    const DIALOG_REF = this.dialog.open(ActionablePopUpComponent, {data: {message: this.deleteMessage}});
 
-    dialogRef.afterClosed().subscribe(userWantsToDelete => {
+    DIALOG_REF.afterClosed().subscribe(userWantsToDelete => {
       if (userWantsToDelete && this.heroId) this.performDeletion.emit(this.heroId);
     });
   }
