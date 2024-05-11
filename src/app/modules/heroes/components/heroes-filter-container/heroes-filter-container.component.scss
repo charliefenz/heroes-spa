@@ -10,6 +10,7 @@
 
 .container {
   padding: 0px 5px;
+  grid-template-columns: 1fr;
 }
 
 .filter-and-actions {
@@ -17,14 +18,14 @@
   background-color: red;
   display: flex;
   display: grid;
-  grid-template-columns: 80% 20%;
+  grid-template-columns: 1fr;
 }
 
 .button-container {
   background-color: blue;
   display: flex;
   width: 100%;
-  justify-content: end;
+  justify-content: start;
 }
 
 .button-container button {
@@ -35,17 +36,12 @@
   background-color: blue;
 }
 
-// TODO: Change to mobile-first aproach
-@media (max-width: $xs-mobile-portrait) {
-  .container {
-      grid-template-columns: 1fr;
-  }
-
+@media (min-width: $xs-mobile-portrait) {
   .filter-and-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: 80% 20%;
   }
 
   .button-container {
-    justify-content: start;
+    justify-content: end;
   }
 }
