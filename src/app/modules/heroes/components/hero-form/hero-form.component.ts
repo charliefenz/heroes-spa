@@ -102,8 +102,11 @@ export class HeroFormComponent implements OnChanges{
     return HERO
   }
 
-  navigateBack() {
-    this.router.navigate(['/heroes'])
+  navigateBack(createdId: string | undefined = undefined) {
+    let navigationOptions: any[] = ['/heroes']
+
+    if (createdId) navigationOptions.push({id: createdId});
+    this.router.navigate(navigationOptions)
   }
 
   // FEAT Extract to a component and add edit and cancel features
