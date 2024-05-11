@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-heroes-filter-container',
@@ -9,8 +10,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HeroesFilterContainerComponent {
   filterKeyword: string | undefined;
   resetFilterValue = false;
+  showCreationNba = false;
+  creationNbaType : 'success' | 'error' | 'info' = 'success';
+  creationMessage = '';
 
-  constructor(private router: Router, private route: ActivatedRoute) { 
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.informCreationOfHero(this.route.params);
   }
   
   navigateTo(route: string) {
@@ -19,6 +24,19 @@ export class HeroesFilterContainerComponent {
 
   informFilterToResetValue(resetValue: boolean) {
     this.resetFilterValue = resetValue;
+  }
+
+  informCreationOfHero(params$: Observable<Params>) {
+    params$.subscribe((params) => {
+      if (params['id']) {
+        this.showCreationNba = true;
+        this.creationMessage = `Se ha creado el héroe con id ${params['id']}`
+      }
+    })
+  }
+
+  destroyCreationNba(destroyNba: boolean) {
+    this.showCreationNba = !destroyNba;
   }
 
 }
