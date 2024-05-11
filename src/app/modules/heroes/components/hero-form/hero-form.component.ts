@@ -76,11 +76,9 @@ export class HeroFormComponent implements OnChanges{
         this.heroesService.createHero(hero).subscribe((response) => {
           this.activateSpinner = false;
           if (response.code === 200) {
-            // TODO Insert success notification when developed
-            this.navigateBack()
+            this.navigateBack(response.result as string)
           } else {
-            console.log(response);
-            // TODO Insert error notification when developed
+            this.navigateBack('error')
           }
         })
       }
