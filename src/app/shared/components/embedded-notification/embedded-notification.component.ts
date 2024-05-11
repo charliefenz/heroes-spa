@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   standalone: true,
   imports: [NgClass],
   templateUrl: './embedded-notification.component.html',
-  styleUrl: './embedded-notification.component.css'
+  styleUrl: './embedded-notification.component.scss'
 })
 export class EmbeddedNotificationComponent {
   @Input() nbaType: 'error' | 'success' | 'info' = 'info';
