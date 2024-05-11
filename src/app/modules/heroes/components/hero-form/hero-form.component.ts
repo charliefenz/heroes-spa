@@ -153,5 +153,8 @@ export class HeroFormComponent implements OnChanges{
   emitName(heroName : string) {
     this.nameEmitter.emit(heroName);
   }
-  
+
+  destroyEditingNba(destroyNba: boolean) {
+    this.showEditingNba = !destroyNba;
+  }
 }
