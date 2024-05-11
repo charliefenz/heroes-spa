@@ -49,6 +49,8 @@ describe('HeroesFilterContainerComponent', () => {
 
   it('should resend the filter keyword to heroes-list when received by heroes-filter', () => {})
   it('should resend the order to heroes-filter for cleaning the input when received by heroes-list', () => {})
+  it('should display a success or error nba upon loading if being redirected from new-hero route', () => {})
+  it('should destroy any nba when signal from nba comp is received', () => {})
 
   // Add more tests as needed
 });

@@ -17,7 +17,7 @@ export class HeroesActionsComponent {
   constructor(private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {}
 
   navigateToHero(heroId: number | undefined) {
-    this.router.navigate(['hero', heroId], {relativeTo: this.route})
+    this.router.navigate(['heroes/hero', heroId])
   }
 
   handleDeleteAnswer(userWantsToDelete: boolean) {

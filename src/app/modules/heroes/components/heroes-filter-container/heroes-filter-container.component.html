@@ -10,3 +10,4 @@
     <app-heroes-list [filterKeyword]="filterKeyword" (resetFilterDueToHeroDeletion)="informFilterToResetValue($event)"></app-heroes-list>
   </div>
 </div>
+<app-nba *ngIf="showCreationNba" [nbaType]="creationNbaType" [message]="creationMessage" (informDestroyed)="destroyCreationNba($event)"></app-nba>
