@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Hero } from '../../../../models/hero';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HeroesService } from '../../services/heroes.service';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionablePopUpComponent } from '../../../../shared/components/actionable-pop-up/actionable-pop-up.component';
 
@@ -15,7 +13,7 @@ export class HeroesActionsComponent {
   @Output() performDeletion: EventEmitter<number> = new EventEmitter();
   deleteMessage = '¿Estás seguro que deseas eliminar el héroe?';
 
-  constructor(private router: Router, private route: ActivatedRoute, private heroesService: HeroesService, public dialog: MatDialog) {}
+  constructor(private router: Router, public dialog: MatDialog) {}
 
   navigateToHero(heroId: number | undefined) {
     this.router.navigate(['heroes/hero', heroId])
