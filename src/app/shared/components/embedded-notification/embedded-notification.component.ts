@@ -1,10 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-embedded-notification',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, MatCardModule],
   templateUrl: './embedded-notification.component.html',
   styleUrl: './embedded-notification.component.scss'
 })
