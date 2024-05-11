@@ -7,7 +7,7 @@ import { Response } from '../../../../models/response';
 @Component({
   selector: 'app-heroes-list',
   templateUrl: './heroes-list.component.html',
-  styleUrl: './heroes-list.component.css'
+  styleUrl: './heroes-list.component.scss'
 })
 export class HeroesListComponent implements OnInit, OnChanges{
   @Input() filterKeyword: string | undefined;

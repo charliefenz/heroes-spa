@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-heroes-filter',
   templateUrl: './heroes-filter.component.html',
-  styleUrl: './heroes-filter.component.css'
+  styleUrl: './heroes-filter.component.scss'
 })
 export class HeroesFilterComponent implements OnChanges{
   filterControl = new FormControl('');

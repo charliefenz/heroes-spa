@@ -7,7 +7,7 @@ import { HeroesService } from '../../services/heroes.service';
 @Component({
   selector: 'app-hero-form',
   templateUrl: './hero-form.component.html',
-  styleUrl: './hero-form.component.css'
+  styleUrl: './hero-form.component.scss'
 })
 export class HeroFormComponent implements OnChanges{
   @Input() hero: Hero | undefined;

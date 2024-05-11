@@ -6,7 +6,7 @@ import { HeroesService } from '../../services/heroes.service';
 @Component({
   selector: 'app-heroes-actions',
   templateUrl: './heroes-actions.component.html',
-  styleUrl: './heroes-actions.component.css'
+  styleUrl: './heroes-actions.component.scss'
 })
 export class HeroesActionsComponent {
   @Input() heroId: number | undefined;

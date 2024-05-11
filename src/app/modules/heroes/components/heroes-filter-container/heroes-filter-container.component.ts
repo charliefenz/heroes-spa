@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-heroes-filter-container',
   templateUrl: './heroes-filter-container.component.html',
-  styleUrl: './heroes-filter-container.component.css'
+  styleUrl: './heroes-filter-container.component.scss'
 })
 export class HeroesFilterContainerComponent {
   filterKeyword: string | undefined;
