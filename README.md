@@ -2,6 +2,29 @@
 
 The Heroes Management App is a single-page application (SPA) built with Angular version 17.3.6 for managing heroes. It allows users to view, create, edit, and delete heroes. The app features lazy loading for improved performance and utilizes a mock API to mimic CRUD operations on hero data.
 
+## Versions
+
+### V0.4 (current version)
+- [shared-comps](#shared-components) V0.2
+  - Features basic layout and behavior for NBA, Loader, and embedded-notification components
+
+### V0.3
+- [Heroes-Module](#heroes-module) V1.0
+  - Features delete hero integration and filter heroes integration
+
+### V0.2
+- [Heroes-Module](#heroes-module) V0.3
+  - Features a mobile-first boilerplate UI with basic [route](#routing) configuration
+  - Features the development of all components projected to be used by the module
+  - Features the development of the service used to communicate with the API
+  - Features the integration for creating, editing, and displaying a single hero, as well as displaying the list of heroes  
+- [shared-comps](#shared-components) V0.1
+  - Features initial behavior for an actionable-pop-up
+
+### V0.1
+- [mock-API](#mock-api-service) V1.0
+  - Features CRUD operations that should be performed by a hypothetical Heroes API service
+
 ## Features
 
 - **Lazy Loading**: Modules are loaded dynamically on demand, reducing initial load time and improving performance.
