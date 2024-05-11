@@ -44,7 +44,7 @@
   color: red;
 }
 
-@media (min-width: $mobile-portrait-s) {
+@media (min-width: $s-mobile-portrait) {
   .hero-form {
     grid-template-columns: 30% 70%;
   }
@@ -55,7 +55,7 @@
     align-items: center;
   }
 }
-@media (min-width: $tablet-landscape-s) {
+@media (min-width: $l-tablet-portrait) {
   .hero-form {
     grid-template-columns: 25% 75%;
   }

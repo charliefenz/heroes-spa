@@ -29,7 +29,7 @@ img {
   width: 100%;
 }
 
-@media (min-width: $mobile-portrait-m) {
+@media (min-width: $m-mobile-portrait) {
   .size-medium {
     width: 15%;
   }

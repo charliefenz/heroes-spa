@@ -26,7 +26,7 @@
   align-items: center;
 }
 
-@media (min-width: $mobile-portrait-xs) {
+@media (min-width: $xs-mobile-portrait) {
   .material-card {
     grid-template-columns: 1fr 3fr 1fr;
     grid-template-rows: 1fr;

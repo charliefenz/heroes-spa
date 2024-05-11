@@ -39,7 +39,7 @@
   background-color: red;
 }
 
-@media (min-width: $tablet-landscape-s) {
+@media (min-width: $l-tablet-portrait) {
   .container {
     justify-content: end;
   }
@@ -49,7 +49,7 @@
   }
 }
 
-@media (min-width: $tablet-portrait-s) {  
+@media (min-width: $xl-tablet-landscape) {  
   .wrapper {
     width: 40%;
   }

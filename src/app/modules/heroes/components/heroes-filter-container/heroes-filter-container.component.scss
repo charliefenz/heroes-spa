@@ -36,7 +36,7 @@
 }
 
 // TODO: Change to mobile-first aproach
-@media (max-width: $mobile-portrait-xs) {
+@media (max-width: $xs-mobile-portrait) {
   .container {
       grid-template-columns: 1fr;
   }
