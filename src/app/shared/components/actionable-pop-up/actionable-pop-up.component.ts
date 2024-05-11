@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './actionable-pop-up.component.html',
-  styleUrl: './actionable-pop-up.component.css'
+  styleUrl: './actionable-pop-up.component.scss'
 })
 export class ActionablePopUpComponent {
   @Input() message: string | undefined;

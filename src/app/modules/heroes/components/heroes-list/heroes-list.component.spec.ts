@@ -36,4 +36,14 @@ describe('HeroesListComponent', () => {
   it('should filter heroes list when the input variable has a not-null new value', () => {})
 
   it('should display full heroes list when the input variable has a null new value', () => {})
+  
+  it('should destroy any nba when signal from nba comp is received', () => {})
+
+  it('should display a success nba when deleting hero is executed and is successful', () => {})
+
+  it('should display an error nba when deleting hero is executed and is faulty', () => {})
+
+  it('should display an info embedded notification whenever heroes list doesn\t have any items', () => {})
+
+  it('should display an error embedded notification whenever heroes list operations is faulty', () => {})
 });

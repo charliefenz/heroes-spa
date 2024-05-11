@@ -6,7 +6,7 @@ import { HeroesService } from '../../services/heroes.service';
 @Component({
   selector: 'app-heroes-actions',
   templateUrl: './heroes-actions.component.html',
-  styleUrl: './heroes-actions.component.css'
+  styleUrl: './heroes-actions.component.scss'
 })
 export class HeroesActionsComponent {
   @Input() heroId: number | undefined;
@@ -17,7 +17,7 @@ export class HeroesActionsComponent {
   constructor(private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {}
 
   navigateToHero(heroId: number | undefined) {
-    this.router.navigate(['hero', heroId], {relativeTo: this.route})
+    this.router.navigate(['heroes/hero', heroId])
   }
 
   handleDeleteAnswer(userWantsToDelete: boolean) {

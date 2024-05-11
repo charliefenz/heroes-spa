@@ -7,7 +7,7 @@ import { Hero } from '../../../../models/hero';
 @Component({
   selector: 'app-hero-container',
   templateUrl: './hero-container.component.html',
-  styleUrl: './hero-container.component.css'
+  styleUrl: './hero-container.component.scss'
 })
 export class HeroContainerComponent implements OnInit{
   loadingSpinner = true;
