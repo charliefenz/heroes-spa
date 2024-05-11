@@ -10,10 +10,11 @@ export class HeroesFilterContainerComponent {
   filterKeyword: string | undefined;
   resetFilterValue = false;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { 
+  }
   
   navigateTo(route: string) {
-    this.router.navigate([route], {relativeTo: this.route});
+    this.router.navigate([`heroes/${route}`]);
   }
 
   informFilterToResetValue(resetValue: boolean) {
