@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { NBAInput } from '../../../models/nbaInput';
 
 @Component({
   selector: 'app-nba',
@@ -9,7 +10,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from 
   styleUrl: './nba.component.scss'
 })
 export class NbaComponent implements OnChanges{
-  @Input() nbaType: 'error' | 'success' | 'info' = 'info';
+  @Input() nbaType: NBAInput['nbaType'] = 'info';
   @Input() message: string | undefined;
   @Output() informDestroyed : EventEmitter<boolean> = new EventEmitter();
   showTimeout = 5000;

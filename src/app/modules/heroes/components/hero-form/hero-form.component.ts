@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
 import { HeroesService } from '../../services/heroes.service';
+import { NBAInput } from '../../../../models/nbaInput';
 
 @Component({
   selector: 'app-hero-form',
@@ -18,7 +19,7 @@ export class HeroFormComponent implements OnChanges{
   superpowerAlreadyExists = false;
   activateSpinner = false;
   showEditingNba = false;
-  editingNbaType: 'error' | 'success' | 'info' = 'success';
+  editingNbaType: NBAInput['nbaType'] = 'success';
   editingMessage = "";
 
   constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {
