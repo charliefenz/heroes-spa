@@ -13,6 +13,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { NbaComponent } from '../../shared/components/nba/nba.component';
 import { EmbeddedNotificationComponent } from '../../shared/components/embedded-notification/embedded-notification.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -24,7 +27,7 @@ import { EmbeddedNotificationComponent } from '../../shared/components/embedded-
     HeroesFilterComponent,
     HeroesFilterContainerComponent,
     HeroesItemComponent,
-    HeroesListComponent
+    HeroesListComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +39,10 @@ import { EmbeddedNotificationComponent } from '../../shared/components/embedded-
     ReactiveFormsModule,
     LoaderComponent,
     NbaComponent,
-    EmbeddedNotificationComponent
+    EmbeddedNotificationComponent,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   providers: [
     MockApiService
