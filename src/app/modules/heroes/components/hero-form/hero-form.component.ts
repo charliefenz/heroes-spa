@@ -143,12 +143,10 @@ export class HeroFormComponent implements OnChanges{
 // FEAT Possible extraction of superpower handling logistic to a separate component
   addPower(event: MatChipInputEvent) {
     let value = (event.value || '').trim();
-    console.log('eventvalue',value)
 
     if (value) {
       this.superpowers.push(value);
     }
-    console.log(this.superpowers)
     event.chipInput!.clear();
   }
 
