@@ -36,21 +36,28 @@
     </div>
   </div>
   <div class="box3">
-    <div class="superpowers">
-      <label>Hero Superpower List:</label>
-      <div *ngFor="let superpower of heroForm.get('heroSuperpowerList')?.value">
-        <div>{{superpower}}</div>
-      </div>
-      <div *ngIf="!addingNewSuperpower && (editBehavior || !hero)">
-        <button type="button" (click)="toggleAddNewSuperpower()">Add</button>
-      </div>
-      <div *ngIf="addingNewSuperpower">
-        <input type="text" formControlName="newSuperpower">
-        <button type="button" (click)="addNewSuperpower()">Save</button>
-        <button type="button" (click)="cancelAddNewSuperpower()">Cancel</button>
-        <div *ngIf="superpowerAlreadyExists" class="error-message">Superpower already exists</div>
-      </div>
-    </div>
+    <mat-form-field class="superpowers">
+      <mat-label>Superpoderes</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Introduce superpoderes" formControlName="heroSuperpowerList">
+        @for (power of superpowers; track power) {
+          <mat-chip-row
+            (removed)="removePower(power)"
+            [editable]="true"
+            (edited)="editPower(power, $event)"
+            [aria-description]="'Presiona enter para editar ' + power">
+            {{power}}
+            <button matChipRemove [attr.aria-label]="'Eliminar ' + power">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+        <input placeholder="Añade un poder..."
+               [matChipInputFor]="chipGrid"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="addPower($event)"/>
+      </mat-chip-grid>
+    </mat-form-field>
   </div>
   <div class="actions">
     <div class="buttons">
