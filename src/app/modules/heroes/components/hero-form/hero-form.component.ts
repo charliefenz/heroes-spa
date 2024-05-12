@@ -5,6 +5,8 @@ import { Hero } from '../../../../models/hero';
 import { HeroesService } from '../../services/heroes.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NbaComponent } from '../../../../shared/components/nba/nba.component';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-hero-form',
@@ -15,9 +17,7 @@ export class HeroFormComponent implements OnChanges{
   @Input() hero: Hero | undefined;
   @Output() nameEmitter: EventEmitter<string> = new EventEmitter();
   heroForm: FormGroup;
-  addingNewSuperpower = false;
   editBehavior = false;
-  superpowerAlreadyExists = false;
   activateSpinner = false;
   createdHeroSuccessBaseMessage = 'Se ha creado el héroe con el id';
   snackBarDisplayInfo = {
@@ -25,6 +25,10 @@ export class HeroFormComponent implements OnChanges{
     message: ''
   };
   displayAsRequired = true;
+  // FEAT Possible extraction of superpower handling logistic to a separate component
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  superpowers: string[] = [];
 
   constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar) {
     this.heroForm = this.formBuilder.group({
@@ -163,5 +167,41 @@ export class HeroFormComponent implements OnChanges{
 
   emitName(heroName : string) {
     this.nameEmitter.emit(heroName);
+  }
+
+// FEAT Possible extraction of superpower handling logistic to a separate component
+  addPower(event: MatChipInputEvent) {
+    let value = (event.value || '').trim();
+    console.log('eventvalue',value)
+
+    if (value) {
+      this.superpowers.push(value);
+    }
+    console.log(this.superpowers)
+    event.chipInput!.clear();
+  }
+
+  removePower(power: string) {
+    const index = this.superpowers.indexOf(power);
+
+    if (index >= 0) {
+      this.superpowers.splice(index, 1);
+    }
+  }
+
+  editPower(power: string, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+    let index;
+
+    // Remove power if it no longer has a name
+    if (!value) {
+      this.removePower(power);
+      return;
+    }
+    // Edit existing power
+    index = this.superpowers.indexOf(power);
+    if (index >= 0) {
+      this.superpowers[index] = value;
+    }
   }
 }
