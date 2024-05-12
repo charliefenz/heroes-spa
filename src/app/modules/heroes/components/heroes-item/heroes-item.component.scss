@@ -4,8 +4,10 @@
   width: 80%;
 }
 
-.header {
-  
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
 .img-wrapper {

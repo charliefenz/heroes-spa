@@ -5,7 +5,7 @@
   <mat-card-content class="img-wrapper">
       <img mat-card-image src="{{hero?.image}}" alt="Photo of a {{hero?.name}}" height="100%" width="100%">
   </mat-card-content>
-  <mat-card-actions class="actions">
-    <app-heroes-actions [heroId]="hero?.id" (performDeletion)="propagateDeletion.emit($event)"></app-heroes-actions>
+  <mat-card-actions>
+    <app-heroes-actions [heroId]="hero?.id" (performDeletion)="propagateDeletion.emit($event)" class="actions"></app-heroes-actions>
   </mat-card-actions>
 </mat-card>

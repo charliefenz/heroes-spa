@@ -1,6 +1,6 @@
-<div class="more-details" (click)="navigateToHero(heroId)">
-  icono mas detalles
-</div>
-<div class="delete" (click)="openDeletePopUp()">
-  icono borrar
-</div>
+<button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="navigateToHero(heroId)">
+  <mat-icon fontIcon="visibility"></mat-icon>
+</button>
+<button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="openDeletePopUp()">
+  <mat-icon fontIcon="delete">home</mat-icon>
+</button>
