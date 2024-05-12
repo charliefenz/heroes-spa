@@ -4,7 +4,13 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 
 ## Versions
 
-### V0.5 (current version)
+### V0.6 (current version)
+- [shared-comps](#shared-components) V0.3
+  - Features the implementation of angular material into shared components.
+- [Heroes-Module](#heroes-module) V1.2
+  - Features the integration of the updated shared components into heroes-module. 
+
+### V0.5
 - Features angular material setup for other modules and components to use
 - [Heroes-Module](#heroes-module) V1.1
   - Integration with shared components to use NBAs, Loaders and embedded-notifications
