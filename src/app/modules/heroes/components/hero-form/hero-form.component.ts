@@ -120,35 +120,6 @@ export class HeroFormComponent implements OnChanges{
     this.router.navigate(['/heroes'])
   }
 
-  // FEAT Extract to a component and add edit and cancel features
-  toggleAddNewSuperpower() {
-    this.addingNewSuperpower = !this.addingNewSuperpower;
-    if (!this.addingNewSuperpower) {
-      this.heroForm.get('newSuperpower')?.setValue('');
-    }
-  }
-
-  cancelAddNewSuperpower() {
-    this.toggleAddNewSuperpower();
-  }
-
-  addNewSuperpower() {
-    const SUPER_POWER_ACTIONABLE_LIST = [...this.heroForm.value.heroSuperpowerList];
-    let newSuperpower: string;
-    
-    newSuperpower = this.heroForm.get('newSuperpower')?.value;
-    newSuperpower.trim();
-    if (!SUPER_POWER_ACTIONABLE_LIST.includes(newSuperpower)) {
-      this.superpowerAlreadyExists = false;
-      SUPER_POWER_ACTIONABLE_LIST.push(newSuperpower);
-      this.heroForm.get('heroSuperpowerList')?.setValue(SUPER_POWER_ACTIONABLE_LIST);
-      this.heroForm.get('newSuperpower')?.setValue('');
-      this.toggleAddNewSuperpower();
-    } else {
-      this.superpowerAlreadyExists = true;
-    }
-  }
-
   cancel() {
     if (this.editBehavior && this.hero) {
       this.heroForm.disable();
