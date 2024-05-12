@@ -3,7 +3,7 @@
   <div class="filter-and-actions">
     <app-heroes-filter (filterHeroes)="filterKeyword = $event" [cleanInputValue]="resetFilterValue"></app-heroes-filter>
     <div class="button-container">
-      <button id="create-hero-button" (click)="navigateTo('new-hero')">Crear Héroe</button>
+      <button mat-flat-button color="primary" id="create-hero-button" (click)="navigateTo('new-hero')">Crear</button>
     </div>
   </div>
   <div class="filter-list">
