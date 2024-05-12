@@ -16,6 +16,8 @@ import { EmbeddedNotificationComponent } from '../../shared/components/embedded-
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 
 
@@ -43,6 +45,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    MatButton,
+    MatIcon
   ],
   providers: [
     MockApiService
