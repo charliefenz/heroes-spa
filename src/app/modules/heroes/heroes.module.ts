@@ -18,7 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -46,7 +46,8 @@ import { MatIcon } from '@angular/material/icon';
     MatSelectModule,
     MatInputModule,
     MatButton,
-    MatIcon
+    MatIcon,
+    MatCheckboxModule
   ],
   providers: [
     MockApiService
