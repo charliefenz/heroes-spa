@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
 import { HeroesService } from '../../services/heroes.service';
 import { NBAInput } from '../../../../models/nbaInput';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NbaComponent } from '../../../../shared/components/nba/nba.component';
 
 @Component({
   selector: 'app-hero-form',
@@ -18,11 +20,12 @@ export class HeroFormComponent implements OnChanges{
   editBehavior = false;
   superpowerAlreadyExists = false;
   activateSpinner = false;
-  showEditingNba = false;
-  editingNbaType: NBAInput['nbaType'] = 'success';
-  editingMessage = "";
+  snackBarDisplayInfo = {
+    nbaType: 'success',
+    message: ''
+  };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService, private snackBar: MatSnackBar) {
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
@@ -62,16 +65,16 @@ export class HeroFormComponent implements OnChanges{
       if (this.editBehavior) {
         this.heroesService.editHero(hero).subscribe((response) => {
           this.activateSpinner = false;
-          this.showEditingNba = true;
-          this.editingMessage = response.result as string;
           if (response.code === 200) {
             this.emitName(hero.name);
             this.heroForm.disable();
             this.editBehavior = false;
           } else {
-            this.editingNbaType = 'error';
+            this.snackBarDisplayInfo.nbaType = 'error';
             this.cancel();
           }
+          this.snackBarDisplayInfo.message = response.result as string;
+          this.snackBar.openFromComponent(NbaComponent, {data: this.snackBarDisplayInfo})
         })
       } else {
         this.heroesService.createHero(hero).subscribe((response) => {
@@ -154,9 +157,5 @@ export class HeroFormComponent implements OnChanges{
 
   emitName(heroName : string) {
     this.nameEmitter.emit(heroName);
-  }
-
-  destroyEditingNba(destroyNba: boolean) {
-    this.showEditingNba = !destroyNba;
   }
 }
