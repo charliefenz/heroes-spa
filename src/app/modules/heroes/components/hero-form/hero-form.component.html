@@ -1,8 +1,21 @@
 <form [formGroup]="heroForm" (ngSubmit)="onSubmit()" class="hero-form">
   <div class="box1">
-    <label>Hero Image:</label>
-    <input type="text" formControlName="heroImage">
-    <div *ngIf="this.heroForm.get('heroImage')?.dirty && heroForm.controls['heroImage'].errors?.['required']">Hero Image is required.</div>
+    <div class="img-container" *ngIf="hero">
+      <img [src]="heroForm.get('heroImage')?.value" alt="" height="100%" width="100%">
+    </div>
+    <mat-form-field *ngIf="displayAsRequired">
+      <mat-label>Introduce la url de la imagen del heroe</mat-label>
+      <input matInput type="text" formControlName="heroImage" [required]="displayAsRequired">
+      @if (this.heroForm.get('heroImage')?.value && !this.heroForm.disabled) {
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="this.heroForm.get('heroImage')?.patchValue('')">
+          <mat-icon fontIcon="close"></mat-icon>
+        </button>
+      }
+      <div *ngIf="this.heroForm.get('heroImage')?.dirty && heroForm.controls['heroImage'].errors?.['required']">
+        <mat-error>Es necesario incluir una imagen</mat-error>
+      </div>
+
+    </mat-form-field>
   </div>
   <div class="box2">
     <mat-form-field class="hero-name">
