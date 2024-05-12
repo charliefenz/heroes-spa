@@ -1,15 +1,9 @@
 .container{
   width: 100%;
-  max-width: 300px;
-  
   padding: 2px;
-  display: grid;
-  grid-template-columns: 4fr 1fr;
-  column-gap: 5px;
 }
 
 input {
   display: block;
   border: none;
-  border-radius: 2px;
 }
