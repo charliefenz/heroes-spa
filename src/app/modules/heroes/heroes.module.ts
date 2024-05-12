@@ -13,7 +13,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { NbaComponent } from '../../shared/components/nba/nba.component';
 import { EmbeddedNotificationComponent } from '../../shared/components/embedded-notification/embedded-notification.component';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @NgModule({
@@ -24,7 +30,7 @@ import { EmbeddedNotificationComponent } from '../../shared/components/embedded-
     HeroesFilterComponent,
     HeroesFilterContainerComponent,
     HeroesItemComponent,
-    HeroesListComponent
+    HeroesListComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +42,14 @@ import { EmbeddedNotificationComponent } from '../../shared/components/embedded-
     ReactiveFormsModule,
     LoaderComponent,
     NbaComponent,
-    EmbeddedNotificationComponent
+    EmbeddedNotificationComponent,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatButton,
+    MatIcon,
+    MatCheckboxModule,
+    MatChipsModule
   ],
   providers: [
     MockApiService
