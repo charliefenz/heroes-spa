@@ -42,7 +42,7 @@ export class HeroFormComponent implements OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['hero'] && changes['hero'].currentValue) {
+    if (changes['hero'] && changes['hero'].currentValue !== changes['hero'].previousValue) {
       this.editBehavior = false;
       if (this.hero) {
         this.supplyFormValuesWithHeroDetails();
