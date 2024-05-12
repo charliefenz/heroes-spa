@@ -5,11 +5,13 @@
     <div *ngIf="this.heroForm.get('heroImage')?.dirty && heroForm.controls['heroImage'].errors?.['required']">Hero Image is required.</div>
   </div>
   <div class="box2">
-    <div class="hero-name">
-      <label>Hero Name:</label>
-      <input type="text" formControlName="heroName">
-      <div *ngIf="this.heroForm.get('heroName')?.dirty && heroForm.controls['heroName'].errors?.['required']">Hero Name is required.</div>
-    </div>
+    <mat-form-field class="hero-name">
+      <mat-label>Hero Name:</mat-label>
+      <input matInput type="text" formControlName="heroName" required>
+      <div *ngIf="this.heroForm.get('heroName')?.dirty && heroForm.controls['heroName'].errors?.['required']">
+        <mat-error>Valor requerido</mat-error>
+      </div>
+    </mat-form-field>
     <div class="hero-side-info">
       <div class="hero-status">
         <label>Hero Status:</label>
@@ -19,12 +21,12 @@
         </select>
         <div *ngIf="this.heroForm.get('heroStatus')?.dirty && heroForm.controls['heroStatus'].errors?.['required']">Hero Status is required.</div>
       </div>
-      <div class="hero-age">
-        <label>Hero Age:</label>
-        <input type="number" formControlName="heroAge">
-        <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['required']">Hero Age is required.</div>
-        <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['min']">Hero Age must be a positive number.</div>
-      </div>
+      <mat-form-field class="hero-age">
+        <mat-label>Hero Age:</mat-label>
+        <input matInput type="number" formControlName="heroAge" required>
+        <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['required']"><mat-error>Valor requerido</mat-error></div>
+        <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['min']"><mat-error>Edad no válida</mat-error></div>
+      </mat-form-field>
     </div>
 
   </div>
