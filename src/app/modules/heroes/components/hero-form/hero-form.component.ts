@@ -155,7 +155,7 @@ export class HeroFormComponent implements OnChanges{
 
   removePower(power: string) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    const index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
+    let index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
 
     if (index >= 0) {
       SUPER_POWER_ACTIONABLE_LIST.splice(index, 1);
@@ -165,7 +165,7 @@ export class HeroFormComponent implements OnChanges{
 
   editPower(power: string, event: MatChipEditedEvent) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    const value = event.value.trim();
+    let value = event.value.trim();
     let index;
 
     // Remove power if it no longer has a name
