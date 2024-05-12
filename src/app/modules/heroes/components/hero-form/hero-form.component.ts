@@ -30,7 +30,7 @@ export class HeroFormComponent implements OnChanges{
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
-      heroStatus: [true, Validators.required],
+      heroStatus: [true],
       heroAge: [null, [Validators.required, Validators.min(1)]],
       heroSuperpowerList: [[]],
       newSuperpower: ['']
