@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
 import { HeroesService } from '../../services/heroes.service';
-import { NBAInput } from '../../../../models/nbaInput';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NbaComponent } from '../../../../shared/components/nba/nba.component';
 
@@ -25,7 +24,7 @@ export class HeroFormComponent implements OnChanges{
     message: ''
   };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService, private snackBar: MatSnackBar) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar) {
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
@@ -149,7 +148,7 @@ export class HeroFormComponent implements OnChanges{
       this.heroForm.reset();
     }
   }
-
+  
   edit() {
     this.heroForm.enable();
     this.editBehavior = true;
