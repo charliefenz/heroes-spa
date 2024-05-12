@@ -1,57 +1,32 @@
 @import 'variables';
 
-.container {
-  display: flex;
-  width: 100vw;
-  justify-content: center;
-}
-
 .wrapper {
-  position: fixed;
-  bottom: 10px;
-  width: 80%;
-  min-height: 2em;
-  background-color: rgb(252, 240, 240);
-  z-index: 999;
-  margin: 0 10px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  border-radius: 5px;
-}
-
-.success {
-  border: 1px solid green;
-}
-
-.error {
-  border: 1px solid red;
-}
-
-.info {
-  border: 1px solid blue;
+  display: grid;
+  grid-template-columns: .2fr 1fr;
 }
 
 .icon {
-  max-width: 20%;
-  min-width: 20%; /*TODO Remove when icon found*/
-  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media (min-width: $l-tablet-portrait) {
-  .container {
-    justify-content: end;
-  }
-  
-  .wrapper {
-    width: 60%;
-  }
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: black;
 }
 
-@media (min-width: $xl-tablet-landscape) {  
-  .wrapper {
-    width: 40%;
-  }
+.success {
+  color: $success-color;
+}
+
+.error {
+  color: $error-color;
+}
+
+.info {
+  color: $info-color;
 }
 
