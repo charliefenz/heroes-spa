@@ -1,9 +1,11 @@
-<div class="material-card">
-  <div class="hero-img">
-    <img src="{{hero?.image}}" alt="image-for-{{hero?.name}}">
-  </div>
-  <div class="hero-name">{{hero?.name}}</div>
-  <div class="heroes-actions">
-    <app-heroes-actions [heroId]="hero?.id" (performDeletion)="propagateDeletion.emit($event)"></app-heroes-actions>
-  </div>
-</div>
+<mat-card class="hero-card">
+  <mat-card-header class="header">
+    <mat-card-title>{{hero?.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="img-wrapper">
+      <img mat-card-image src="{{hero?.image}}" alt="Photo of a {{hero?.name}}" height="100%" width="100%">
+  </mat-card-content>
+  <mat-card-actions>
+    <app-heroes-actions [heroId]="hero?.id" (performDeletion)="propagateDeletion.emit($event)" class="actions"></app-heroes-actions>
+  </mat-card-actions>
+</mat-card>

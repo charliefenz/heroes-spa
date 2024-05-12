@@ -1,7 +1,7 @@
 @import 'variables';
 
 .hero-filter-main-title {
-  background-color: grey;
+  
   height: 15vh;
   display: flex;
   justify-content: center;
@@ -15,14 +15,14 @@
 
 .filter-and-actions {
   width: 100%;
-  background-color: red;
+  
   display: flex;
   display: grid;
   grid-template-columns: 1fr;
 }
 
 .button-container {
-  background-color: blue;
+  
   display: flex;
   width: 100%;
   justify-content: start;
@@ -33,7 +33,7 @@
 }
 
 .filter-list {
-  background-color: blue;
+  
 }
 
 @media (min-width: $xs-mobile-portrait) {

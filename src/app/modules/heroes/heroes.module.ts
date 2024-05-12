@@ -20,6 +20,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatButton,
     MatIcon,
     MatCheckboxModule,
-    MatChipsModule
+    MatChipsModule,
+    MatCardModule,
   ],
   providers: [
     MockApiService
