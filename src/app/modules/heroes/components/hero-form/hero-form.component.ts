@@ -58,8 +58,8 @@ export class HeroFormComponent implements OnChanges{
       heroName: this.hero?.name,
       heroStatus: this.hero?.isActive,
       heroAge: this.hero?.age,
-      heroSuperpowerList: this.hero?.superpowers,
     })
+    this.superpowers = this.hero?.superpowers as string[];
   }
 
   onSubmit() {
@@ -111,7 +111,7 @@ export class HeroFormComponent implements OnChanges{
       age: this.heroForm.get('heroAge')?.value,
       isActive: this.heroForm.get('heroStatus')?.value,
       image: this.heroForm.get('heroImage')?.value,
-      superpowers: this.heroForm.get('heroSuperpowerList')?.value,
+      superpowers: this.superpowers,
     }
     return HERO
   }
