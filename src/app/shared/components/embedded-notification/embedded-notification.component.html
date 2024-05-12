@@ -1,10 +1,8 @@
 <div class="container">
-  <div class="wrapper" [ngClass]="nbaType">
-    <div class="icon">
-      <img src="{{iconType[nbaType]}}" alt="{{nbaType}} icon">
-    </div>
-    <div class="message">
-      {{message}}
-    </div>
-  </div>
+  <mat-card class="wrapper" [ngClass]="nbaType" [appearance]="'outlined'">
+    <mat-card-content class="icon">
+      <mat-icon fontIcon="{{iconsName[nbaType]}}" aria-hidden="false" aria-label="icon"></mat-icon>
+    </mat-card-content>
+    <mat-card-content class="message">{{message}}</mat-card-content>
+  </mat-card>
 </div>
