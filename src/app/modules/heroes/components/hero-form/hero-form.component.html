@@ -57,4 +57,3 @@
 <div *ngIf="activateSpinner">
   <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
 </div>
-<app-nba *ngIf="showEditingNba" [nbaType]="editingNbaType" [message]="editingMessage" (informDestroyed)="destroyEditingNba($event)"></app-nba>
