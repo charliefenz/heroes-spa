@@ -24,6 +24,7 @@ export class HeroFormComponent implements OnChanges{
     nbaType: 'success',
     message: ''
   };
+  displayAsRequired = true;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar) {
     this.heroForm = this.formBuilder.group({
@@ -42,6 +43,7 @@ export class HeroFormComponent implements OnChanges{
       if (this.hero) {
         this.supplyFormValuesWithHeroDetails();
         this.heroForm.disable();
+        this.displayAsRequired = false;
       }
     }
   }
@@ -68,6 +70,7 @@ export class HeroFormComponent implements OnChanges{
           if (response.code === 200) {
             this.emitName(hero.name);
             this.heroForm.disable();
+            this.displayAsRequired = false;
             this.editBehavior = false;
             this.snackBarDisplayInfo.nbaType = 'success';
           } else {
@@ -145,6 +148,7 @@ export class HeroFormComponent implements OnChanges{
   cancel() {
     if (this.editBehavior && this.hero) {
       this.heroForm.disable();
+      this.displayAsRequired = false;
       this.supplyFormValuesWithHeroDetails()
       this.editBehavior = false;
     } else {

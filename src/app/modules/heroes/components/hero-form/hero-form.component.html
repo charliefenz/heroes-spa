@@ -7,7 +7,7 @@
   <div class="box2">
     <mat-form-field class="hero-name">
       <mat-label>Hero Name:</mat-label>
-      <input matInput type="text" formControlName="heroName" required>
+      <input matInput type="text" formControlName="heroName" [required]="displayAsRequired">
       <div *ngIf="this.heroForm.get('heroName')?.dirty && heroForm.controls['heroName'].errors?.['required']">
         <mat-error>Valor requerido</mat-error>
       </div>
@@ -23,7 +23,7 @@
       </div>
       <mat-form-field class="hero-age">
         <mat-label>Hero Age:</mat-label>
-        <input matInput type="number" formControlName="heroAge" required>
+        <input matInput type="number" formControlName="heroAge" [required]="displayAsRequired">
         <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['required']"><mat-error>Valor requerido</mat-error></div>
         <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['min']"><mat-error>Edad no válida</mat-error></div>
       </mat-form-field>
