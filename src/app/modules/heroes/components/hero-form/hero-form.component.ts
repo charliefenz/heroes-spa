@@ -46,6 +46,7 @@ export class HeroFormComponent implements OnChanges{
       this.editBehavior = false;
       if (this.hero) {
         this.supplyFormValuesWithHeroDetails();
+        this.superpowers = this.hero?.superpowers as string[];
         this.heroForm.disable();
         this.displayAsRequired = false;
       }
@@ -59,7 +60,6 @@ export class HeroFormComponent implements OnChanges{
       heroStatus: this.hero?.isActive,
       heroAge: this.hero?.age,
     })
-    this.superpowers = this.hero?.superpowers as string[];
   }
 
   onSubmit() {
@@ -124,7 +124,8 @@ export class HeroFormComponent implements OnChanges{
     if (this.editBehavior && this.hero) {
       this.heroForm.disable();
       this.displayAsRequired = false;
-      this.supplyFormValuesWithHeroDetails()
+      this.supplyFormValuesWithHeroDetails();
+      this.superpowers = this.hero?.superpowers as string[];
       this.editBehavior = false;
     } else {
       this.heroForm.reset();
@@ -142,23 +143,28 @@ export class HeroFormComponent implements OnChanges{
 
 // FEAT Possible extraction of superpower handling logistic to a separate component
   addPower(event: MatChipInputEvent) {
+    const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
     let value = (event.value || '').trim();
 
     if (value) {
-      this.superpowers.push(value);
+      SUPER_POWER_ACTIONABLE_LIST.push(value);
+      this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
     event.chipInput!.clear();
   }
 
   removePower(power: string) {
-    const index = this.superpowers.indexOf(power);
+    const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
+    const index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
 
     if (index >= 0) {
-      this.superpowers.splice(index, 1);
+      SUPER_POWER_ACTIONABLE_LIST.splice(index, 1);
+      this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
   }
 
   editPower(power: string, event: MatChipEditedEvent) {
+    const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
     const value = event.value.trim();
     let index;
 
@@ -168,9 +174,10 @@ export class HeroFormComponent implements OnChanges{
       return;
     }
     // Edit existing power
-    index = this.superpowers.indexOf(power);
+    index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power); 
     if (index >= 0) {
-      this.superpowers[index] = value;
+      SUPER_POWER_ACTIONABLE_LIST[index] = value;
+      this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
   }
 }
