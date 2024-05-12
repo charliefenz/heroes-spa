@@ -19,6 +19,7 @@ export class HeroFormComponent implements OnChanges{
   editBehavior = false;
   superpowerAlreadyExists = false;
   activateSpinner = false;
+  createdHeroSuccessBaseMessage = 'Se ha creado el héroe con el id';
   snackBarDisplayInfo = {
     nbaType: 'success',
     message: ''
@@ -68,6 +69,7 @@ export class HeroFormComponent implements OnChanges{
             this.emitName(hero.name);
             this.heroForm.disable();
             this.editBehavior = false;
+            this.snackBarDisplayInfo.nbaType = 'success';
           } else {
             this.snackBarDisplayInfo.nbaType = 'error';
             this.cancel();
@@ -79,10 +81,14 @@ export class HeroFormComponent implements OnChanges{
         this.heroesService.createHero(hero).subscribe((response) => {
           this.activateSpinner = false;
           if (response.code === 200) {
-            this.navigateBack(response.result as string)
+            this.snackBarDisplayInfo.nbaType = 'success'
+            this.snackBarDisplayInfo.message = `${this.createdHeroSuccessBaseMessage} ${response.result as string}`
           } else {
-            this.navigateBack('error')
+            this.snackBarDisplayInfo.nbaType = 'error'
+            this.snackBarDisplayInfo.message = response.result as string
           }
+          this.snackBar.openFromComponent(NbaComponent, {data: this.snackBarDisplayInfo})
+          this.navigateBack()
         })
       }
     }
@@ -103,11 +109,8 @@ export class HeroFormComponent implements OnChanges{
     return HERO
   }
 
-  navigateBack(createdId: string | undefined = undefined) {
-    let navigationOptions: any[] = ['/heroes']
-
-    if (createdId) navigationOptions.push({id: createdId});
-    this.router.navigate(navigationOptions)
+  navigateBack() {
+    this.router.navigate(['/heroes'])
   }
 
   // FEAT Extract to a component and add edit and cancel features
