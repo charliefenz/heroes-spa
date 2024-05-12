@@ -3,6 +3,9 @@ import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
 import { concatMap, map } from 'rxjs';
 import { Response } from '../../../../models/response';
+import { NBAInput } from '../../../../models/nbaInput';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NbaComponent } from '../../../../shared/components/nba/nba.component';
 
 @Component({
   selector: 'app-heroes-list',
@@ -15,13 +18,14 @@ export class HeroesListComponent implements OnInit, OnChanges{
   showLoadingSpinner = false;
   heroes: Hero[] = [];
   showNoHeroesNotification = false;
-  NoHeroesNotificationType: 'error' | 'success' | 'info' = 'info';
+  snackBarDisplayInfo = {
+    nbaType: 'success',
+    message: ''
+  };
+  NoHeroesNotificationType: NBAInput['nbaType'] = 'info';
   noHeroesMessage = "No se han encontrado Héroes";
-  showDeletionNba = false;
-  deletionNbaType: 'error' | 'success' | 'info' = 'success';
-  deletionMessage = "";
 
-  constructor(private heroesService: HeroesService) {}
+  constructor(private heroesService: HeroesService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
@@ -68,19 +72,15 @@ export class HeroesListComponent implements OnInit, OnChanges{
     if (heroId) {
       this.heroesService.deletehero((heroId)).pipe(
         map(deleteResponse => {
-          this.showDeletionNba = true;
-          this.deletionMessage = deleteResponse.result as string;
+          this.snackBarDisplayInfo.message = deleteResponse.result as string;
           if (deleteResponse.code !== 200) {
-            this.deletionNbaType = 'error';
+            this.snackBarDisplayInfo.nbaType = 'error';
             this.resetFilterDueToHeroDeletion.emit(false);
           }
+          this.snackBar.openFromComponent(NbaComponent, {data: this.snackBarDisplayInfo})
         }),
         concatMap(() => this.heroesService.getHeroes())
       ).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
     }
-  }
-
-  destroyDeletionNba(destroyNba: boolean) {
-    this.showDeletionNba = !destroyNba;
   }
 }

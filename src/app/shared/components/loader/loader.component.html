@@ -1,5 +1,3 @@
 <div class="wrapper" [class.overlay]="setFullViewSpinner">
-  <div [ngClass]="{'size-small': this.setSmallSizeSpinner, 'size-medium': !this.setSmallSizeSpinner}">
-    <img src="https://i.gifer.com/ZKZg.gif" alt="spinner">
-  </div>
+    <mat-spinner [diameter]="chooseSize()"></mat-spinner>
 </div>
