@@ -9,8 +9,18 @@
 }
 
 .img-wrapper {
-  background-color: green;
   padding: 0 !important;
-  height: 100px;
   overflow: hidden;
+}
+
+@media (min-width: $m-mobile-portrait) {
+  .hero-card {
+    width: 70%;
+  }
+}
+
+@media (min-width: $l-tablet-portrait) {
+  .img-wrapper {
+    height: 150px;
+  }
 }
