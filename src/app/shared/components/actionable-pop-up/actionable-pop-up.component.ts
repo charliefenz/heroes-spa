@@ -1,17 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, Inject} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-actionable-pop-up',
-  standalone: true,
-  imports: [],
   templateUrl: './actionable-pop-up.component.html',
-  styleUrl: './actionable-pop-up.component.css'
+  standalone: true,
+  imports: [
+    MatButtonModule,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose
+  ]
 })
 export class ActionablePopUpComponent {
-  @Input() message: string | undefined;
-  @Output() selectionEmitter: EventEmitter<boolean> = new EventEmitter();
-
-  communicateChoice(choice: boolean) {
-    this.selectionEmitter.emit(choice)
-  }
+  constructor(public dialogRef: MatDialogRef<ActionablePopUpComponent>, @Inject(MAT_DIALOG_DATA) public data: {message: string}) {}
 }

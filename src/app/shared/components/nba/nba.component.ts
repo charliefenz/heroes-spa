@@ -1,32 +1,31 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel, MatSnackBarRef } from '@angular/material/snack-bar';
+import { NBAInput } from '../../../models/nbaInput';
+import { MatIcon } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'app-nba',
   standalone: true,
-  imports: [NgClass],
+  imports: [MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction, MatIcon, NgClass],
+  providers: [MatSnackBar],
   templateUrl: './nba.component.html',
-  styleUrl: './nba.component.css'
+  styleUrl: './nba.component.scss'
 })
-export class NbaComponent implements OnChanges{
-  @Input() nbaType: 'error' | 'success' | 'info' = 'info';
-  @Input() message: string | undefined;
-  @Output() informDestroyed : EventEmitter<boolean> = new EventEmitter();
-  showTimeout = 5000;
-
-  iconType: { [key: string]: string } = {
-    error: 'errorRef', // TODO Look for icons
-    success: 'successRef',
-    info: 'infoRef'
+export class NbaComponent implements OnInit{
+  showTimeout = 2500;
+  iconsName = {
+    info: 'info',
+    success: 'check_circle',
+    error: 'warning'
   };
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['message'].currentValue !== changes['message'].previousValue && changes['message'].previousValue === undefined) {
-      console.log('nba-comp/messageInput', this.message)
-      setTimeout(() => {
-        this.informDestroyed.emit(true);
-      }, this.showTimeout)
-    }
+  constructor(public snackBarRef: MatSnackBarRef<NbaComponent>, @Inject(MAT_SNACK_BAR_DATA) public data: {nbaType: NBAInput['nbaType'], message: String}) {
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.snackBarRef.dismiss()
+    }, this.showTimeout)
   }
 }
-

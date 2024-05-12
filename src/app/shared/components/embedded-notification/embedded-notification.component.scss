@@ -1,0 +1,61 @@
+@import 'variables';
+
+.container {
+  display: flex;
+  justify-content: center;
+  font-size: 0.8em;
+}
+
+.wrapper {
+  min-width: 150px;
+  max-width: 350px;
+  margin: 10px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr;
+}
+
+mat-card-content {
+  padding: 0 !important;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: black;
+}
+
+.success {
+  border: 1px solid $success-color;
+  color: $success-color;
+}
+
+.error {
+  border: 1px solid $error-color;
+  color: $error-color;
+}
+
+.info {
+  border: 1px solid $info-color;
+  color: $info-color;
+}
+
+@media (min-width: $xs-mobile-portrait) {
+  .wrapper {
+    font-size: inherit;
+  }
+}
+
+@media (min-width: $l-tablet-portrait) {
+  .wrapper {
+    width: 40%;
+    max-width: 350px;
+  }
+}
+

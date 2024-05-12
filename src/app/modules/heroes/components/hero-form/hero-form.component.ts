@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
 import { HeroesService } from '../../services/heroes.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NbaComponent } from '../../../../shared/components/nba/nba.component';
 
 @Component({
   selector: 'app-hero-form',
   templateUrl: './hero-form.component.html',
-  styleUrl: './hero-form.component.css'
+  styleUrl: './hero-form.component.scss'
 })
 export class HeroFormComponent implements OnChanges{
   @Input() hero: Hero | undefined;
@@ -17,11 +19,13 @@ export class HeroFormComponent implements OnChanges{
   editBehavior = false;
   superpowerAlreadyExists = false;
   activateSpinner = false;
-  showEditingNba = false;
-  editingNbaType: 'error' | 'success' | 'info' = 'success';
-  editingMessage = "";
+  createdHeroSuccessBaseMessage = 'Se ha creado el héroe con el id';
+  snackBarDisplayInfo = {
+    nbaType: 'success',
+    message: ''
+  };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar) {
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
@@ -61,25 +65,30 @@ export class HeroFormComponent implements OnChanges{
       if (this.editBehavior) {
         this.heroesService.editHero(hero).subscribe((response) => {
           this.activateSpinner = false;
-          this.showEditingNba = true;
-          this.editingMessage = response.result as string;
           if (response.code === 200) {
             this.emitName(hero.name);
             this.heroForm.disable();
             this.editBehavior = false;
+            this.snackBarDisplayInfo.nbaType = 'success';
           } else {
-            this.editingNbaType = 'error';
+            this.snackBarDisplayInfo.nbaType = 'error';
             this.cancel();
           }
+          this.snackBarDisplayInfo.message = response.result as string;
+          this.snackBar.openFromComponent(NbaComponent, {data: this.snackBarDisplayInfo})
         })
       } else {
         this.heroesService.createHero(hero).subscribe((response) => {
           this.activateSpinner = false;
           if (response.code === 200) {
-            this.navigateBack(response.result as string)
+            this.snackBarDisplayInfo.nbaType = 'success'
+            this.snackBarDisplayInfo.message = `${this.createdHeroSuccessBaseMessage} ${response.result as string}`
           } else {
-            this.navigateBack('error')
+            this.snackBarDisplayInfo.nbaType = 'error'
+            this.snackBarDisplayInfo.message = response.result as string
           }
+          this.snackBar.openFromComponent(NbaComponent, {data: this.snackBarDisplayInfo})
+          this.navigateBack()
         })
       }
     }
@@ -100,11 +109,8 @@ export class HeroFormComponent implements OnChanges{
     return HERO
   }
 
-  navigateBack(createdId: string | undefined = undefined) {
-    let navigationOptions: any[] = ['/heroes']
-
-    if (createdId) navigationOptions.push({id: createdId});
-    this.router.navigate(navigationOptions)
+  navigateBack() {
+    this.router.navigate(['/heroes'])
   }
 
   // FEAT Extract to a component and add edit and cancel features
@@ -145,7 +151,7 @@ export class HeroFormComponent implements OnChanges{
       this.heroForm.reset();
     }
   }
-
+  
   edit() {
     this.heroForm.enable();
     this.editBehavior = true;
@@ -153,9 +159,5 @@ export class HeroFormComponent implements OnChanges{
 
   emitName(heroName : string) {
     this.nameEmitter.emit(heroName);
-  }
-
-  destroyEditingNba(destroyNba: boolean) {
-    this.showEditingNba = !destroyNba;
   }
 }

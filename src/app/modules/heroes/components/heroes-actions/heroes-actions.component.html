@@ -1,7 +1,6 @@
 <div class="more-details" (click)="navigateToHero(heroId)">
   icono mas detalles
 </div>
-<div class="delete" (click)="activateDeletePopUp = true">
+<div class="delete" (click)="openDeletePopUp()">
   icono borrar
 </div>
-<app-actionable-pop-up *ngIf="activateDeletePopUp" [message]="deleteMessage" (selectionEmitter)="handleDeleteAnswer($event)"></app-actionable-pop-up>
