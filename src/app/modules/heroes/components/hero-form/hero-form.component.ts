@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NbaComponent } from '../../../../shared/components/nba/nba.component';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ImageInputDialogComponent } from '../image-input-dialog/image-input-dialog.component';
 
 @Component({
   selector: 'app-hero-form',
@@ -30,7 +32,7 @@ export class HeroFormComponent implements OnChanges{
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   superpowers: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar, public dialog: MatDialog) {
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
@@ -139,6 +141,19 @@ export class HeroFormComponent implements OnChanges{
 
   emitName(heroName : string) {
     this.nameEmitter.emit(heroName);
+  }
+
+  openImageInputDialog() {
+    let dialogRef: MatDialogRef<ImageInputDialogComponent>
+
+    if (!this.heroForm.disabled) {
+      dialogRef = this.dialog.open(ImageInputDialogComponent);
+      dialogRef.afterClosed().subscribe(imgUrl => {
+        if (imgUrl !== "") {
+          this.heroForm.get('heroImage')?.patchValue(imgUrl);
+        }
+      });
+    }
   }
 
 // FEAT Possible extraction of superpower handling logistic to a separate component

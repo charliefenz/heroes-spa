@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-actionable-pop-up',
   templateUrl: './actionable-pop-up.component.html',
+  styleUrl: './actionable-pop-up.component.scss',
   standalone: true,
   imports: [
     MatButtonModule,

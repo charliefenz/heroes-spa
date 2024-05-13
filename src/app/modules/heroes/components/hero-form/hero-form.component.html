@@ -1,24 +1,14 @@
 <form [formGroup]="heroForm" (ngSubmit)="onSubmit()" class="hero-form">
-  <div class="box1">
-    <div class="img-container" *ngIf="hero">
-      <img [src]="heroForm.get('heroImage')?.value" alt="" height="100%" width="100%">
+  <div class="grid-image-box">
+    <div class="img-container">
+     @if (heroForm.get('heroImage')?.value !== '') {
+      <img [src]="heroForm.get('heroImage')?.value" alt="Imagen del heroe {{hero ? hero.name : ''}}" height="100%" width="100%" (click)="openImageInputDialog()">
+     } @else {
+      <div class="no-img-container" (click)="openImageInputDialog()"><p>Haz clic para introducir la imagen</p></div>
+     }
     </div>
-    <!-- TODO Extract to a dialog -->
-    <!-- <mat-form-field *ngIf="displayAsRequired" class="hero-img">
-      <mat-label>Introduce la url de la imagen del heroe</mat-label>
-      <input matInput type="text" formControlName="heroImage" [required]="displayAsRequired">
-      @if (heroForm.get('heroImage')?.value && !heroForm.disabled) {
-      <button matSuffix class="suffix-icon-main-style" mat-icon-button aria-label="Clear"
-        (click)="heroForm.get('heroImage')?.patchValue('')">
-        <mat-icon fontIcon="close"></mat-icon>
-      </button>
-      }
-      <div *ngIf="heroForm.get('heroImage')?.dirty && heroForm.controls['heroImage'].errors?.['required']">
-        <mat-error>Es necesario incluir una imagen</mat-error>
-      </div>
-    </mat-form-field> -->
   </div>
-  <div class="box2">
+  <div class="grid-inputs-box">
     <mat-form-field class="hero-name" [color]="'accent'">
       <mat-label>Nombre:</mat-label>
       <input matInput type="text" formControlName="heroName" [required]="displayAsRequired">
@@ -52,7 +42,7 @@
       <mat-checkbox [checked]="heroForm.get('heroStatus')?.value" formControlName="heroStatus"></mat-checkbox>
     </div>
   </div>
-  <div class="box3">
+  <div class="grid-superpower-box">
     <mat-form-field [color]="'accent'" class="superpowers">
       <mat-label>Superpoderes</mat-label>
       <mat-chip-grid #chipGrid aria-label="Introduce superpoderes" formControlName="heroSuperpowerList">
