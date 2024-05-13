@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'variables';
+
 html, body {
   margin: 0;
   padding: 0;
@@ -9,4 +11,15 @@ html, body {
   box-sizing: border-box;
 }
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.suffix-icon-main-style {
+  border: none;
+  background-color: transparent;
+  color: $my-primary-color;
+  width: fit-content;
+}
+
+button {
+  width: 150px;
+}

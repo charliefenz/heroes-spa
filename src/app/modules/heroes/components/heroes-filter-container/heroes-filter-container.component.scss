@@ -1,47 +1,33 @@
 @import 'variables';
 
-.hero-filter-main-title {
-  background-color: grey;
-  height: 15vh;
+.filter-and-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+}
+
+.button-container, .filter-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 }
 
-.container {
-  padding: 0px 5px;
-  grid-template-columns: 1fr;
-}
-
-.filter-and-actions {
+.filter-container .heroes-filter{
   width: 100%;
-  background-color: red;
-  display: flex;
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.button-container {
-  background-color: blue;
-  display: flex;
-  width: 100%;
-  justify-content: start;
-}
-
-.button-container button {
-  width: fit-content;
 }
 
 .filter-list {
-  background-color: blue;
+  margin-top: 20px;
+  width: 100%;
 }
 
-@media (min-width: $xs-mobile-portrait) {
+@media (min-width: $l-tablet-portrait) {
   .filter-and-actions {
-    grid-template-columns: 80% 20%;
+    grid-template-columns: 0.2fr 1fr;
   }
 
   .button-container {
-    justify-content: end;
+    padding-bottom: 22px;
   }
 }

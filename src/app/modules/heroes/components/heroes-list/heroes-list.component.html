@@ -1,11 +1,10 @@
-<div class="container">
-  <div *ngIf="showLoadingSpinner">
-    <app-embedded-notification *ngIf="showNoHeroesNotification" [nbaType]="NoHeroesNotificationType" [message]="noHeroesMessage"></app-embedded-notification>
-    <div *ngFor="let hero of heroes">
-      <app-heroes-item [hero]="hero" (propagateDeletion)="deleteHero($event)"></app-heroes-item>
-    </div>
+<app-embedded-notification *ngIf="showNoHeroesNotification" [nbaType]="NoHeroesNotificationType"
+  [message]="noHeroesMessage"></app-embedded-notification>
+<div *ngIf="showLoadingSpinner" class="heroes-grid-container">
+  <div *ngFor="let hero of heroes">
+    <app-heroes-item [hero]="hero" (propagateDeletion)="deleteHero($event)" class="hero-item"></app-heroes-item>
   </div>
-  <div *ngIf="!showLoadingSpinner">
-    <app-loader [setFullViewSpinner]="false" [setSmallSizeSpinner]="true"></app-loader>
-  </div>
+</div>
+<div *ngIf="!showLoadingSpinner">
+  <app-loader [setFullViewSpinner]="false" [setSmallSizeSpinner]="true"></app-loader>
 </div>

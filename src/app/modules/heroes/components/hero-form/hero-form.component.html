@@ -1,57 +1,73 @@
 <form [formGroup]="heroForm" (ngSubmit)="onSubmit()" class="hero-form">
-  <div class="box1">
-    <label>Hero Image:</label>
-    <input type="text" formControlName="heroImage">
-    <div *ngIf="this.heroForm.get('heroImage')?.dirty && heroForm.controls['heroImage'].errors?.['required']">Hero Image is required.</div>
+  <div class="grid-image-box">
+    <div class="img-container">
+     @if (heroForm.get('heroImage')?.value !== '') {
+      <img [src]="heroForm.get('heroImage')?.value" alt="Imagen del heroe {{hero ? hero.name : ''}}" height="100%" width="100%" (click)="openImageInputDialog()">
+     } @else {
+      <div class="no-img-container" (click)="openImageInputDialog()"><p>Haz clic para introducir la imagen</p></div>
+     }
+    </div>
   </div>
-  <div class="box2">
-    <div class="hero-name">
-      <label>Hero Name:</label>
-      <input type="text" formControlName="heroName">
-      <div *ngIf="this.heroForm.get('heroName')?.dirty && heroForm.controls['heroName'].errors?.['required']">Hero Name is required.</div>
-    </div>
-    <div class="hero-side-info">
-      <div class="hero-status">
-        <label>Hero Status:</label>
-        <select formControlName="heroStatus">
-          <option value="true">Active</option>
-          <option value="false">Not Active</option>
-        </select>
-        <div *ngIf="this.heroForm.get('heroStatus')?.dirty && heroForm.controls['heroStatus'].errors?.['required']">Hero Status is required.</div>
+  <div class="grid-inputs-box">
+    <mat-form-field class="hero-name" [color]="'accent'">
+      <mat-label>Nombre:</mat-label>
+      <input matInput type="text" formControlName="heroName" [required]="displayAsRequired">
+      @if (heroForm.get('heroName')?.value && !heroForm.disabled) {
+      <button matSuffix class="suffix-icon-main-style" mat-icon-button aria-label="Clear"
+        (click)="heroForm.get('heroName')?.patchValue('')">
+        <mat-icon fontIcon="close"></mat-icon>
+      </button>
+      }
+      <div *ngIf="heroForm.get('heroName')?.dirty && heroForm.controls['heroName'].errors?.['required']">
+        <mat-error>Valor requerido</mat-error>
       </div>
-      <div class="hero-age">
-        <label>Hero Age:</label>
-        <input type="number" formControlName="heroAge">
-        <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['required']">Hero Age is required.</div>
-        <div *ngIf="this.heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['min']">Hero Age must be a positive number.</div>
+    </mat-form-field>
+    <mat-form-field [color]="'accent'" class="hero-age">
+      <mat-label>Edad:</mat-label>
+      <input matInput type="number" formControlName="heroAge" [required]="displayAsRequired">
+      @if (heroForm.get('heroAge')?.value && !heroForm.disabled) {
+      <button matSuffix class="suffix-icon-main-style" mat-icon-button aria-label="Clear"
+        (click)="heroForm.get('heroAge')?.patchValue('')">
+        <mat-icon fontIcon="close"></mat-icon>
+      </button>
+      }
+      <div *ngIf="heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['required']">
+        <mat-error>Valor requerido</mat-error>
       </div>
+      <div *ngIf="heroForm.get('heroAge')?.dirty && heroForm.controls['heroAge'].errors?.['min']"><mat-error>Edad no
+          válida</mat-error></div>
+    </mat-form-field>
+    <div class="hero-status">
+      <label>En activo:</label>
+      <mat-checkbox [checked]="heroForm.get('heroStatus')?.value" formControlName="heroStatus"></mat-checkbox>
     </div>
-
   </div>
-  <div class="box3">
-    <div class="superpowers">
-      <label>Hero Superpower List:</label>
-      <div *ngFor="let superpower of heroForm.get('heroSuperpowerList')?.value">
-        <div>{{superpower}}</div>
-      </div>
-      <div *ngIf="!addingNewSuperpower && (editBehavior || !hero)">
-        <button type="button" (click)="toggleAddNewSuperpower()">Add</button>
-      </div>
-      <div *ngIf="addingNewSuperpower">
-        <input type="text" formControlName="newSuperpower">
-        <button type="button" (click)="addNewSuperpower()">Save</button>
-        <button type="button" (click)="cancelAddNewSuperpower()">Cancel</button>
-        <div *ngIf="superpowerAlreadyExists" class="error-message">Superpower already exists</div>
-      </div>
-    </div>
+  <div class="grid-superpower-box">
+    <mat-form-field [color]="'accent'" class="superpowers">
+      <mat-label>Superpoderes</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Introduce superpoderes" formControlName="heroSuperpowerList">
+        @for (power of superpowers; track power) {
+        <mat-chip-row (removed)="removePower(power)" [editable]="true" (edited)="editPower(power, $event)"
+          [aria-description]="'Presiona enter para editar ' + power">
+          {{power}}
+          <button matChipRemove [attr.aria-label]="'Eliminar ' + power">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        }
+        <input placeholder="Añade un poder..." [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="addPower($event)" />
+      </mat-chip-grid>
+    </mat-form-field>
   </div>
   <div class="actions">
-    <div class="buttons">
-      <button (click)="navigateBack()">Volver a listado</button>
-      <button *ngIf="hero && !editBehavior" (click)="edit()">Editar</button>
-      <button *ngIf="editBehavior || !hero" type="submit" [disabled]="heroForm.invalid">Guardar</button>
-      <button *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior" (click)="cancel()">Cancelar</button>
-    </div>
+    <button mat-flat-button color="accent" (click)="navigateBack()">Volver</button>
+    <button mat-flat-button color="primary" *ngIf="hero && !editBehavior" (click)="edit()">Editar</button>
+    <button mat-flat-button color="primary" *ngIf="editBehavior || !hero" type="submit"
+      [disabled]="heroForm.invalid">Guardar</button>
+    <button mat-flat-button color="accent" *ngIf="editBehavior || !hero" [disabled]="heroForm.pristine && !editBehavior"
+      (click)="cancel()">Cancelar</button>
   </div>
 </form>
 <div *ngIf="activateSpinner">
