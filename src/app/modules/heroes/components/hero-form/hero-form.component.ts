@@ -147,8 +147,9 @@ export class HeroFormComponent implements OnChanges{
     const DIALOG_REF = this.dialog.open(ImageInputDialogComponent);
 
     DIALOG_REF.afterClosed().subscribe(imgUrl => {
-      console.log(imgUrl)
-      // this.heroForm.get('heroImage')?.patchValue(imgUrl);
+      if (imgUrl !== "") {
+        this.heroForm.get('heroImage')?.patchValue(imgUrl);
+      }
     });
   }
 
