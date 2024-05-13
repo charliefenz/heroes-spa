@@ -1,1 +1,21 @@
-// TODO Style according to general format
+@import 'variables';
+
+.wrapper {
+  width: 100%;
+}
+
+.dialog-content mat-label {
+  font-size: 0.8em;
+  padding: 0 !important
+}
+
+.actions button {
+  margin: 5px 0;
+}
+
+@media (min-width: $m-mobile-portrait) {
+  .actions button {
+    margin: 0 5px;
+  }
+  
+}
