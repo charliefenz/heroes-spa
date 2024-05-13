@@ -5,6 +5,10 @@ import { Hero } from '../../../../models/hero';
 import { HeroesService } from '../../services/heroes.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NbaComponent } from '../../../../shared/components/nba/nba.component';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ImageInputDialogComponent } from '../image-input-dialog/image-input-dialog.component';
 
 @Component({
   selector: 'app-hero-form',
@@ -15,21 +19,24 @@ export class HeroFormComponent implements OnChanges{
   @Input() hero: Hero | undefined;
   @Output() nameEmitter: EventEmitter<string> = new EventEmitter();
   heroForm: FormGroup;
-  addingNewSuperpower = false;
   editBehavior = false;
-  superpowerAlreadyExists = false;
   activateSpinner = false;
   createdHeroSuccessBaseMessage = 'Se ha creado el héroe con el id';
   snackBarDisplayInfo = {
     nbaType: 'success',
     message: ''
   };
+  displayAsRequired = true;
+  // FEAT Possible extraction of superpower handling logistic to a separate component
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  superpowers: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar, public dialog: MatDialog) {
     this.heroForm = this.formBuilder.group({
       heroImage: ['', Validators.required],
       heroName: ['', Validators.required],
-      heroStatus: [true, Validators.required],
+      heroStatus: [true],
       heroAge: [null, [Validators.required, Validators.min(1)]],
       heroSuperpowerList: [[]],
       newSuperpower: ['']
@@ -37,11 +44,13 @@ export class HeroFormComponent implements OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['hero'] && changes['hero'].currentValue) {
+    if (changes['hero'] && changes['hero'].currentValue !== changes['hero'].previousValue) {
       this.editBehavior = false;
       if (this.hero) {
         this.supplyFormValuesWithHeroDetails();
+        this.superpowers = this.hero?.superpowers as string[];
         this.heroForm.disable();
+        this.displayAsRequired = false;
       }
     }
   }
@@ -52,7 +61,6 @@ export class HeroFormComponent implements OnChanges{
       heroName: this.hero?.name,
       heroStatus: this.hero?.isActive,
       heroAge: this.hero?.age,
-      heroSuperpowerList: this.hero?.superpowers,
     })
   }
 
@@ -68,6 +76,7 @@ export class HeroFormComponent implements OnChanges{
           if (response.code === 200) {
             this.emitName(hero.name);
             this.heroForm.disable();
+            this.displayAsRequired = false;
             this.editBehavior = false;
             this.snackBarDisplayInfo.nbaType = 'success';
           } else {
@@ -104,7 +113,7 @@ export class HeroFormComponent implements OnChanges{
       age: this.heroForm.get('heroAge')?.value,
       isActive: this.heroForm.get('heroStatus')?.value,
       image: this.heroForm.get('heroImage')?.value,
-      superpowers: this.heroForm.get('heroSuperpowerList')?.value,
+      superpowers: this.superpowers,
     }
     return HERO
   }
@@ -113,39 +122,12 @@ export class HeroFormComponent implements OnChanges{
     this.router.navigate(['/heroes'])
   }
 
-  // FEAT Extract to a component and add edit and cancel features
-  toggleAddNewSuperpower() {
-    this.addingNewSuperpower = !this.addingNewSuperpower;
-    if (!this.addingNewSuperpower) {
-      this.heroForm.get('newSuperpower')?.setValue('');
-    }
-  }
-
-  cancelAddNewSuperpower() {
-    this.toggleAddNewSuperpower();
-  }
-
-  addNewSuperpower() {
-    const SUPER_POWER_ACTIONABLE_LIST = [...this.heroForm.value.heroSuperpowerList];
-    let newSuperpower: string;
-    
-    newSuperpower = this.heroForm.get('newSuperpower')?.value;
-    newSuperpower.trim();
-    if (!SUPER_POWER_ACTIONABLE_LIST.includes(newSuperpower)) {
-      this.superpowerAlreadyExists = false;
-      SUPER_POWER_ACTIONABLE_LIST.push(newSuperpower);
-      this.heroForm.get('heroSuperpowerList')?.setValue(SUPER_POWER_ACTIONABLE_LIST);
-      this.heroForm.get('newSuperpower')?.setValue('');
-      this.toggleAddNewSuperpower();
-    } else {
-      this.superpowerAlreadyExists = true;
-    }
-  }
-
   cancel() {
     if (this.editBehavior && this.hero) {
       this.heroForm.disable();
-      this.supplyFormValuesWithHeroDetails()
+      this.displayAsRequired = false;
+      this.supplyFormValuesWithHeroDetails();
+      this.superpowers = this.hero?.superpowers as string[];
       this.editBehavior = false;
     } else {
       this.heroForm.reset();
@@ -159,5 +141,58 @@ export class HeroFormComponent implements OnChanges{
 
   emitName(heroName : string) {
     this.nameEmitter.emit(heroName);
+  }
+
+  openImageInputDialog() {
+    let dialogRef: MatDialogRef<ImageInputDialogComponent>
+
+    if (!this.heroForm.disabled) {
+      dialogRef = this.dialog.open(ImageInputDialogComponent);
+      dialogRef.afterClosed().subscribe(imgUrl => {
+        if (imgUrl !== "") {
+          this.heroForm.get('heroImage')?.patchValue(imgUrl);
+        }
+      });
+    }
+  }
+
+// FEAT Possible extraction of superpower handling logistic to a separate component
+  addPower(event: MatChipInputEvent) {
+    const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
+    let value = (event.value || '').trim();
+
+    if (value) {
+      SUPER_POWER_ACTIONABLE_LIST.push(value);
+      this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
+    }
+    event.chipInput!.clear();
+  }
+
+  removePower(power: string) {
+    const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
+    let index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
+
+    if (index >= 0) {
+      SUPER_POWER_ACTIONABLE_LIST.splice(index, 1);
+      this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
+    }
+  }
+
+  editPower(power: string, event: MatChipEditedEvent) {
+    const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
+    let value = event.value.trim();
+    let index;
+
+    // Remove power if it no longer has a name
+    if (!value) {
+      this.removePower(power);
+      return;
+    }
+    // Edit existing power
+    index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power); 
+    if (index >= 0) {
+      SUPER_POWER_ACTIONABLE_LIST[index] = value;
+      this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
+    }
   }
 }
