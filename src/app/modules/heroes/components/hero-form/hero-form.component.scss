@@ -45,6 +45,16 @@ img {
   height: auto;
 }
 
+.no-img-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-color: $my-accent-color;
+  opacity: .75;
+}
+
 button {
   margin: 10px 0;
 }

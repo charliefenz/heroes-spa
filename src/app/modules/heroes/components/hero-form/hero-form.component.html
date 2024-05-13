@@ -1,7 +1,11 @@
 <form [formGroup]="heroForm" (ngSubmit)="onSubmit()" class="hero-form">
   <div class="box1">
     <div class="img-container">
+     @if (heroForm.get('heroImage')?.value !== '') {
       <img [src]="heroForm.get('heroImage')?.value" alt="Imagen del heroe {{hero ? hero.name : ''}}" height="100%" width="100%" (click)="openImageInputDialog()">
+     } @else {
+      <div class="no-img-container" (click)="openImageInputDialog()"><p>Haz clic para introducir la imagen</p></div>
+     }
     </div>
   </div>
   <div class="box2">
