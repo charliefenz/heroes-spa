@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NbaComponent } from '../../../../shared/components/nba/nba.component';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ImageInputDialogComponent } from '../image-input-dialog/image-input-dialog.component';
 
 @Component({
@@ -144,13 +144,16 @@ export class HeroFormComponent implements OnChanges{
   }
 
   openImageInputDialog() {
-    const DIALOG_REF = this.dialog.open(ImageInputDialogComponent);
+    let dialogRef: MatDialogRef<ImageInputDialogComponent>
 
-    DIALOG_REF.afterClosed().subscribe(imgUrl => {
-      if (imgUrl !== "") {
-        this.heroForm.get('heroImage')?.patchValue(imgUrl);
-      }
-    });
+    if (!this.heroForm.disabled) {
+      dialogRef = this.dialog.open(ImageInputDialogComponent);
+      dialogRef.afterClosed().subscribe(imgUrl => {
+        if (imgUrl !== "") {
+          this.heroForm.get('heroImage')?.patchValue(imgUrl);
+        }
+      });
+    }
   }
 
 // FEAT Possible extraction of superpower handling logistic to a separate component
