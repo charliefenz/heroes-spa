@@ -1,22 +1,25 @@
 @import 'variables';
 
 .hero-form {
+  margin: 0 auto;
   display: grid;
   width: 90%;
-  max-width: 500px;
+  max-width: 900px;
   grid-template-columns: 40% 60%;
   grid-template-rows: repeat(3, max-content);
 }
 .box1 {
   grid-area: 1 / 1 / 2 / 2;
 }
+
 .box2 {
   grid-area: 1 / 2 / 2 / 3;
-  background-color: green;
 }
+
 .box3 {
   grid-area: 2 / 1 / 3 / 3;
 }
+
 .actions {
   grid-area: 3 / 1 / 3 / 3;
   width: 100%;
@@ -25,25 +28,40 @@
   align-items: center;
 }
 
+.img-container {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+}
+
 button {
   margin: 10px 0;
 }
 
-.hero-name, .hero-side-info, .superpowers {
+.hero-name, .hero-age, .hero-status, .hero-img, .superpowers {
   width: 100%;
+  color: $my-primary-input-color;
 }
-.hero-side-info {
-  display: flex;
-  flex-direction: column;
+
+.hero-status {
+  padding: 11px 16px;
 }
-.superpowers{
+
+.superpowers {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-  
-.error-message {
-  color: red;
 }
 
 @media (min-width: $s-mobile-portrait) {
@@ -58,20 +76,6 @@ button {
   }
 }
 @media (min-width: $l-tablet-portrait) {
-  .hero-form {
-    grid-template-columns: 25% 75%;
-  }
-  .box1 {
-    grid-area: 1 / 1 / 3 / 2;
-
-  }
-  .box2 {
-    grid-area: 1 / 2 / 2 / 3;
-
-  }
-  .box3 {
-    grid-area: 2 / 2 / 3 / 3;
-  }
   .actions {
     flex-direction: row;
     justify-content: space-around;
