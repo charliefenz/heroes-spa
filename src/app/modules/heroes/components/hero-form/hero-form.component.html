@@ -1,11 +1,8 @@
 <form [formGroup]="heroForm" (ngSubmit)="onSubmit()" class="hero-form">
   <div class="box1">
-    <div class="img-container" *ngIf="hero && !editBehavior">
-      <img [src]="heroForm.get('heroImage')?.value" alt="" height="100%" width="100%">
+    <div class="img-container" *ngIf="hero">
+      <img [src]="heroForm.get('heroImage')?.value" alt="" height="100%" width="100%" (click)="openImageInputDialog()">
     </div>
-    <button class="img-container" *ngIf="editBehavior" (click)="openImageInputDialog()">
-      <img [src]="heroForm.get('heroImage')?.value" alt="" height="100%" width="100%">
-    </button>    
   </div>
   <div class="box2">
     <mat-form-field class="hero-name" [color]="'accent'">
