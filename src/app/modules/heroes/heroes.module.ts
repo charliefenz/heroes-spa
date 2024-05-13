@@ -21,6 +21,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
+import { ImageInputDialogComponent } from './components/image-input-dialog/image-input-dialog.component';
+import { MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -32,6 +34,7 @@ import { MatCardModule } from '@angular/material/card';
     HeroesFilterContainerComponent,
     HeroesItemComponent,
     HeroesListComponent,
+    ImageInputDialogComponent
   ],
   imports: [
     CommonModule,
@@ -52,6 +55,9 @@ import { MatCardModule } from '@angular/material/card';
     MatCheckboxModule,
     MatChipsModule,
     MatCardModule,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose
   ],
   providers: [
     MockApiService
