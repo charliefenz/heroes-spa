@@ -1,14 +1,12 @@
-<mat-dialog-content>
-  <mat-form-field>
-    <mat-label>Introduce la url de la imagen del heroe</mat-label>
-    <input matInput type="text" [formControl]="imageInput">
-    <button matSuffix class="suffix-icon-main-style" mat-icon-button aria-label="Clear"
-      (click)="imageInput.patchValue('')">
-      <mat-icon fontIcon="close"></mat-icon>
-    </button>
-  </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions [align]="'center'">
-  <button mat-button [mat-dialog-close]="imageInput.value" cdkFocusInitial>Enviar</button>
-  <button mat-button [mat-dialog-close]="''" cdkFocusInitial>Cancelar</button>
-</mat-dialog-actions>
+<div class="wrapper">
+  <mat-dialog-content>
+    <mat-form-field class="dialog-input" floatLabel="always">
+      <mat-label class="dialog-label">Introduce la url de la imagen</mat-label>
+      <input matInput type="text" [formControl]="imageInput">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions [align]="'center'" class="actions">
+    <button mat-flat-button color="accent" [mat-dialog-close]="''" cdkFocusInitial>Cancelar</button>
+    <button mat-flat-button color="primary" [mat-dialog-close]="imageInput.value" cdkFocusInitial>Enviar</button>
+  </mat-dialog-actions>
+</div>
