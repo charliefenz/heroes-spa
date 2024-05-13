@@ -4,6 +4,6 @@
 <div class="hero-main-title" *ngIf="!loadingSpinner">
   <h1>{{nameToShow}}</h1>
 </div>
-<div class="container" *ngIf="!loadingSpinner">
-  <app-hero-form [hero]="hero" (nameEmitter)="handleNameFromForm($event)"></app-hero-form>
+<div *ngIf="!loadingSpinner">
+  <app-hero-form [hero]="hero" (nameEmitter)="handleNameFromForm($event)" class="container"></app-hero-form>
 </div>

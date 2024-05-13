@@ -13,8 +13,13 @@ html, body {
 
 body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.icon-main-style {
+.suffix-icon-main-style {
   border: none;
   background-color: transparent;
   color: $my-primary-color;
+  width: fit-content;
+}
+
+button {
+  width: 150px;
 }
