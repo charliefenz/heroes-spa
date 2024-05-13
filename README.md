@@ -4,7 +4,14 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 
 ## Versions
 
-### V0.6 (current version)
+### V1.0 (current version)
+- [shared-comps](#shared-components) V1.0
+  - Features the implementation of final layout adjustments.
+- [Heroes-Module](#heroes-module) V1.3
+  - Features the layout for all the module.
+  - Features the extraction of the image in form module into a component in charge of handling its selection 
+
+### V0.6
 - [shared-comps](#shared-components) V0.3
   - Features the implementation of angular material into shared components.
 - [Heroes-Module](#heroes-module) V1.2
@@ -77,6 +84,7 @@ Handles features related to heroes, including filtering, listing, creating, edit
       - **heroes-actions**: Component containing actions such as delete or view more details for a hero displayed in a list of heroes.
 - **hero-container**: Component container of heroes-form.
   - **hero-form**: Component for creating or editing a hero using a form interface.
+    - **image-input-dialog**: Component for generating the dialog to input the image.
 
 #### Services
 
