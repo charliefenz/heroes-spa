@@ -28,22 +28,26 @@ mat-card-content {
   display: flex;
   align-items: center;
   justify-content: start;
-  color: black;
 }
 
 .success {
   border: 1px solid $success-color;
   color: $success-color;
+  background-color: adjust-color($success-color, $saturation: -75%);
+  color: white;
 }
 
 .error {
   border: 1px solid $error-color;
   color: $error-color;
+  background-color: adjust-color($error-color, $saturation: -75%);
+  color: white
 }
 
 .info {
   border: 1px solid $info-color;
-  color: $info-color;
+  background-color: adjust-color($info-color, $saturation: -75%);
+  color: white
 }
 
 @media (min-width: $xs-mobile-portrait) {
