@@ -118,27 +118,29 @@ src/
 |   ├── shared/
 |   │   ├── components/
 |   │   │   ├── actionable-pop-up/
+|   │   │   ├── embedded-notification/
 |   │   │   ├── loader/
-|   │   │   └── nba/
+|   │   │   ├── nba/
+|   │   │   └── not-found-page/
+|   │   ├── styles/
+|   │   │   └── variables.scss
 |   ├── modules/
 |   │   ├── heroes/
 |   │   │   ├── components/
-|   │   │   │   ├── heroes-actions/
-|   │   │   │   ├── heroes-creation/
 |   │   │   │   ├── hero-container/
+|   │   │   │   ├── hero-form/
+|   │   │   │   ├── heroes-actions/
 |   │   │   │   ├── heroes-filter/
 |   │   │   │   ├── heroes-filter-container/
-|   │   │   │   ├── hero-form/
 |   │   │   │   ├── heroes-item/
-|   │   │   │   └── heroes-list/
+|   │   │   │   ├── heroes-list/
+|   │   │   │   └── image-input-dialog/
 |   │   │   ├── services/
 |   │   │   │   └── heroes.service.ts
 |   │   │   ├── heroes.module.ts
-|   ├── assets/
-|   │   ├── images/
-|   │   ├── icons/
 |   ├── models/
 │   │   ├── hero.ts
+│   │   ├── nbaInput.ts
 │   │   └── response.ts
 |   ├── mock-API/
 |   |   └── mock-API.service.ts
@@ -152,7 +154,14 @@ src/
 
 ## Testing
 
-- **Unit Testing**: Unit tests for components, services, and logic using Jasmine and Karma.
+### Unit tests: 
+Unit tests for components, services, and logic using Jasmine and Karma.
+
+**Disclaimer**
+So far, until [V1.1](#v11-current-version), only full unit tests have been incorporated to mock-api-service since is the only part of the application that seeks to mimic outsider behavior. Thus it was considered to be the more critical part to test-out.
+Rest of components have their tests listed and they will be implemented in further releases.
+
+To launch, run ``ng test --include=**/mock-API/**spec**``
 
 ## Contributing
 
@@ -165,5 +174,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Upcoming Features
 
 - Pagination support
+- Complete unit tests for rest of components
 - Integration tests
 - Notifications module with notifications service to handle notifications queue
