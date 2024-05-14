@@ -30,7 +30,9 @@ export class HeroContainerComponent implements OnInit, OnDestroy{
   }
 
   getHeroByParam() {
-    let paramsSub = this.route.params.pipe(
+    let paramsSub: Subscription;
+
+    paramsSub = this.route.params.pipe(
       concatMap((param) => this.heroesService.getHero(Number(param['id'])))
     ).subscribe((response) => {
       this.loadingSpinner = false;
