@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../../../models/hero';
@@ -9,13 +9,14 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ImageInputDialogComponent } from '../image-input-dialog/image-input-dialog.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hero-form',
   templateUrl: './hero-form.component.html',
   styleUrl: './hero-form.component.scss'
 })
-export class HeroFormComponent implements OnChanges{
+export class HeroFormComponent implements OnChanges, OnDestroy{
   @Input() hero: Hero | undefined;
   @Output() nameEmitter: EventEmitter<string> = new EventEmitter();
   heroForm: FormGroup;
@@ -31,6 +32,7 @@ export class HeroFormComponent implements OnChanges{
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   superpowers: string[] = [];
+  subscriptions: Subscription[] = [];
 
   constructor(private formBuilder: FormBuilder, private router: Router, private heroesService: HeroesService, private snackBar: MatSnackBar, public dialog: MatDialog) {
     this.heroForm = this.formBuilder.group({
@@ -55,6 +57,12 @@ export class HeroFormComponent implements OnChanges{
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub => {
+      sub.unsubscribe();
+    }))
+  }
+
   supplyFormValuesWithHeroDetails(): void {
     this.heroForm.patchValue({
       heroImage: this.hero?.image,
@@ -66,12 +74,13 @@ export class HeroFormComponent implements OnChanges{
 
   onSubmit() {
     let hero: Hero;
+    let editHeroSub: Subscription;
 
     if (this.heroForm.valid) {
       this.activateSpinner = true;
       hero = this.setHeroObject(this.editBehavior);
       if (this.editBehavior) {
-        this.heroesService.editHero(hero).subscribe((response) => {
+          editHeroSub = this.heroesService.editHero(hero).subscribe((response) => {
           this.activateSpinner = false;
           if (response.code === 200) {
             this.emitName(hero.name);
@@ -87,7 +96,7 @@ export class HeroFormComponent implements OnChanges{
           this.snackBar.openFromComponent(NbaComponent, {data: this.snackBarDisplayInfo})
         })
       } else {
-        this.heroesService.createHero(hero).subscribe((response) => {
+          editHeroSub = this.heroesService.createHero(hero).subscribe((response) => {
           this.activateSpinner = false;
           if (response.code === 200) {
             this.snackBarDisplayInfo.nbaType = 'success'
@@ -100,15 +109,14 @@ export class HeroFormComponent implements OnChanges{
           this.navigateBack()
         })
       }
+      this.subscriptions.push(editHeroSub);
     }
   }
 
-  setHeroObject(editBehavior: boolean): Hero {
-    let setId: number;
-    
-    setId = editBehavior && this.hero?.id ? this.hero.id : -1
+  setHeroObject(editBehavior: boolean): Hero {   
+    const SET_ID = editBehavior && this.hero?.id ? this.hero.id : -1
     const HERO: Hero = {
-      id: setId, // The service requires the full model despite is the one to assign the id,
+      id: SET_ID, // The service requires the full model despite is the one to assign the id,
       name: this.heroForm.get('heroName')?.value,
       age: this.heroForm.get('heroAge')?.value,
       isActive: this.heroForm.get('heroStatus')?.value,
@@ -145,24 +153,26 @@ export class HeroFormComponent implements OnChanges{
 
   openImageInputDialog() {
     let dialogRef: MatDialogRef<ImageInputDialogComponent>
+    let dialogRefSub: Subscription;
 
     if (!this.heroForm.disabled) {
       dialogRef = this.dialog.open(ImageInputDialogComponent);
-      dialogRef.afterClosed().subscribe(imgUrl => {
+      dialogRefSub = dialogRef.afterClosed().subscribe(imgUrl => {
         if (imgUrl !== "") {
           this.heroForm.get('heroImage')?.patchValue(imgUrl);
         }
       });
+      this.subscriptions.push(dialogRefSub);
     }
   }
 
 // FEAT Possible extraction of superpower handling logistic to a separate component
   addPower(event: MatChipInputEvent) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    let value = (event.value || '').trim();
+    const VALUE = (event.value || '').trim();
 
-    if (value) {
-      SUPER_POWER_ACTIONABLE_LIST.push(value);
+    if (VALUE) {
+      SUPER_POWER_ACTIONABLE_LIST.push(VALUE);
       this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
     event.chipInput!.clear();
@@ -170,28 +180,25 @@ export class HeroFormComponent implements OnChanges{
 
   removePower(power: string) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    let index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
+    const INDEX = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
 
-    if (index >= 0) {
-      SUPER_POWER_ACTIONABLE_LIST.splice(index, 1);
+    if (INDEX >= 0) {
+      SUPER_POWER_ACTIONABLE_LIST.splice(INDEX, 1);
       this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
   }
 
   editPower(power: string, event: MatChipEditedEvent) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    let value = event.value.trim();
-    let index;
+    const VALUE = event.value.trim();
 
-    // Remove power if it no longer has a name
-    if (!value) {
+    if (!VALUE) {
       this.removePower(power);
       return;
     }
-    // Edit existing power
-    index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power); 
-    if (index >= 0) {
-      SUPER_POWER_ACTIONABLE_LIST[index] = value;
+    const INDEX = SUPER_POWER_ACTIONABLE_LIST.indexOf(power); 
+    if (INDEX >= 0) {
+      SUPER_POWER_ACTIONABLE_LIST[INDEX] = VALUE;
       this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
   }

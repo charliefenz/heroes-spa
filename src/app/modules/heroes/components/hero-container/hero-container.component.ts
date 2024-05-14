@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { concatMap } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription, concatMap } from 'rxjs';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
 
@@ -9,21 +9,28 @@ import { Hero } from '../../../../models/hero';
   templateUrl: './hero-container.component.html',
   styleUrl: './hero-container.component.scss'
 })
-export class HeroContainerComponent implements OnInit{
+export class HeroContainerComponent implements OnInit, OnDestroy{
   loadingSpinner = true;
   hero: Hero | undefined;
   nameToShow = "";
+  subscriptions: Subscription[] = []
+  errorFetchingHero = false;
+  errorMessage = "";
 
-  constructor(private route: ActivatedRoute, private heroesService: HeroesService) {
-    
-  }
+  constructor(private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {}
 
   ngOnInit(): void {
     this.getHeroByParam();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub => {
+      sub.unsubscribe();
+    }))
+  }
+
   getHeroByParam() {
-    this.route.params.pipe(
+    const PARAMS_SUB = this.route.params.pipe(
       concatMap((param) => this.heroesService.getHero(Number(param['id'])))
     ).subscribe((response) => {
       this.loadingSpinner = false;
@@ -31,12 +38,18 @@ export class HeroContainerComponent implements OnInit{
         this.hero = response.result as Hero
         this.nameToShow = this.hero.name;
       } else {
-        // TODO Implement error message
+        this.errorFetchingHero = true;
+        this.errorMessage = response.result as string;
       }
     })
+    this.subscriptions.push(PARAMS_SUB)
   }
 
   handleNameFromForm(nameChanged: string) {
     this.nameToShow = nameChanged;
+  }
+
+  navigateBack() {
+    this.router.navigate(['/heroes'])
   }
 }

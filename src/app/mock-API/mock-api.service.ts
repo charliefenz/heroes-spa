@@ -7,7 +7,7 @@ import { Observable, map, timer } from 'rxjs';
   providedIn: 'root'
 })
 export class MockApiService {
-  private timeoutRange: Array<number> = [100, 200]
+  private timeoutRange: Array<number> = [1000, 3000]
   private idRange: Array<number> = [1, 10000]
 
   private mockData: Array<Hero> = [
@@ -43,11 +43,8 @@ export class MockApiService {
     return Math.floor(Math.random() * (this.timeoutRange[1] - this.timeoutRange[0])) + this.timeoutRange[0]
   }
 
-  private getHeroById(id: Number): Hero | undefined {
-    let heroFound;
-
-    heroFound = this.mockData.find(heroItem => heroItem.id === id);
-    return heroFound;
+  private getHeroById(id: number): Hero | undefined {
+    return this.mockData.find(heroItem => heroItem.id === id);
   }
 
   private filterHeroByName(keyword: string): Hero[] {
@@ -57,7 +54,7 @@ export class MockApiService {
     return listWithMatches;
   }
 
-  private deleteHeroById(id: Number): void {
+  private deleteHeroById(id: number): void {
     this.mockData = this.mockData.filter(heroItem => heroItem.id !== id);
   }
 
@@ -86,11 +83,9 @@ export class MockApiService {
     }
   }
 
-  private checkIdIsUnique(id: number) : boolean {
-    let idIsUnique : boolean;
-    
-    idIsUnique = !this.mockData.some((heroItem) => heroItem.id === id);
-    return idIsUnique;
+  private checkIdIsUnique(id: number) : boolean {   
+    const ID_IS_UNIQUE = !this.mockData.some((heroItem) => heroItem.id === id);
+    return ID_IS_UNIQUE;
   }
 
   getHeroes(): Observable<Response> {
@@ -104,15 +99,14 @@ export class MockApiService {
     );
   }
 
-  getHero(paramId: Number): Observable<Response> {
+  getHero(paramId: number): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
-    let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
     
-    hero = this.getHeroById(paramId);
-    if (hero) {
-      returnItem = hero;
+    const HERO = this.getHeroById(paramId);
+    if (HERO) {
+      returnItem = HERO;
       returnCode = 200;
     } else {
       returnItem = ERROR_MESSAGE;
@@ -128,15 +122,14 @@ export class MockApiService {
     );
   }
 
-  deleteHero(paramId: Number): Observable<Response> {
+  deleteHero(paramId: number): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
     const OK_MESSAGE = `Se ha eliminado el héroe con el id ${paramId}`;
-    let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
     
-    hero = this.getHeroById(paramId);
-    if (hero) {
+    const HERO = this.getHeroById(paramId);
+    if (HERO) {
       this.deleteHeroById(paramId);
       returnCode = 200;
       returnItem = OK_MESSAGE;
@@ -181,12 +174,11 @@ export class MockApiService {
   editHero(updatedHero: Hero): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${updatedHero.id}`;
     const OK_MESSAGE = `Se ha actualizado el héroe con el id ${updatedHero.id}`;
-    let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
     
-    hero = this.getHeroById(updatedHero.id);
-    if (hero) {
+    const HERO = this.getHeroById(updatedHero.id);
+    if (HERO) {
       this.updateHeroById(updatedHero);
       returnCode = 200;
       returnItem = OK_MESSAGE;
@@ -204,15 +196,13 @@ export class MockApiService {
     );
   }
 
-  fetchHeroesByName(keyword: string): Observable<Response> {
-    let heroes: Hero[];
-    
-    heroes = this.filterHeroByName(keyword);
+  fetchHeroesByName(keyword: string): Observable<Response> {   
+    const HEROES = this.filterHeroByName(keyword);
     return timer(this.setRandomTimeout()).pipe(
       map(() => {
         return {
           code: 200,
-          result: heroes 
+          result: HEROES 
         }
       })
     );
