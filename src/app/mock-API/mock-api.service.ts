@@ -43,7 +43,7 @@ export class MockApiService {
     return Math.floor(Math.random() * (this.timeoutRange[1] - this.timeoutRange[0])) + this.timeoutRange[0]
   }
 
-  private getHeroById(id: Number): Hero | undefined {
+  private getHeroById(id: number): Hero | undefined {
     let heroFound;
 
     heroFound = this.mockData.find(heroItem => heroItem.id === id);
@@ -57,7 +57,7 @@ export class MockApiService {
     return listWithMatches;
   }
 
-  private deleteHeroById(id: Number): void {
+  private deleteHeroById(id: number): void {
     this.mockData = this.mockData.filter(heroItem => heroItem.id !== id);
   }
 
@@ -104,7 +104,7 @@ export class MockApiService {
     );
   }
 
-  getHero(paramId: Number): Observable<Response> {
+  getHero(paramId: number): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
     let hero: Hero | undefined;
     let returnItem: Hero | string;
@@ -128,7 +128,7 @@ export class MockApiService {
     );
   }
 
-  deleteHero(paramId: Number): Observable<Response> {
+  deleteHero(paramId: number): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
     const OK_MESSAGE = `Se ha eliminado el héroe con el id ${paramId}`;
     let hero: Hero | undefined;
