@@ -30,9 +30,7 @@ export class HeroContainerComponent implements OnInit, OnDestroy{
   }
 
   getHeroByParam() {
-    let paramsSub: Subscription;
-
-    paramsSub = this.route.params.pipe(
+    const PARAMS_SUB = this.route.params.pipe(
       concatMap((param) => this.heroesService.getHero(Number(param['id'])))
     ).subscribe((response) => {
       this.loadingSpinner = false;
@@ -44,7 +42,7 @@ export class HeroContainerComponent implements OnInit, OnDestroy{
         this.errorMessage = response.result as string;
       }
     })
-    this.subscriptions.push(paramsSub)
+    this.subscriptions.push(PARAMS_SUB)
   }
 
   handleNameFromForm(nameChanged: string) {

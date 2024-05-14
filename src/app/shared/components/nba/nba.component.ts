@@ -20,7 +20,7 @@ export class NbaComponent implements OnInit{
     error: 'warning'
   };
 
-  constructor(public snackBarRef: MatSnackBarRef<NbaComponent>, @Inject(MAT_SNACK_BAR_DATA) public data: {nbaType: NBAInput['nbaType'], message: String}) {
+  constructor(public snackBarRef: MatSnackBarRef<NbaComponent>, @Inject(MAT_SNACK_BAR_DATA) public data: {nbaType: NBAInput['nbaType'], message: string}) {
   }
 
   ngOnInit(): void {

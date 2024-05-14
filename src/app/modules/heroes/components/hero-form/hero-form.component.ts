@@ -113,12 +113,10 @@ export class HeroFormComponent implements OnChanges, OnDestroy{
     }
   }
 
-  setHeroObject(editBehavior: boolean): Hero {
-    let setId: number;
-    
-    setId = editBehavior && this.hero?.id ? this.hero.id : -1
+  setHeroObject(editBehavior: boolean): Hero {   
+    const SET_ID = editBehavior && this.hero?.id ? this.hero.id : -1
     const HERO: Hero = {
-      id: setId, // The service requires the full model despite is the one to assign the id,
+      id: SET_ID, // The service requires the full model despite is the one to assign the id,
       name: this.heroForm.get('heroName')?.value,
       age: this.heroForm.get('heroAge')?.value,
       isActive: this.heroForm.get('heroStatus')?.value,
@@ -171,10 +169,10 @@ export class HeroFormComponent implements OnChanges, OnDestroy{
 // FEAT Possible extraction of superpower handling logistic to a separate component
   addPower(event: MatChipInputEvent) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    let value = (event.value || '').trim();
+    const VALUE = (event.value || '').trim();
 
-    if (value) {
-      SUPER_POWER_ACTIONABLE_LIST.push(value);
+    if (VALUE) {
+      SUPER_POWER_ACTIONABLE_LIST.push(VALUE);
       this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
     event.chipInput!.clear();
@@ -182,28 +180,25 @@ export class HeroFormComponent implements OnChanges, OnDestroy{
 
   removePower(power: string) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    let index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
+    const INDEX = SUPER_POWER_ACTIONABLE_LIST.indexOf(power);
 
-    if (index >= 0) {
-      SUPER_POWER_ACTIONABLE_LIST.splice(index, 1);
+    if (INDEX >= 0) {
+      SUPER_POWER_ACTIONABLE_LIST.splice(INDEX, 1);
       this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
   }
 
   editPower(power: string, event: MatChipEditedEvent) {
     const SUPER_POWER_ACTIONABLE_LIST = [...this.superpowers];
-    let value = event.value.trim();
-    let index;
+    const VALUE = event.value.trim();
 
-    // Remove power if it no longer has a name
-    if (!value) {
+    if (!VALUE) {
       this.removePower(power);
       return;
     }
-    // Edit existing power
-    index = SUPER_POWER_ACTIONABLE_LIST.indexOf(power); 
-    if (index >= 0) {
-      SUPER_POWER_ACTIONABLE_LIST[index] = value;
+    const INDEX = SUPER_POWER_ACTIONABLE_LIST.indexOf(power); 
+    if (INDEX >= 0) {
+      SUPER_POWER_ACTIONABLE_LIST[INDEX] = VALUE;
       this.superpowers = SUPER_POWER_ACTIONABLE_LIST;
     }
   }

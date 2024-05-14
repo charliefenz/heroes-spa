@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription, pipe } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -15,10 +15,8 @@ export class HeroesFilterComponent implements OnChanges, OnDestroy{
   subscriptions: Subscription[] = [];
   TIMEOUT_AFTER_TYPING = 700;
 
-  constructor() {
-    let valueChangesSub : Subscription;
-    
-    valueChangesSub = this.filterControl.valueChanges.pipe(
+  constructor() {   
+    const VALUE_CHANGES_SUB = this.filterControl.valueChanges.pipe(
       debounceTime(this.TIMEOUT_AFTER_TYPING), // Debounce to wait for user to finish typing
       distinctUntilChanged(), // Ignore repeated values
     ).subscribe(value => {
@@ -30,7 +28,7 @@ export class HeroesFilterComponent implements OnChanges, OnDestroy{
         }
       }
     });
-    this.subscriptions.push(valueChangesSub);
+    this.subscriptions.push(VALUE_CHANGES_SUB);
   }
 
   ngOnDestroy(): void {

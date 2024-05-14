@@ -29,10 +29,8 @@ export class HeroesListComponent implements OnInit, OnChanges{
   constructor(private heroesService: HeroesService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    let getHeroesSub: Subscription;
-
-    getHeroesSub = this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
-    this.subscriptions.push(getHeroesSub);
+    const GET_HEROES_SUB = this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+    this.subscriptions.push(GET_HEROES_SUB);
   }
 
   ngOnDestroy(): void {

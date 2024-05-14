@@ -50,10 +50,8 @@ describe('MockApiService', () => {
 
   describe('getHeroes', () => {
     it('should return the heroes with the Hero Interface', (done: DoneFn) => {
-      let heroes$;
-
-      heroes$ = service.getHeroes();
-      heroes$.subscribe((response) => {
+      const HEROES$ = service.getHeroes();
+      HEROES$.subscribe((response) => {
         expect(response.code).withContext('Status Code').toEqual(200);
         expect(response.result).withContext('Response does not have the expected interface').toEqual(
           jasmine.arrayContaining([jasmine.objectContaining(testData)])
@@ -157,27 +155,27 @@ describe('MockApiService', () => {
   describe('fetchHeroesByName', () => {
     it(`should return three results when querying [${QUERY_FOR_THREE_RESULTS}]`, (done: DoneFn) => {
       service.fetchHeroesByName(QUERY_FOR_THREE_RESULTS).subscribe(response => {
-        let result = response.result as Hero[];
+        const RESULT = response.result as Hero[];
         expect(response.code).withContext('Status Code').toEqual(200);
-        expect(result.length).withContext('Has to return at least three results').toBe(3)
+        expect(RESULT.length).withContext('Has to return at least three results').toBe(3)
         done();
       })
     });
 
     it(`should return one result when querying [${QUERY_FOR_ONE_RESULT}]`, (done: DoneFn) => {
       service.fetchHeroesByName(QUERY_FOR_ONE_RESULT).subscribe(response => {
-        let result = response.result as Hero[];
+        const RESULT = response.result as Hero[];
         expect(response.code).withContext('Status Code').toEqual(200);
-        expect(result.length).withContext('Has to return at least one result').toBe(1)
+        expect(RESULT.length).withContext('Has to return at least one result').toBe(1)
         done();
       })
     })
 
     it(`should return no results when querying [${QUERY_FOR_NO_RESULTS}]`, (done: DoneFn) => {
       service.fetchHeroesByName(QUERY_FOR_NO_RESULTS).subscribe(response => {
-        let result = response.result as Hero[];
+        const RESULT = response.result as Hero[];
         expect(response.code).withContext('Status Code').toEqual(200);
-        expect(result.length).withContext('Has to return an empty array').toBe(0)
+        expect(RESULT.length).withContext('Has to return an empty array').toBe(0)
         done();
       })
     })
