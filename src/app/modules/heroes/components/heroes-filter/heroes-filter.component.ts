@@ -14,10 +14,8 @@ export class HeroesFilterComponent implements OnChanges, OnDestroy{
   @Input() cleanInputValue = false;
   subscriptions: Subscription[] = [];
 
-  constructor() {
-    let valueChangesSub : Subscription;
-    
-    valueChangesSub = this.filterControl.valueChanges.pipe(
+  constructor() {   
+    const VALUE_CHANGES_SUB = this.filterControl.valueChanges.pipe(
       debounceTime(300), // Debounce to wait for user to finish typing
       distinctUntilChanged(), // Ignore repeated values
     ).subscribe(value => {
@@ -29,7 +27,7 @@ export class HeroesFilterComponent implements OnChanges, OnDestroy{
         }
       }
     });
-    this.subscriptions.push(valueChangesSub);
+    this.subscriptions.push(VALUE_CHANGES_SUB);
   }
 
   ngOnDestroy(): void {

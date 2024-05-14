@@ -29,12 +29,11 @@ export class HeroesActionsComponent implements OnDestroy {
   }
 
   openDeletePopUp() {
-    let dialogRefSub : Subscription;
     const DIALOG_REF = this.dialog.open(ActionablePopUpComponent, {data: {message: this.deleteMessage}});
 
-    dialogRefSub = DIALOG_REF.afterClosed().subscribe(userWantsToDelete => {
+    const DIALOG_REF_SUB = DIALOG_REF.afterClosed().subscribe(userWantsToDelete => {
       if (userWantsToDelete && this.heroId) this.performDeletion.emit(this.heroId);
     });
-    this.subscriptions.push(dialogRefSub);
+    this.subscriptions.push(DIALOG_REF_SUB);
   }
 }
