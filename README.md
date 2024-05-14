@@ -66,8 +66,10 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 Taking advantage of V17 feature of standaole componentes this repository will contain shared components that can be used throughout the app, such as loaders, pop ups and notifications.
 
 - **actionable-pop-up**: Component for displaying an accept/decline pop up.
+- **embedded-notification**: Component for displaying notifications within a component.
 - **loader**: Component for displaying a loading spinner or indicator.
-- **nba**: Component for notifications to users.
+- **nba**: Component for displaying detached notifications to users.
+- **not-found-page**: Component for displaying a not found page.
 
 ## Modules
 
