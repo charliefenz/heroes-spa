@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, concatMap } from 'rxjs';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
@@ -14,10 +14,10 @@ export class HeroContainerComponent implements OnInit, OnDestroy{
   hero: Hero | undefined;
   nameToShow = "";
   subscriptions: Subscription[] = []
+  errorFetchingHero = false;
+  errorMessage = "";
 
-  constructor(private route: ActivatedRoute, private heroesService: HeroesService) {
-    
-  }
+  constructor(private router: Router, private route: ActivatedRoute, private heroesService: HeroesService) {}
 
   ngOnInit(): void {
     this.getHeroByParam();
@@ -40,7 +40,8 @@ export class HeroContainerComponent implements OnInit, OnDestroy{
         this.hero = response.result as Hero
         this.nameToShow = this.hero.name;
       } else {
-        // TODO Implement error message
+        this.errorFetchingHero = true;
+        this.errorMessage = response.result as string;
       }
     })
     this.subscriptions.push(paramsSub)
@@ -48,5 +49,9 @@ export class HeroContainerComponent implements OnInit, OnDestroy{
 
   handleNameFromForm(nameChanged: string) {
     this.nameToShow = nameChanged;
+  }
+
+  navigateBack() {
+    this.router.navigate(['/heroes'])
   }
 }
