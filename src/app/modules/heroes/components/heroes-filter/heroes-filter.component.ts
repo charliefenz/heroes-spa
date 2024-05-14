@@ -13,12 +13,13 @@ export class HeroesFilterComponent implements OnChanges, OnDestroy{
   @Output() filterHeroes: EventEmitter<string> = new EventEmitter();
   @Input() cleanInputValue = false;
   subscriptions: Subscription[] = [];
+  TIMEOUT_AFTER_TYPING = 700;
 
   constructor() {
     let valueChangesSub : Subscription;
     
     valueChangesSub = this.filterControl.valueChanges.pipe(
-      debounceTime(300), // Debounce to wait for user to finish typing
+      debounceTime(this.TIMEOUT_AFTER_TYPING), // Debounce to wait for user to finish typing
       distinctUntilChanged(), // Ignore repeated values
     ).subscribe(value => {
       if (this.filterControl.dirty) {
