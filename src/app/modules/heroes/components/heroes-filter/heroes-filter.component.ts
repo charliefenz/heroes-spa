@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Subscription, pipe } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -7,13 +8,16 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './heroes-filter.component.html',
   styleUrl: './heroes-filter.component.scss'
 })
-export class HeroesFilterComponent implements OnChanges{
+export class HeroesFilterComponent implements OnChanges, OnDestroy{
   filterControl = new FormControl('');
   @Output() filterHeroes: EventEmitter<string> = new EventEmitter();
   @Input() cleanInputValue = false;
+  subscriptions: Subscription[] = [];
 
   constructor() {
-    this.filterControl.valueChanges.pipe(
+    let valueChangesSub : Subscription;
+    
+    valueChangesSub = this.filterControl.valueChanges.pipe(
       debounceTime(300), // Debounce to wait for user to finish typing
       distinctUntilChanged(), // Ignore repeated values
     ).subscribe(value => {
@@ -25,6 +29,13 @@ export class HeroesFilterComponent implements OnChanges{
         }
       }
     });
+    this.subscriptions.push(valueChangesSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub => {
+      sub.unsubscribe();
+    }))
   }
 
   ngOnChanges(changes: SimpleChanges): void {
