@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+$xs-mobile-portrait: 320px;
+$s-mobile-portrait: 375px;
+$m-mobile-portrait: 414px;
+$l-tablet-portrait: 480px;
+$xl-tablet-landscape: 768px;
+
+$primary-palette: mat.define-palette(mat.$pink-palette);
+$accent-palette: mat.define-palette(mat.$blue-grey-palette);
+$warn-palette: mat.define-palette(mat.$red-palette);
+
+$my-primary-color: mat.get-color-from-palette($primary-palette, 500);
+$my-accent-color: mat.get-color-from-palette($accent-palette, 500);
+$my-warn-color: mat.get-color-from-palette($warn-palette, 500);
+$my-primary-input-color: mat.get-color-from-palette($primary-palette, 50, 0.87);
+
+$info-color: blue;
+$success-color: green;
+$error-color: red;

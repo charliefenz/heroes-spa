@@ -1,0 +1,19 @@
+@import 'variables';
+
+.container {
+  margin: 5px;
+  width: 100%;
+}
+
+.heroes-grid-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.hero-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

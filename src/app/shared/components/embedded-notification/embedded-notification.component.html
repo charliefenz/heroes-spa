@@ -1,0 +1,8 @@
+<div class="container">
+  <mat-card class="wrapper" [ngClass]="nbaType" [appearance]="'outlined'">
+    <mat-card-content class="icon">
+      <mat-icon fontIcon="{{iconsName[nbaType]}}" aria-hidden="false" aria-label="icon"></mat-icon>
+    </mat-card-content>
+    <mat-card-content class="message">{{message}}</mat-card-content>
+  </mat-card>
+</div>

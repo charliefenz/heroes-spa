@@ -1,0 +1,33 @@
+@import 'variables';
+
+.filter-and-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+}
+
+.button-container, .filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.filter-container .heroes-filter{
+  width: 100%;
+}
+
+.filter-list {
+  margin-top: 20px;
+  width: 100%;
+}
+
+@media (min-width: $l-tablet-portrait) {
+  .filter-and-actions {
+    grid-template-columns: 0.2fr 1fr;
+  }
+
+  .button-container {
+    padding-bottom: 22px;
+  }
+}

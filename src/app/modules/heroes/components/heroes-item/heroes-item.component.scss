@@ -1,0 +1,32 @@
+@import 'variables';
+
+.hero-card {
+  width: 80%;
+}
+
+.header {
+  color: $my-primary-color
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.img-wrapper {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+@media (min-width: $m-mobile-portrait) {
+  .hero-card {
+    width: 70%;
+  }
+}
+
+@media (min-width: $l-tablet-portrait) {
+  .img-wrapper {
+    height: 150px;
+  }
+}

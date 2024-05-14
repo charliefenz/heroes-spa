@@ -1,0 +1,100 @@
+@import 'variables';
+
+.hero-form {
+  margin: 0 auto;
+  display: grid;
+  width: 90%;
+  max-width: 900px;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: repeat(3, max-content);
+}
+.grid-image-box {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.grid-inputs-box {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.grid-superpower-box {
+  grid-area: 2 / 1 / 3 / 3;
+}
+
+.actions {
+  grid-area: 3 / 1 / 3 / 3;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img-container {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.no-img-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: $my-accent-color;
+  opacity: .75;
+}
+
+.no-img-container p {
+  margin: 0;
+}
+
+
+
+button {
+  margin: 10px 0;
+}
+
+.hero-name, .hero-age, .hero-status, .hero-img, .superpowers {
+  width: 100%;
+  color: $my-primary-input-color;
+}
+
+.hero-status {
+  padding: 11px 16px;
+}
+
+.superpowers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: $s-mobile-portrait) {
+  .hero-form {
+    grid-template-columns: 30% 70%;
+  }
+  .hero-side-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+@media (min-width: $l-tablet-portrait) {
+  .actions {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}

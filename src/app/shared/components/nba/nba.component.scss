@@ -1,0 +1,32 @@
+@import 'variables';
+
+.wrapper {
+  display: grid;
+  grid-template-columns: .2fr 1fr;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: black;
+}
+
+.success {
+  color: $success-color;
+}
+
+.error {
+  color: $error-color;
+}
+
+.info {
+  color: $info-color;
+}
+

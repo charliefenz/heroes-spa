@@ -1,0 +1,9 @@
+<div *ngIf="loadingSpinner">
+  <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
+</div>
+<div class="hero-main-title" *ngIf="!loadingSpinner">
+  <h1>{{nameToShow}}</h1>
+</div>
+<div *ngIf="!loadingSpinner">
+  <app-hero-form [hero]="hero" (nameEmitter)="handleNameFromForm($event)" class="container"></app-hero-form>
+</div>

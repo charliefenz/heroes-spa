@@ -1,0 +1,11 @@
+<div class="filter-and-actions">
+  <div class="button-container">
+    <button mat-flat-button color="primary" id="create-hero-button" (click)="navigateTo('new-hero')">Crear</button>
+  </div>
+  <div class="filter-container">
+    <app-heroes-filter (filterHeroes)="filterKeyword = $event" [cleanInputValue]="resetFilterValue" class="heroes-filter"></app-heroes-filter>
+  </div>
+</div>
+<div class="filter-list">
+  <app-heroes-list [filterKeyword]="filterKeyword" (resetFilterDueToHeroDeletion)="informFilterToResetValue($event)"></app-heroes-list>
+</div>

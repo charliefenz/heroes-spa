@@ -1,0 +1,32 @@
+@import 'variables';
+
+.wrapper {
+  width: 100%;
+}
+
+.dialog-input mat-label {
+  font-size: 0.8em;
+  padding: 0 !important
+}
+
+.dialog-input {
+  width: 100%;
+}
+
+.actions button {
+  margin: 5px 0;
+}
+
+@media (min-width: $s-mobile-portrait) {
+  .dialog-input mat-label {
+    font-size: 1em;
+    padding: inherit;
+  }
+}
+
+@media (min-width: $m-mobile-portrait) {
+  .actions button {
+    margin: 0 5px;
+  }
+  
+}

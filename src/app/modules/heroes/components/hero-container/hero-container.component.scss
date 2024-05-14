@@ -1,0 +1,21 @@
+@import 'variables';
+
+.hero-main-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $my-primary-color;
+}
+
+.hero-main-title, .container {
+  margin: 0px 5px;
+}
+
+.container {
+  width: 100%;
+}
+
+h1 {
+  margin: 10px 0;
+  font-size: 3em;
+}

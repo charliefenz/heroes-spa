@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <mat-dialog-content class="dialog-content">
+    {{data.message}}
+  </mat-dialog-content>
+  <mat-dialog-actions [align]="'center'" class="actions">
+    <button mat-flat-button color="accent" [mat-dialog-close]="false" cdkFocusInitial>Cancelar</button>
+    <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Borrar</button>
+  </mat-dialog-actions>  
+</div>

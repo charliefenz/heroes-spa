@@ -1,0 +1,11 @@
+<mat-card class="hero-card" [appearance]="'outlined'">
+  <mat-card-header class="header">
+    <mat-card-title>{{hero?.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="img-wrapper">
+      <img mat-card-image src="{{hero?.image}}" alt="Photo of a {{hero?.name}}" height="100%" width="100%">
+  </mat-card-content>
+  <mat-card-actions>
+    <app-heroes-actions [heroId]="hero?.id" (performDeletion)="propagateDeletion.emit($event)" class="actions"></app-heroes-actions>
+  </mat-card-actions>
+</mat-card>
