@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
-import { concatMap, map } from 'rxjs';
+import { Subscription, concatMap, map } from 'rxjs';
 import { Response } from '../../../../models/response';
 import { NBAInput } from '../../../../models/nbaInput';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -24,20 +24,33 @@ export class HeroesListComponent implements OnInit, OnChanges{
   };
   NoHeroesNotificationType: NBAInput['nbaType'] = 'info';
   noHeroesMessage = "No se han encontrado Héroes";
+  subscriptions: Subscription[] = [];
 
   constructor(private heroesService: HeroesService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+    let getHeroesSub: Subscription;
+
+    getHeroesSub = this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+    this.subscriptions.push(getHeroesSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub => {
+      sub.unsubscribe();
+    }))
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    let getHeroesSub: Subscription;
+
     if (changes['filterKeyword'].currentValue !== undefined && changes['filterKeyword'].currentValue !== changes['filterKeyword'].previousValue) {
       if (this.filterKeyword && this.filterKeyword !== "") {
         this.filterHeroes(this.filterKeyword);
       } else {
         this.showLoadingSpinner = false;
-        this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+        getHeroesSub = this.heroesService.getHeroes().subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+        this.subscriptions.push(getHeroesSub);
       }
     }
   }
@@ -60,17 +73,22 @@ export class HeroesListComponent implements OnInit, OnChanges{
   }
 
   filterHeroes(heroesKeyword: string) {
+    let searchHeroesSub: Subscription;
+
     this.showLoadingSpinner = false;
     if (heroesKeyword) {
-      this.heroesService.searchHeroes(heroesKeyword).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+      searchHeroesSub =  this.heroesService.searchHeroes(heroesKeyword).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+      this.subscriptions.push(searchHeroesSub);
     }
   }
 
   deleteHero(heroId: number | undefined) {
+    let deleteHeroSub : Subscription;
+
     this.showLoadingSpinner = false;
     this.resetFilterDueToHeroDeletion.emit(true);
     if (heroId) {
-      this.heroesService.deletehero((heroId)).pipe(
+      deleteHeroSub = this.heroesService.deletehero((heroId)).pipe(
         map(deleteResponse => {
           this.snackBarDisplayInfo.message = deleteResponse.result as string;
           if (deleteResponse.code !== 200) {
@@ -81,6 +99,7 @@ export class HeroesListComponent implements OnInit, OnChanges{
         }),
         concatMap(() => this.heroesService.getHeroes())
       ).subscribe((heroesResponse) => this.handleHeroesResponse(heroesResponse));
+      this.subscriptions.push(deleteHeroSub);
     }
   }
 }
