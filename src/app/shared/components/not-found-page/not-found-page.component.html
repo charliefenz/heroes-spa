@@ -1,1 +1,5 @@
-<p>not-found-page works!</p>
+<div class="error-wrap">
+  <app-embedded-notification  [nbaType]="'error'"
+  [message]="errorMessage"></app-embedded-notification>
+  <button mat-flat-button color="accent" (click)="navigateToHome()">Volver</button>
+</div>
