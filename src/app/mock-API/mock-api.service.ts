@@ -44,10 +44,7 @@ export class MockApiService {
   }
 
   private getHeroById(id: number): Hero | undefined {
-    let heroFound;
-
-    heroFound = this.mockData.find(heroItem => heroItem.id === id);
-    return heroFound;
+    return this.mockData.find(heroItem => heroItem.id === id);
   }
 
   private filterHeroByName(keyword: string): Hero[] {
@@ -86,11 +83,9 @@ export class MockApiService {
     }
   }
 
-  private checkIdIsUnique(id: number) : boolean {
-    let idIsUnique : boolean;
-    
-    idIsUnique = !this.mockData.some((heroItem) => heroItem.id === id);
-    return idIsUnique;
+  private checkIdIsUnique(id: number) : boolean {   
+    const ID_IS_UNIQUE = !this.mockData.some((heroItem) => heroItem.id === id);
+    return ID_IS_UNIQUE;
   }
 
   getHeroes(): Observable<Response> {
@@ -106,13 +101,12 @@ export class MockApiService {
 
   getHero(paramId: number): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
-    let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
     
-    hero = this.getHeroById(paramId);
-    if (hero) {
-      returnItem = hero;
+    const HERO = this.getHeroById(paramId);
+    if (HERO) {
+      returnItem = HERO;
       returnCode = 200;
     } else {
       returnItem = ERROR_MESSAGE;
@@ -131,12 +125,11 @@ export class MockApiService {
   deleteHero(paramId: number): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${paramId}`;
     const OK_MESSAGE = `Se ha eliminado el héroe con el id ${paramId}`;
-    let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
     
-    hero = this.getHeroById(paramId);
-    if (hero) {
+    const HERO = this.getHeroById(paramId);
+    if (HERO) {
       this.deleteHeroById(paramId);
       returnCode = 200;
       returnItem = OK_MESSAGE;
@@ -181,12 +174,11 @@ export class MockApiService {
   editHero(updatedHero: Hero): Observable<Response> {
     const ERROR_MESSAGE = `No se ha encontrado el héroe con el id ${updatedHero.id}`;
     const OK_MESSAGE = `Se ha actualizado el héroe con el id ${updatedHero.id}`;
-    let hero: Hero | undefined;
     let returnItem: Hero | string;
     let returnCode: number;
     
-    hero = this.getHeroById(updatedHero.id);
-    if (hero) {
+    const HERO = this.getHeroById(updatedHero.id);
+    if (HERO) {
       this.updateHeroById(updatedHero);
       returnCode = 200;
       returnItem = OK_MESSAGE;
@@ -204,15 +196,13 @@ export class MockApiService {
     );
   }
 
-  fetchHeroesByName(keyword: string): Observable<Response> {
-    let heroes: Hero[];
-    
-    heroes = this.filterHeroByName(keyword);
+  fetchHeroesByName(keyword: string): Observable<Response> {   
+    const HEROES = this.filterHeroByName(keyword);
     return timer(this.setRandomTimeout()).pipe(
       map(() => {
         return {
           code: 200,
-          result: heroes 
+          result: HEROES 
         }
       })
     );
