@@ -4,7 +4,19 @@ The Heroes Management App is a single-page application (SPA) built with Angular 
 
 ## Versions
 
-### V1.0 (current version)
+### V1.1 (current version)
+- Minor refactors in several parts of the code
+- Fixes bugs
+- [shared-comps](#shared-components) V1.1
+  - Features the addition of a new component to control 404 messages due to wrong routing.
+- [Heroes-Module](#heroes-module) V1.3.2
+  - Features layouts adjustments in heroes-list view
+  - Features implementation of unsubscribe methods for observable disposal
+  - Features compliance on display requirements for hero title in hero container view and in hero list view
+- [mock-API](#mock-api-service) V1.0.1
+  - Minor refactors in parts of the code
+
+### V1.0
 - [shared-comps](#shared-components) V1.0
   - Features the implementation of final layout adjustments.
 - [Heroes-Module](#heroes-module) V1.3
