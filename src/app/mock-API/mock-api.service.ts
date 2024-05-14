@@ -7,7 +7,7 @@ import { Observable, map, timer } from 'rxjs';
   providedIn: 'root'
 })
 export class MockApiService {
-  private timeoutRange: Array<number> = [100, 200]
+  private timeoutRange: Array<number> = [1000, 3000]
   private idRange: Array<number> = [1, 10000]
 
   private mockData: Array<Hero> = [
