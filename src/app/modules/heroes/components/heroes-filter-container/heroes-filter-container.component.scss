@@ -24,10 +24,11 @@
 
 @media (min-width: $l-tablet-portrait) {
   .filter-and-actions {
-    grid-template-columns: 0.2fr 1fr;
+    grid-template-columns: 1fr minmax(auto, 500px);
   }
 
   .button-container {
     padding-bottom: 22px;
+    justify-content: end;
   }
 }
