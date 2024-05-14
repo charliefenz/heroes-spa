@@ -4,6 +4,9 @@
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 20px;
+  -webkit-box-shadow: 0px 5px 5px -4px $my-accent-color;
+  -moz-box-shadow: 0px 5px 5px -4px $my-accent-color;
+  box-shadow: 0px 5px 5px -4px $my-accent-color;
 }
 
 .button-container, .filter-container {
