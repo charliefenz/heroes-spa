@@ -19,3 +19,12 @@ h1 {
   margin: 10px 0;
   font-size: 3em;
 }
+
+.error-wrap {
+  display: grid;
+  flex-direction: 1fr;
+}
+
+.error-wrap button {
+  margin: 30px auto;
+}
