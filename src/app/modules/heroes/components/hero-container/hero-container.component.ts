@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { concatMap } from 'rxjs';
+import { Subscription, concatMap } from 'rxjs';
 import { HeroesService } from '../../services/heroes.service';
 import { Hero } from '../../../../models/hero';
 
@@ -9,10 +9,11 @@ import { Hero } from '../../../../models/hero';
   templateUrl: './hero-container.component.html',
   styleUrl: './hero-container.component.scss'
 })
-export class HeroContainerComponent implements OnInit{
+export class HeroContainerComponent implements OnInit, OnDestroy{
   loadingSpinner = true;
   hero: Hero | undefined;
   nameToShow = "";
+  subscriptions: Subscription[] = []
 
   constructor(private route: ActivatedRoute, private heroesService: HeroesService) {
     
@@ -22,8 +23,16 @@ export class HeroContainerComponent implements OnInit{
     this.getHeroByParam();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub => {
+      sub.unsubscribe();
+    }))
+  }
+
   getHeroByParam() {
-    this.route.params.pipe(
+    let paramsSub: Subscription;
+
+    paramsSub = this.route.params.pipe(
       concatMap((param) => this.heroesService.getHero(Number(param['id'])))
     ).subscribe((response) => {
       this.loadingSpinner = false;
@@ -34,6 +43,7 @@ export class HeroContainerComponent implements OnInit{
         // TODO Implement error message
       }
     })
+    this.subscriptions.push(paramsSub)
   }
 
   handleNameFromForm(nameChanged: string) {
