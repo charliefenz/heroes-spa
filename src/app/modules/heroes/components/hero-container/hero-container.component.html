@@ -2,8 +2,13 @@
   <app-loader [setFullViewSpinner]="true" [setSmallSizeSpinner]="false"></app-loader>
 </div>
 <div class="hero-main-title" *ngIf="!loadingSpinner">
-  <h1>{{nameToShow}}</h1>
+  <h1>{{nameToShow | uppercase}}</h1>
 </div>
 <div *ngIf="!loadingSpinner">
-  <app-hero-form [hero]="hero" (nameEmitter)="handleNameFromForm($event)" class="container"></app-hero-form>
+  <div class="error-wrap" *ngIf="errorFetchingHero">
+    <app-embedded-notification  [nbaType]="'error'"
+    [message]="errorMessage"></app-embedded-notification>
+    <button mat-flat-button color="accent" (click)="navigateBack()">Volver</button>
+  </div>
+  <app-hero-form *ngIf="!errorFetchingHero" [hero]="hero" (nameEmitter)="handleNameFromForm($event)" class="container"></app-hero-form>
 </div>

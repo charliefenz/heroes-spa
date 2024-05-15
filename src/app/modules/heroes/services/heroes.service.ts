@@ -69,7 +69,7 @@ export class HeroesService {
   }
 
   searchHeroes(keyword: string): Observable<Response> {
-    return this.mockAPI.fetchHeroesByName(keyword).pipe(
+    return this.mockAPI.fetchHeroesByName(keyword.toLowerCase()).pipe(
       catchError(error => {
         console.error(error);
         this.mockApiErrorResponse.result = this.mockApiErrorResult('searchHeroes');
